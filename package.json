@@ -1,0 +1,6 @@
+{
+  "name": "council-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An AI council: GPT, Claude and Gemini debate a question and reach a verdict."
+}
