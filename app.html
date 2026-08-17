@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>council — ask the council</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F5F2; --ink:#141414; --muted:#77756F; --line:#E2E1DC; --accent:#FF3E6C;
+    --gpt:#10A37F; --claude:#D97757; --gemini:#4285F4;
+    --f-display:'Bricolage Grotesque','Arial Black',sans-serif;
+    --f-body:'Instrument Sans',-apple-system,sans-serif;
+    --f-mono:'Space Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 22px;}
+
+  /* nav — matches the landing page */
+  nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(245,245,242,.85);
+    backdrop-filter:blur(8px);z-index:10;}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:60px;}
+  .brand{font-family:var(--f-mono);font-weight:700;font-size:1rem;letter-spacing:-.01em;
+    text-decoration:none;color:var(--ink);}
+  .brand::before{content:"●";color:var(--accent);margin-right:.5em;font-size:.8em;}
+  .nav-back{font-family:var(--f-mono);font-size:.8rem;text-decoration:none;color:var(--muted);}
+  .nav-back:hover{color:var(--ink);}
+
+  /* highlighter accent — the brand's signature */
+  .mark{background-image:linear-gradient(180deg,transparent 12%,var(--accent) 12%,var(--accent) 90%,transparent 90%);
+    background-repeat:no-repeat;background-position:left center;background-size:0% 100%;
+    padding:0 .06em;animation:swipe .75s .35s cubic-bezier(.2,.7,.3,1) forwards;}
+  @keyframes swipe{to{background-size:100% 100%;}}
+
+  .hero{padding:48px 0 10px;}
+  .eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:16px;}
+  h1{font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,6.5vw,3.8rem);
+    line-height:1;letter-spacing:-.025em;max-width:16ch;}
+  .ask{display:flex;gap:10px;margin:30px 0 8px;flex-wrap:wrap;}
+  .ask input{flex:1 1 260px;min-width:0;padding:15px 16px;font-size:1rem;font-family:var(--f-body);
+    color:var(--ink);background:#fff;border:1.5px solid var(--ink);border-radius:3px;outline:none;}
+  .ask input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,62,108,.15);}
+  .ask button{padding:15px 28px;font-family:var(--f-body);font-weight:600;font-size:1rem;
+    color:var(--paper);background:var(--ink);border:none;border-radius:3px;cursor:pointer;transition:.15s;}
+  .ask button:hover:not(:disabled){background:var(--accent);color:var(--ink);}
+  .ask button:disabled{opacity:.5;cursor:default;}
+  .note{font-family:var(--f-mono);font-size:.72rem;color:var(--muted);margin-bottom:36px;}
+  .status{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);margin:20px 0;display:none;}
+  .status.on{display:block;}
+  .round-label{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin:34px 0 14px;display:flex;align-items:center;gap:12px;}
+  .round-label::after{content:"";flex:1;height:1px;background:var(--line);}
+  .member{border:1px solid var(--line);border-radius:4px;padding:18px 20px;margin-bottom:12px;background:#fff;}
+  .member .who{font-family:var(--f-display);font-weight:700;font-size:1.15rem;display:flex;align-items:center;gap:9px;margin-bottom:4px;}
+  .member .dot{width:9px;height:9px;border-radius:50%;flex:none;}
+  .member .lbl{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:10px;}
+  .member p{font-size:.98rem;white-space:pre-wrap;}
+  .member .rev{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);color:var(--muted);font-size:.92rem;}
+  .verdict{background:var(--ink);color:var(--paper);border-radius:5px;padding:26px 24px;margin:20px 0 60px;}
+  .verdict .cap{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:8px;}
+  .verdict h3{font-family:var(--f-display);font-weight:800;font-size:1.5rem;margin-bottom:12px;letter-spacing:-.01em;}
+  .verdict p{white-space:pre-wrap;color:#E7E6E1;}
+  .err{color:var(--accent);font-family:var(--f-mono);font-size:.85rem;margin:20px 0;}
+
+  @media (prefers-reduced-motion: reduce){ .mark{background-size:100% 100%;animation:none;} }
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap nav-in">
+    <a href="index.html" class="brand">council</a>
+    <a href="index.html" class="nav-back">← home</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Three AIs in one room · free tier</div>
+    <h1>Ask three AIs.<br>Watch them <span class="mark">argue.</span></h1>
+    <div class="ask">
+      <input id="q" type="text" placeholder="Ask the council anything…" />
+      <button id="go">Convene</button>
+    </div>
+    <div class="note">they answer, critique each other, then a chairman decides · ~20–30s</div>
+    <div class="status" id="status"></div>
+    <div id="out"></div>
+  </section>
+</div>
+
+<script>
+  const qEl = document.getElementById('q');
+  const goEl = document.getElementById('go');
+  const statusEl = document.getElementById('status');
+  const outEl = document.getElementById('out');
+  const palette = ['var(--gpt)','var(--claude)','var(--gemini)'];
+
+  async function convene(){
+    const q = qEl.value.trim();
+    if(!q) return;
+    goEl.disabled = true;
+    outEl.innerHTML = '';
+    statusEl.className = 'status on';
+    statusEl.textContent = 'The council is in session…';
+    try{
+      const res = await fetch('/api/council', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ question:q })
+      });
+      const data = await res.json();
+      if(data.error){ statusEl.className='status'; outEl.innerHTML = '<div class="err">'+data.error+'</div>'; return; }
+      render(data);
+    }catch(e){
+      outEl.innerHTML = '<div class="err">Could not reach the council. Try again.</div>';
+    }finally{
+      goEl.disabled = false;
+      statusEl.className = 'status';
+    }
+  }
+
+  function esc(s){ return (s||'').replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+  function render(data){
+    let html = '<div class="round-label">The members</div>';
+    (data.members||[]).forEach((m,i)=>{
+      html += '<div class="member">'
+        + '<div class="who"><span class="dot" style="background:'+(palette[i]||'var(--muted)')+'"></span>'+esc(m.name)+'</div>'
+        + '<div class="lbl">Independent answer</div>'
+        + '<p>'+esc(m.answer)+'</p>'
+        + '<div class="rev"><b>Its critique of the others:</b> '+esc(m.review)+'</div>'
+        + '</div>';
+    });
+    html += '<div class="verdict"><div class="cap">The verdict</div><h3>Chairman\'s synthesis</h3><p>'+esc(data.verdict)+'</p></div>';
+    outEl.innerHTML = html;
+  }
+
+  goEl.addEventListener('click', convene);
+  qEl.addEventListener('keydown', e=>{ if(e.key==='Enter') convene(); });
+</script>
+</body>
+</html>
