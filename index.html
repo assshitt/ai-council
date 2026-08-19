@@ -9,122 +9,97 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#F5F5F2;
-    --ink:#141414;
-    --muted:#77756F;
-    --line:#E2E1DC;
-    --accent:#FF3E6C;
+    --bg:#0A0A0B; --surface:#151517; --text:#F3F3F1; --muted:#8B8B90;
+    --line:#252529; --accent:#FF3E6C;
     --f-display:'Bricolage Grotesque','Arial Black',sans-serif;
     --f-body:'Instrument Sans',-apple-system,sans-serif;
     --f-mono:'Space Mono',ui-monospace,monospace;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
-  body{background:var(--paper);color:var(--ink);font-family:var(--f-body);
+  body{background:var(--bg);color:var(--text);font-family:var(--f-body);
     line-height:1.6;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
-
   .eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.18em;
     text-transform:uppercase;color:var(--muted);}
-
-  .mark{
-    background-image:linear-gradient(180deg,transparent 12%,var(--accent) 12%,var(--accent) 90%,transparent 90%);
+  .mark{background-image:linear-gradient(180deg,transparent 12%,var(--accent) 12%,var(--accent) 90%,transparent 90%);
     background-repeat:no-repeat;background-position:left center;background-size:100% 100%;
-    padding:0 .06em;color:var(--ink);
-  }
+    padding:0 .06em;color:#0A0A0B;}
   .mark.swipe{background-size:0% 100%;animation:swipe .75s .35s cubic-bezier(.2,.7,.3,1) forwards;}
   @keyframes swipe{to{background-size:100% 100%;}}
-
-  /* nav */
-  nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(245,245,242,.85);
+  nav{border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(10,10,11,.8);
     backdrop-filter:blur(8px);z-index:10;}
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:60px;}
   .brand{font-family:var(--f-mono);font-weight:700;font-size:1rem;letter-spacing:-.01em;}
   .brand::before{content:"●";color:var(--accent);margin-right:.5em;font-size:.8em;}
-  .nav-cta{font-family:var(--f-mono);font-size:.8rem;text-decoration:none;color:var(--ink);
-    border:1.5px solid var(--ink);padding:7px 14px;border-radius:2px;transition:.15s;}
-  .nav-cta:hover{background:var(--ink);color:var(--paper);}
-
-  /* hero */
+  .nav-cta{font-family:var(--f-mono);font-size:.8rem;text-decoration:none;color:var(--text);
+    border:1.5px solid var(--accent);padding:7px 14px;border-radius:2px;transition:.15s;}
+  .nav-cta:hover{background:var(--accent);color:#0A0A0B;}
   .hero{padding:clamp(56px,11vw,120px) 0 clamp(40px,7vw,72px);}
   .hero .eyebrow{margin-bottom:22px;}
   h1{font-family:var(--f-display);font-weight:800;font-size:clamp(2.7rem,8.4vw,5.6rem);
     line-height:.98;letter-spacing:-.025em;max-width:15ch;}
-  .sub{font-size:clamp(1.05rem,2.4vw,1.3rem);color:var(--ink);max-width:46ch;
+  .sub{font-size:clamp(1.05rem,2.4vw,1.3rem);color:var(--text);max-width:46ch;
     margin:26px 0 34px;line-height:1.5;}
   .sub b{font-weight:600;}
   .cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
-  .btn{font-family:var(--f-body);font-weight:600;font-size:1.02rem;background:var(--ink);
-    color:var(--paper);border:none;padding:15px 28px;border-radius:3px;cursor:pointer;
-    text-decoration:none;transition:.15s;display:inline-block;}
-  .btn:hover{background:var(--accent);color:var(--ink);transform:translateY(-2px);}
+  .btn{font-family:var(--f-body);font-weight:600;font-size:1.02rem;background:var(--accent);
+    color:#0A0A0B;border:none;padding:15px 28px;border-radius:3px;cursor:pointer;
+    text-decoration:none;transition:.15s;display:inline-block;
+    box-shadow:0 0 24px rgba(255,62,108,.35);}
+  .btn:hover{background:#fff;transform:translateY(-2px);box-shadow:0 0 30px rgba(255,62,108,.5);}
   .cta-note{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);}
-
-  /* problem strip */
   .strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
     padding:clamp(38px,6vw,60px) 0;}
   .strip p{font-family:var(--f-display);font-weight:700;
     font-size:clamp(1.5rem,4vw,2.6rem);line-height:1.1;letter-spacing:-.02em;max-width:20ch;}
   .strip .small{font-family:var(--f-body);font-weight:400;font-size:1.05rem;color:var(--muted);
     margin-top:16px;max-width:52ch;letter-spacing:0;}
-
-  /* how */
   section.how{padding:clamp(56px,9vw,100px) 0;}
   .sec-head{margin-bottom:44px;}
   .sec-head h2{font-family:var(--f-display);font-weight:800;
     font-size:clamp(1.9rem,4.6vw,3rem);letter-spacing:-.022em;line-height:1.02;}
-  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;
     background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;}
-  .step{background:var(--paper);padding:28px 24px 32px;}
-  .step .n{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:700;
-    letter-spacing:.1em;}
+  .step{background:var(--surface);padding:28px 24px 32px;}
+  .step .n{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);font-weight:700;letter-spacing:.1em;}
   .step h3{font-family:var(--f-display);font-weight:700;font-size:1.4rem;margin:14px 0 8px;
     letter-spacing:-.01em;line-height:1.05;}
   .step p{color:var(--muted);font-size:1rem;}
-
-  /* two modes */
   section.modes{padding:0 0 clamp(56px,9vw,100px);}
   .mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:40px;}
-  .mode{border:1.5px solid var(--ink);border-radius:4px;padding:26px 24px 28px;}
-  .mode.split{border-color:var(--accent);}
+  .mode{border:1.5px solid var(--line);border-radius:4px;padding:26px 24px 28px;background:var(--surface);}
+  .mode.split{border-color:var(--accent);box-shadow:0 0 26px rgba(255,62,108,.18);}
   .mode .tag{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
     display:inline-block;padding:5px 10px;border-radius:2px;margin-bottom:16px;}
-  .mode .tag.a{background:var(--ink);color:var(--paper);}
-  .mode .tag.b{background:var(--accent);color:var(--ink);}
+  .mode .tag.a{background:#26262A;color:var(--text);}
+  .mode .tag.b{background:var(--accent);color:#0A0A0B;}
   .mode h3{font-family:var(--f-display);font-weight:700;font-size:1.5rem;letter-spacing:-.015em;
     margin-bottom:8px;line-height:1.05;}
   .mode p{color:var(--muted);font-size:1.02rem;}
-
-  /* closing */
-  .closing{background:var(--ink);color:var(--paper);border-radius:6px;
-    padding:clamp(48px,8vw,86px) clamp(28px,5vw,60px);margin-bottom:64px;text-align:left;}
+  .closing{border:1.5px solid var(--accent);border-radius:6px;background:var(--surface);
+    padding:clamp(48px,8vw,86px) clamp(28px,5vw,60px);margin-bottom:64px;
+    box-shadow:0 0 40px rgba(255,62,108,.2);}
   .closing h2{font-family:var(--f-display);font-weight:800;
-    font-size:clamp(2rem,5.4vw,3.6rem);line-height:1;letter-spacing:-.025em;max-width:16ch;}
-  .closing .btn{background:var(--accent);color:var(--ink);margin-top:30px;}
-  .closing .btn:hover{background:var(--paper);}
-
-  /* footer */
+    font-size:clamp(2rem,5.4vw,3.6rem);line-height:1;letter-spacing:-.025em;max-width:16ch;color:var(--text);}
+  .closing .btn{margin-top:30px;}
   footer{border-top:1px solid var(--line);padding:34px 0 60px;}
   .foot-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
     font-family:var(--f-mono);font-size:.8rem;color:var(--muted);}
-  .foot-in .accent{color:var(--ink);}
-
+  .foot-in .accent{color:var(--text);}
   @media (prefers-reduced-motion: reduce){
     .mark.swipe{background-size:100% 100%;animation:none;}
-    html{scroll-behavior:auto;}
-    .btn:hover{transform:none;}
+    html{scroll-behavior:auto;} .btn:hover{transform:none;}
   }
 </style>
 </head>
 <body>
-
 <nav>
   <div class="wrap nav-in">
     <div class="brand">council</div>
     <a href="app.html" class="nav-cta">Ask it something</a>
   </div>
 </nav>
-
 <header class="hero">
   <div class="wrap">
     <div class="eyebrow">The AI that argues with itself</div>
@@ -136,14 +111,12 @@
     </div>
   </div>
 </header>
-
 <div class="strip">
   <div class="wrap">
     <p>Other AIs guess, then say it like a fact.</p>
     <p class="small">That's how you end up trusting a confident answer that was never actually checked. The council is built to do the opposite — argue first, admit doubt, and only commit when it can back it up.</p>
   </div>
 </div>
-
 <section class="how">
   <div class="wrap">
     <div class="sec-head">
@@ -151,25 +124,12 @@
       <h2>No single AI. A panel that fights it out.</h2>
     </div>
     <div class="steps">
-      <div class="step">
-        <div class="n">01 — YOU ASK</div>
-        <h3>One question.</h3>
-        <p>Anything. Type it like you'd text a friend who actually knows things.</p>
-      </div>
-      <div class="step">
-        <div class="n">02 — THEY FIGHT</div>
-        <h3>They tear it apart.</h3>
-        <p>Three AIs answer, then rip into each other's answers. No polite nodding, no chorus.</p>
-      </div>
-      <div class="step">
-        <div class="n">03 — YOU DECIDE</div>
-        <h3>Straight, or honest.</h3>
-        <p>A clear verdict when it's checkable. A real "here's the actual debate" when it isn't.</p>
-      </div>
+      <div class="step"><div class="n">01 — YOU ASK</div><h3>One question.</h3><p>Anything. Type it like you'd text a friend who actually knows things.</p></div>
+      <div class="step"><div class="n">02 — THEY FIGHT</div><h3>They tear it apart.</h3><p>Three AIs answer, then rip into each other's answers. No polite nodding, no chorus.</p></div>
+      <div class="step"><div class="n">03 — YOU DECIDE</div><h3>Straight, or honest.</h3><p>A clear verdict when it's checkable. A real "here's the actual debate" when it isn't.</p></div>
     </div>
   </div>
 </section>
-
 <section class="modes">
   <div class="wrap">
     <div class="sec-head">
@@ -177,33 +137,22 @@
       <h2>It knows when to <span class="mark">shut up.</span></h2>
     </div>
     <div class="mode-grid">
-      <div class="mode">
-        <span class="tag a">Checkable → verdict</span>
-        <h3>It commits.</h3>
-        <p>When the answer can be proven, the council gives you one — and tells you exactly how it could be checked.</p>
-      </div>
-      <div class="mode split">
-        <span class="tag b">No real answer → the fight</span>
-        <h3>It won't fake it.</h3>
-        <p>When there's no true answer, it refuses to invent one. You get the crux, where it leans, and an honest "this is a judgment call."</p>
-      </div>
+      <div class="mode"><span class="tag a">Checkable → verdict</span><h3>It commits.</h3><p>When the answer can be proven, the council gives you one — and tells you exactly how it could be checked.</p></div>
+      <div class="mode split"><span class="tag b">No real answer → the fight</span><h3>It won't fake it.</h3><p>When there's no true answer, it refuses to invent one. You get the crux, where it leans, and an honest "this is a judgment call."</p></div>
     </div>
   </div>
 </section>
-
 <div class="wrap">
   <div class="closing">
     <h2>Stop trusting AI that's never unsure.</h2>
     <a href="app.html" class="btn">Ask the council</a>
   </div>
 </div>
-
 <footer>
   <div class="wrap foot-in">
     <div><span class="accent">council</span> — an AI that argues with itself.</div>
     <div>we'll tell you when we're wrong. that's the whole point.</div>
   </div>
 </footer>
-
 </body>
 </html>
