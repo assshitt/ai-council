@@ -24,8 +24,9 @@
   .nav-in{display:flex;align-items:center;justify-content:space-between;height:60px;}
   .brand{font-family:var(--f-mono);font-weight:700;font-size:1rem;text-decoration:none;color:var(--text);}
   .brand::before{content:"●";color:var(--accent);margin-right:.5em;font-size:.8em;}
-  .nav-back{font-family:var(--f-mono);font-size:.8rem;text-decoration:none;color:var(--muted);}
-  .nav-back:hover{color:var(--text);}
+  .nav-cta{font-family:var(--f-mono);font-size:.8rem;text-decoration:none;color:var(--text);
+    border:1.5px solid var(--accent);padding:8px 16px;border-radius:2px;transition:.18s;}
+  .nav-cta:hover{background:var(--accent);color:#08080A;box-shadow:0 0 20px rgba(255,62,108,.5);}
 
   .stage{text-align:center;padding:40px 0 8px;}
   .eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
@@ -89,7 +90,7 @@
 <nav>
   <div class="wrap nav-in">
     <a href="index.html" class="brand">council</a>
-    <a href="index.html" class="nav-back">← home</a>
+    <a href="signup.html" class="nav-cta">Log in / Sign up</a>
   </div>
 </nav>
 
