@@ -82,6 +82,11 @@
   .verdict .cap{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
   .verdict h3{font-family:var(--f-display);font-weight:800;font-size:1.5rem;margin-bottom:12px;letter-spacing:-.01em;}
   .verdict p{white-space:pre-wrap;color:var(--text);}
+  .member .role{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+  .vsec{margin-bottom:16px;}
+  .vlabel{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:6px;}
+  .final-answer{font-family:var(--f-display);font-weight:700;font-size:1.3rem;line-height:1.35;color:var(--text);letter-spacing:-.01em;white-space:pre-wrap;}
+  .vcheck{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line);font-family:var(--f-mono);font-size:.72rem;color:var(--muted);line-height:1.6;word-break:break-word;}
   .err{color:var(--accent);font-family:var(--f-mono);font-size:.85rem;margin:20px 0;text-align:center;}
   @media (prefers-reduced-motion: reduce){ .tri-line,.tri-wrap::before{animation:none;} }
 </style>
@@ -167,16 +172,21 @@
   }
   function esc(s){ return (s||'').replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
   function render(data){
-    let html = '<div class="round-label">The members</div>';
+    let html = '<div class="round-label">The panel</div>';
     (data.members||[]).forEach((m,i)=>{
+      const col = palette[i]||'var(--muted)';
       html += '<div class="member">'
-        + '<div class="who"><span class="dot" style="background:'+(palette[i]||'var(--muted)')+';color:'+(palette[i]||'var(--muted)')+'"></span>'+esc(m.name)+'</div>'
-        + '<div class="lbl">Independent answer</div>'
+        + '<div class="role" style="color:'+col+'">'+esc(m.role||'Panel member')+'</div>'
+        + '<div class="who"><span class="dot" style="background:'+col+';color:'+col+'"></span>'+esc(m.name)+'</div>'
         + '<p>'+esc(m.answer)+'</p>'
-        + '<div class="rev"><b>Its critique of the others:</b> '+esc(m.review)+'</div>'
         + '</div>';
     });
-    html += '<div class="verdict"><div class="cap">The verdict</div><h3>Chairman\'s synthesis</h3><p>'+esc(data.verdict)+'</p></div>';
+    const c = data.chairman||{};
+    html += '<div class="verdict"><div class="cap">The verdict</div>';
+    if(c.whyListen){ html += '<div class="vsec"><div class="vlabel">Why listen to '+esc(c.strongest||'the strongest voice')+'</div><p>'+esc(c.whyListen)+'</p></div>'; }
+    html += '<div class="vsec"><div class="vlabel">The answer</div><p class="final-answer">'+esc(c.finalAnswer||'')+'</p></div>';
+    if(data.verificationText){ html += '<div class="vcheck">'+esc(data.verificationText)+'</div>'; }
+    html += '</div>';
     outEl.innerHTML = html;
   }
   goEl.addEventListener('click', convene);
