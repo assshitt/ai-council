@@ -96,6 +96,10 @@
   .final-answer{font-family:var(--f-display);font-weight:600;font-size:1.25rem;line-height:1.35;white-space:pre-wrap;}
   .vcheck{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:.7rem;color:var(--faint);word-break:break-word;}
   .err{color:var(--accent);font-family:var(--f-mono);font-size:.82rem;text-align:center;}
+  .fact-card{width:min(680px,92vw);margin:0 auto;text-align:center;}
+  .fact-kicker{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
+  .fact-answer{font-family:var(--f-display);font-weight:700;font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.25;letter-spacing:-.02em;margin-bottom:26px;}
+  .fact-nudge{display:inline-block;font-family:var(--f-mono);font-size:.86rem;line-height:1.6;color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:14px 20px;background:rgba(255,62,108,.06);}
   .auth{width:min(400px,92vw);margin:24px auto 0;z-index:1;position:relative;}
   .oauth{display:flex;flex-direction:column;gap:10px;}
   .oauth-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:.95rem;transition:.2s;text-align:left;}
@@ -120,7 +124,7 @@
 <div class="top" id="top"><div class="b">council</div></div>
 <a class="float-signup" id="floatSignup" href="#signup">Sign up →</a>
 
-<section class="tall" id="heroSec" style="height:150vh;"><div class="sticky">
+<section class="tall" id="heroSec" style="height:240vh;"><div class="sticky">
   <div class="hero-bg" id="heroBg">COUNCIL&nbsp;&nbsp;COUNCIL</div>
   <h1 id="heroTitle">COUNCIL</h1>
   <div class="scrollcue" id="heroCue"><span>scroll ↓</span></div>
@@ -129,7 +133,7 @@
 <section class="panel pink"><h2 class="edge anim blur">NOT A CHATBOT.<br>A COUNCIL.</h2></section>
 
 <!-- DEBATE + EVERY QUESTION share one pinned spot -->
-<section class="tall" id="debateSec" style="height:200vh;"><div class="sticky">
+<section class="tall" id="debateSec" style="height:340vh;"><div class="sticky">
   <h2 class="edge" id="debateText">We debate before<br>we believe.</h2>
   <h2 class="edge" id="eqText">Every question<br>has three sides.</h2>
 </div></section>
@@ -144,7 +148,7 @@
 </section>
 
 <!-- FOLDERS -->
-<section class="tall" id="perSec" style="height:240vh;"><div class="sticky">
+<section class="tall" id="perSec" style="height:400vh;"><div class="sticky">
   <div class="per-head" id="perHead"><div class="eyebrow">The panel</div><h2 style="font-size:clamp(1.5rem,4vw,2.6rem);">Three roles, chosen for your question.</h2></div>
   <div class="per-side per-left" id="perLeft">chosen to fit<br>your question</div>
   <div class="per-side per-right" id="perRight">silent when<br>there's nothing<br>to add</div>
@@ -156,7 +160,7 @@
 </div></section>
 
 <!-- ARC: full-screen lines travel a drawn semicircle, colours alternate -->
-<section class="tall" id="arcSec" style="height:460vh;"><div class="sticky">
+<section class="tall" id="arcSec" style="height:700vh;"><div class="sticky">
   <svg id="arcSvg"><path id="arcPath"/></svg>
   <div class="arc-line" id="al0">It weighs all sides.</div>
   <div class="arc-line" id="al1">It picks the strongest.</div>
@@ -164,9 +168,9 @@
   <div class="arc-line" id="al3">And shows you why.</div>
 </div></section>
 
-<section class="tall" id="shutSec" style="height:150vh;"><div class="sticky"><div class="shut-aside" id="shutAside">( unlike you )</div><canvas class="fx" id="shutCanvas"></canvas></div></section>
-<section class="panel" id="wordsSec"><canvas class="fx" id="wordsCanvas"></canvas></section>
-<section class="tall" id="testSec" style="height:150vh;"><div class="sticky"><canvas class="fx" id="testCanvas"></canvas></div></section>
+<section class="tall" id="shutSec" style="height:260vh;"><div class="sticky"><div class="shut-aside" id="shutAside">( unlike you )</div><canvas class="fx" id="shutCanvas"></canvas></div></section>
+<section class="panel" id="wordsSec" style="min-height:150vh;"><canvas class="fx" id="wordsCanvas"></canvas></section>
+<section class="tall" id="testSec" style="height:260vh;"><div class="sticky"><canvas class="fx" id="testCanvas"></canvas></div></section>
 
 <section class="panel" id="ask">
   <div class="eyebrow anim fade">Put it to the panel</div>
@@ -347,6 +351,7 @@
     setTimeout(function(){resultsSec.scrollIntoView({behavior:'smooth'});},60);
     fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})}).then(function(r){return r.json();})
       .then(function(data){statusEl.style.display='none';if(data.error){outEl.innerHTML='<div class="err">'+data.error+'</div>';return;}
+        if(data.kind==='fact'){outEl.innerHTML='<div class="fact-card"><div class="fact-kicker">Not a council question</div><div class="fact-answer">'+esc(data.factAnswer)+'</div><div class="fact-nudge">'+esc(data.nudge)+'</div></div>';return;}
         var h='';(data.members||[]).forEach(function(m){h+='<div class="member"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>'+esc(m.answer)+'</p></div>';});
         var c=data.chairman||{};h+='<div class="verdict"><div class="vlabel">The verdict</div>';
         if(c.whyListen){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">Why listen to '+esc(c.strongest||'the strongest voice')+'</div><p>'+esc(c.whyListen)+'</p></div>';}
