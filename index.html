@@ -1,368 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0A0A0B">
-<title>Council — An AI that argues before it answers.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Terms of Service &mdash; Council</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#0A0A0B;--card:#141418;--text:#F3F3F1;--muted:#8B8B90;--faint:#55555C;--line:#242429;--accent:#FF3E6C;--violet:#8B5CF6;
-    --f-display:'Bricolage Grotesque','Arial Black',sans-serif;--f-mono:'Space Mono',ui-monospace,monospace;--f-body:'Inter',-apple-system,sans-serif;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--text);font-family:var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  a{color:inherit;text-decoration:none;}
-  .doors{position:fixed;inset:0;z-index:9000;pointer-events:none;perspective:1900px;perspective-origin:50% 50%;}
-  .door{position:absolute;top:0;height:100%;width:50.6%;background:#050506;backface-visibility:hidden;}
-  .door.dl{left:0;transform-origin:left center;box-shadow:inset -40px 0 80px rgba(0,0,0,.7);}
-  .door.dr{right:0;transform-origin:right center;box-shadow:inset 40px 0 80px rgba(0,0,0,.7);}
-  .door::after{content:"";position:absolute;top:50%;width:5px;height:64px;background:rgba(255,62,108,.5);border-radius:3px;transform:translateY(-50%);box-shadow:0 0 14px rgba(255,62,108,.5);}
-  .door.dl::after{right:12px;}.door.dr::after{left:12px;}
-  .doors.open .dl{animation:openL 1.4s .45s cubic-bezier(.7,0,.25,1) forwards;}
-  .doors.open .dr{animation:openR 1.4s .45s cubic-bezier(.7,0,.25,1) forwards;}
-  @keyframes openL{to{transform:rotateY(-120deg);}}@keyframes openR{to{transform:rotateY(120deg);}}
-  .doors.done{display:none;}
-  .cursor,.cursor-dot{position:fixed;top:0;left:0;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-  .cursor{width:36px;height:36px;border:1px solid rgba(255,62,108,.6);box-shadow:0 0 20px 4px rgba(255,62,108,.25);transition:width .2s,height .2s,background .2s;}
-  .cursor.big{width:66px;height:66px;background:rgba(255,62,108,.08);}
-  .cursor-dot{width:6px;height:6px;background:var(--accent);box-shadow:0 0 12px 2px rgba(255,62,108,.8);}
-  body.cursor-on,body.cursor-on *{cursor:none !important;}
-  .top{position:fixed;top:0;left:0;right:0;height:64px;display:flex;align-items:center;padding:0 30px;z-index:100;opacity:0;transition:opacity .4s;}
-  .top.show{opacity:1;}.top .b{font-family:var(--f-mono);font-weight:700;letter-spacing:.24em;font-size:.82rem;}
-  .top .b::before{content:"\25CF";color:var(--accent);margin-right:.5em;font-size:.7em;}
-  .float-signup{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);padding:14px 34px;border-radius:40px;border:1.5px solid var(--accent);background:rgba(10,10,11,.55);backdrop-filter:blur(10px);color:var(--text);font-family:var(--f-mono);font-size:.78rem;letter-spacing:.1em;z-index:300;opacity:0;pointer-events:none;transition:opacity .4s;animation:glowpulse 2.6s ease-in-out infinite;}
-  .float-signup.show{opacity:1;pointer-events:auto;}
-  @keyframes glowpulse{0%,100%{box-shadow:0 0 16px rgba(255,62,108,.35);}50%{box-shadow:0 0 32px rgba(255,62,108,.65);}}
-  .panel{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 26px;overflow:hidden;}
-  .tall{position:relative;}
-  .sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20px;overflow:hidden;}
-  .eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;}
-  .anim{opacity:0;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),filter .9s;}
-  .anim.in{opacity:1;transform:none;filter:none;}
-  .up{transform:translateY(48px);}.scale{transform:scale(.86);}
-  .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}
-  h1,h2{font-family:var(--f-display);font-weight:800;letter-spacing:-.03em;line-height:1;}
-  .hero-bg{position:absolute;top:50%;left:50%;white-space:nowrap;font-family:var(--f-display);font-weight:800;font-size:32vw;color:rgba(255,255,255,.05);z-index:0;pointer-events:none;will-change:transform;}
-  #heroTitle{position:relative;z-index:2;font-family:var(--f-display);font-weight:800;font-size:clamp(4rem,20vw,17rem);letter-spacing:-.05em;will-change:transform,opacity;}
-  .scrollcue{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;color:var(--accent);position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;}
-  .scrollcue span{display:inline-block;animation:bob 1.8s ease-in-out infinite;}
-  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(6px);}}
-  .edge{font-family:var(--f-display);font-weight:800;font-size:clamp(2.8rem,12.5vw,10rem);line-height:.9;letter-spacing:-.045em;will-change:filter,opacity;}
-  .panel.pink{background:var(--accent);color:var(--bg);}.pink .edge{color:var(--bg);}
-  #debateSec .edge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;padding:0 20px;}
-  .orb-scene{position:relative;width:min(440px,86vw);height:min(440px,86vw);display:flex;align-items:center;justify-content:center;z-index:1;margin-top:8px;}
-  .orb{position:relative;width:66%;height:66%;border-radius:50%;will-change:transform;}
-  .orb canvas{width:100%;height:100%;border-radius:50%;display:block;box-shadow:0 0 70px rgba(139,92,246,.3);}
-  .name{position:absolute;transform:translate(-50%,-50%);font-family:var(--f-mono);font-weight:700;font-size:.8rem;letter-spacing:.08em;white-space:nowrap;z-index:2;}
-  .name.n0{color:#10A37F;}.name.n1{color:#D97757;}.name.n2{color:#4285F4;}
-  .per-head{position:absolute;top:6%;left:0;right:0;padding:0 24px;opacity:0;z-index:2;}
-  .per-side{position:absolute;top:50%;transform:translateY(-50%);width:150px;font-family:var(--f-mono);font-size:.76rem;letter-spacing:.06em;line-height:1.85;color:var(--muted);opacity:0;z-index:2;}
-  .per-side::before{content:"—";display:block;color:var(--accent);margin-bottom:8px;}
-  .per-left{left:4%;text-align:right;}.per-right{right:4%;text-align:left;}
-  @media(max-width:1040px){.per-side{display:none;}}
-  .folder-stack{position:absolute;inset:0;}
-  .folder{position:absolute;top:50%;left:50%;width:min(540px,90vw);background:var(--card);border:1px solid var(--line);border-radius:0 14px 14px 14px;padding:20px 26px;text-align:left;display:flex;gap:22px;align-items:center;will-change:transform,opacity;opacity:0;}
-  .folder::before{content:"";position:absolute;top:-16px;left:-1px;width:145px;height:17px;background:var(--card);border:1px solid inherit;border-color:inherit;border-bottom:none;border-radius:12px 12px 0 0;}
-  .folder .fnum{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.16em;color:var(--accent);margin-bottom:6px;}
-  .folder h3{font-family:var(--f-display);font-weight:700;font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-.02em;}
-  .folder .fdesc{color:var(--text);font-size:1.02rem;margin-top:7px;font-weight:500;}
-  .folder .fsub{color:var(--muted);font-size:.9rem;margin-top:4px;}
-  .arc-line{position:absolute;top:0;left:0;font-family:var(--f-display);font-weight:800;font-size:clamp(2.2rem,8vw,5.8rem);letter-spacing:-.035em;white-space:nowrap;will-change:transform,opacity;opacity:0;}
-  #al0,#al2{color:var(--text);}#al1,#al3{color:var(--accent);}
-  #arcSvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible;}
-  #arcPath{fill:none;stroke:rgba(255,62,108,.4);stroke-width:1.5;filter:drop-shadow(0 0 6px rgba(255,62,108,.4));}
-  .fx{position:absolute;inset:0;width:100%;height:100%;display:block;}
-  .shut-aside{position:absolute;top:24%;left:50%;transform:translate(-50%,-50%);font-family:var(--f-mono);font-size:clamp(.8rem,1.7vw,1.1rem);letter-spacing:.14em;color:var(--accent);opacity:0;z-index:3;white-space:nowrap;}
-  .ask{display:flex;gap:12px;width:min(640px,92vw);margin:0 auto;flex-wrap:wrap;z-index:1;position:relative;}
-  .ask input{flex:1 1 240px;min-width:0;padding:17px 18px;font-size:1rem;font-family:var(--f-body);color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:4px;outline:none;transition:.2s;}
-  .ask input::placeholder{color:var(--muted);}
-  .ask input:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(255,62,108,.15),0 0 26px rgba(255,62,108,.2);}
-  .ask button{padding:17px 30px;font-family:var(--f-mono);font-size:.82rem;letter-spacing:.06em;color:var(--bg);background:var(--accent);border:none;border-radius:4px;transition:.2s;box-shadow:0 0 24px rgba(255,62,108,.35);}
-  .ask button:hover:not(:disabled){background:#fff;}.ask button:disabled{opacity:.5;}
-  .ask-note{font-family:var(--f-mono);font-size:.7rem;color:var(--faint);margin-top:16px;}
-  .status{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.1em;color:var(--accent);margin-bottom:22px;}
-  .results-inner{display:flex;flex-direction:column;align-items:center;padding:120px 26px;}
-  .out{width:min(760px,92vw);margin:0 auto;text-align:left;}
-  .member{border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin-bottom:10px;background:var(--card);}
-  .member .role{font-family:var(--f-mono);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-  .member .who{font-family:var(--f-display);font-weight:600;font-size:1.05rem;margin-bottom:8px;}
-  .member p{font-size:.92rem;color:var(--muted);white-space:pre-wrap;line-height:1.6;}
-  .verdict{border:1px solid var(--accent);border-radius:8px;padding:22px;margin-top:6px;background:rgba(255,62,108,.05);}
-  .vlabel{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
-  .vsec{margin-bottom:16px;}.vsec p{color:var(--muted);font-size:.92rem;}
-  .final-answer{font-family:var(--f-display);font-weight:600;font-size:1.25rem;line-height:1.35;white-space:pre-wrap;}
-  .vcheck{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-family:var(--f-mono);font-size:.7rem;color:var(--faint);word-break:break-word;}
-  .err{color:var(--accent);font-family:var(--f-mono);font-size:.82rem;text-align:center;}
-  .fact-card{width:min(680px,92vw);margin:0 auto;text-align:center;}
-  .fact-kicker{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
-  .fact-answer{font-family:var(--f-display);font-weight:700;font-size:clamp(1.5rem,4vw,2.4rem);line-height:1.25;letter-spacing:-.02em;margin-bottom:26px;}
-  .fact-nudge{display:inline-block;font-family:var(--f-mono);font-size:.86rem;line-height:1.6;color:var(--accent);border:1px solid var(--accent);border-radius:8px;padding:14px 20px;background:rgba(255,62,108,.06);}
-  .auth{width:min(400px,92vw);margin:24px auto 0;z-index:1;position:relative;}
-  .oauth{display:flex;flex-direction:column;gap:10px;}
-  .oauth-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:.95rem;transition:.2s;text-align:left;}
-  .oauth-btn:hover{border-color:var(--accent);box-shadow:0 0 20px rgba(255,62,108,.25);}
-  .badge{width:22px;height:22px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font-family:var(--f-mono);font-weight:700;font-size:.68rem;color:var(--muted);}
-  .divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--faint);font-family:var(--f-mono);font-size:.7rem;letter-spacing:.14em;}
-  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line);}
-  .field{width:100%;padding:14px 16px;margin-bottom:10px;background:var(--card);border:1px solid var(--line);border-radius:6px;color:var(--text);font-size:1rem;outline:none;}
-  .field::placeholder{color:var(--muted);}.field:focus{border-color:var(--accent);}
-  .primary{width:100%;padding:15px;background:var(--accent);color:var(--bg);border:none;border-radius:6px;font-family:var(--f-mono);font-size:.82rem;letter-spacing:.06em;transition:.2s;}
-  .primary:hover{background:#fff;}
-  .coming{display:none;margin-top:16px;padding:11px 14px;border:1px solid var(--line);border-radius:6px;font-family:var(--f-mono);font-size:.74rem;color:var(--muted);}
-  .fine{font-family:var(--f-mono);font-size:.64rem;color:var(--faint);margin-top:22px;line-height:1.8;}
-  footer{padding:50px 26px 120px;text-align:center;font-family:var(--f-mono);font-size:.72rem;color:var(--faint);border-top:1px solid var(--line);}
-  footer a{color:var(--muted);}
-  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto;}.anim{opacity:1;transform:none;filter:none;transition:none;}.scrollcue span,.float-signup{animation:none;}#heroTitle{transform:none!important;opacity:1!important;}.folder,.arc-line,.per-head,.per-side{opacity:1!important;}}
-</style>
-</head>
-<body>
-<div class="doors" id="doors"><div class="door dl"></div><div class="door dr"></div></div>
-<div class="cursor" id="cur"></div><div class="cursor-dot" id="curd"></div>
-<div class="top" id="top"><div class="b">council</div></div>
-<a class="float-signup" id="floatSignup" href="#signup">Sign up →</a>
+:root{
+  --bg:#05070E; --ink:#F5F7FA; --pink:#FF3E6C; --violet:#8B5CF6; --blue:#5AA0FF;
+  --faint:#79839A; --line:rgba(255,255,255,.12);
+  --disp:'Inter',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(40,54,100,.34),transparent 70%)}
+.wrap{position:relative;z-index:1;width:min(980px,92vw);margin:0 auto}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:15px 24px;background:rgba(5,7,14,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.top .wm{font-family:var(--mono);font-size:.76rem;letter-spacing:.32em;color:#EAF0FF;text-decoration:none}
+header.top .wm b{color:var(--pink)}
+header.top nav{display:flex;gap:22px;margin-left:auto;margin-right:18px}
+header.top nav a{font-size:.84rem;color:#C6CFE0;text-decoration:none;font-weight:500}
+header.top nav a:hover,header.top nav a.on{color:#fff}
+.cta{font-weight:700;font-size:.82rem;color:var(--pink);text-decoration:none;border:1.4px solid var(--pink);
+  padding:8px 18px;border-radius:999px;box-shadow:0 0 16px rgba(255,62,108,.4);transition:.22s}
+.cta:hover{background:var(--pink);color:#fff}
+@media(max-width:760px){header.top nav{display:none}}
 
-<section class="tall" id="heroSec" style="height:240vh;"><div class="sticky">
-  <div class="hero-bg" id="heroBg">COUNCIL&nbsp;&nbsp;COUNCIL</div>
-  <h1 id="heroTitle">COUNCIL</h1>
-  <div class="scrollcue" id="heroCue"><span>scroll ↓</span></div>
-</div></section>
+.hero{padding:86px 0 40px;text-align:center}
+.kick{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+h1{font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.lede{color:#B9C3D6;font-size:1.05rem;max-width:640px;margin:20px auto 0}
+h2.sec{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;margin:56px 0 16px}
+h3{font-size:1.05rem;font-weight:700;margin-bottom:7px}
+p{color:#C2CBDC;margin-bottom:14px}
+.card{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:15px;padding:20px 22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:13px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--violet)}
+.muted{color:var(--faint);font-size:.85rem}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:16px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.86rem}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.04)}
+td:first-child{font-weight:700}
+.gd{color:#5ED89B}.md{color:#E8B366}.bd{color:var(--faint)}
+ul.tick{list-style:none;margin:10px 0}
+ul.tick li{padding-left:22px;position:relative;margin-bottom:8px;color:#C2CBDC;font-size:.92rem}
+ul.tick li::before{content:'';position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--violet)}
+.plan{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:17px;padding:24px;display:flex;flex-direction:column}
+.plan.hi{border-color:rgba(255,62,108,.55);box-shadow:0 0 40px rgba(255,62,108,.16)}
+.plan .pn{font-size:1.2rem;font-weight:800}
+.plan .pp{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;margin:12px 0 2px}
+.plan .pp span{font-size:.85rem;font-weight:500;color:var(--faint)}
+.plan .pd{color:var(--faint);font-size:.85rem;min-height:42px}
+.btn{display:block;text-align:center;margin-top:16px;padding:11px;border-radius:11px;font-weight:700;
+  font-size:.9rem;text-decoration:none;border:1.4px solid var(--pink);color:var(--pink);transition:.2s}
+.btn:hover{background:var(--pink);color:#fff}
+.btn.solid{background:var(--pink);color:#fff}
+.note{background:rgba(255,62,108,.07);border:1px solid rgba(255,62,108,.3);border-radius:13px;
+  padding:15px 18px;color:#E6C2CC;font-size:.88rem;margin-top:22px}
+footer.pf{position:relative;z-index:1;margin-top:80px;padding:34px 24px;border-top:1px solid var(--line);
+  text-align:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--faint)}
+footer.pf a{color:var(--faint);text-decoration:none}
+footer.pf a:hover{color:#fff}
 
-<section class="panel pink"><h2 class="edge anim blur">NOT A CHATBOT.<br>A COUNCIL.</h2></section>
+</style></head><body>
+<header class="top">
+  <a class="wm" href="index.html"><b>.</b> council</a>
+  <nav>
+    <a href="why-council.html">Why Council</a>
+    <a href="compare.html">Compare</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="about.html">About</a>
+  </nav>
+  <a class="cta" href="index.html#ask">Try Council</a>
+</header>
+<div class="wrap"><section class="hero"><div class="kick">Terms</div><h1>Terms of Service</h1><p class="lede">Last updated 14 September 2026.</p></section>
+<ul class="tick">
+<li>Council — Terms of Service
 
-<!-- DEBATE + EVERY QUESTION share one pinned spot -->
-<section class="tall" id="debateSec" style="height:340vh;"><div class="sticky">
-  <h2 class="edge" id="debateText">We debate before<br>we believe.</h2>
-  <h2 class="edge" id="eqText">Every question<br>has three sides.</h2>
-</div></section>
 
-<section class="panel">
-  <div class="eyebrow anim fade">The council</div>
-  <h2 class="anim up" style="font-size:clamp(1.9rem,5vw,3.4rem);margin-bottom:24px;">Three minds. One verdict.</h2>
-  <div class="orb-scene anim scale d2" id="orbScene">
-    <div class="orb" id="orb"><canvas id="orbCanvas"></canvas></div>
-    <span class="name n0" id="nm0">ChatGPT</span><span class="name n1" id="nm1">Claude</span><span class="name n2" id="nm2">Gemini</span>
-  </div>
-</section>
 
-<!-- FOLDERS -->
-<section class="tall" id="perSec" style="height:400vh;"><div class="sticky">
-  <div class="per-head" id="perHead"><div class="eyebrow">The panel</div><h2 style="font-size:clamp(1.5rem,4vw,2.6rem);">Three roles, chosen for your question.</h2></div>
-  <div class="per-side per-left" id="perLeft">chosen to fit<br>your question</div>
-  <div class="per-side per-right" id="perRight">silent when<br>there's nothing<br>to add</div>
-  <div class="folder-stack">
-    <div class="folder" id="f0"><svg width="46" height="38" viewBox="0 0 46 38" fill="none"><path d="M2 8a4 4 0 014-4h12l4 5h16a4 4 0 014 4v19a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" stroke="#FF3E6C" stroke-width="1.5"/></svg><div><div class="fnum">01</div><h3>The Advocate</h3><div class="fdesc">The case FOR it.</div><div class="fsub">The upside, and the reasons to move.</div></div></div>
-    <div class="folder" id="f1"><svg width="46" height="38" viewBox="0 0 46 38" fill="none"><path d="M2 8a4 4 0 014-4h12l4 5h16a4 4 0 014 4v19a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" stroke="#FF3E6C" stroke-width="1.5"/></svg><div><div class="fnum">02</div><h3>The Critic</h3><div class="fdesc">The case AGAINST it.</div><div class="fsub">The risks everyone else misses.</div></div></div>
-    <div class="folder" id="f2"><svg width="46" height="38" viewBox="0 0 46 38" fill="none"><path d="M2 8a4 4 0 014-4h12l4 5h16a4 4 0 014 4v19a4 4 0 01-4 4H6a4 4 0 01-4-4V8z" stroke="#FF3E6C" stroke-width="1.5"/></svg><div><div class="fnum">03</div><h3>The Builder</h3><div class="fdesc">How to make it BETTER.</div><div class="fsub">The way forward, made concrete.</div></div></div>
-  </div>
-</div></section>
 
-<!-- ARC: full-screen lines travel a drawn semicircle, colours alternate -->
-<section class="tall" id="arcSec" style="height:700vh;"><div class="sticky">
-  <svg id="arcSvg"><path id="arcPath"/></svg>
-  <div class="arc-line" id="al0">It weighs all sides.</div>
-  <div class="arc-line" id="al1">It picks the strongest.</div>
-  <div class="arc-line" id="al2">It gives one answer.</div>
-  <div class="arc-line" id="al3">And shows you why.</div>
-</div></section>
 
-<section class="tall" id="shutSec" style="height:260vh;"><div class="sticky"><div class="shut-aside" id="shutAside">( unlike you )</div><canvas class="fx" id="shutCanvas"></canvas></div></section>
-<section class="panel" id="wordsSec" style="min-height:150vh;"><canvas class="fx" id="wordsCanvas"></canvas></section>
-<section class="tall" id="testSec" style="height:260vh;"><div class="sticky"><canvas class="fx" id="testCanvas"></canvas></div></section>
+  
+    COUNCIL
+    ← Home
+  
 
-<section class="panel" id="ask">
-  <div class="eyebrow anim fade">Put it to the panel</div>
-  <h2 class="anim up" style="font-size:clamp(1.9rem,5vw,3.4rem);margin-bottom:28px;">Ask the council anything.</h2>
-  <div class="ask anim scale d1"><input id="q" type="text" placeholder="Type your question…" /><button id="go">Convene</button></div>
-  <div class="ask-note anim fade d2">three angles, weighed into one verdict · ~20–40s</div>
-</section>
 
-<section id="results"></section>
+  [ LEGAL ]
+  Terms of Service
+  Effective date: 1 January 2026
+  STARTER TEMPLATE — These terms are a professional starting point, not legal advice. Have them reviewed by a qualified lawyer and adjusted for your jurisdiction before you rely on them.
 
-<section class="panel" id="signup">
-  <div class="eyebrow anim fade">Get access</div>
-  <h2 class="anim up" style="font-size:clamp(1.9rem,5vw,3.4rem);">Create your access.</h2>
-  <div class="auth anim up d2">
-    <div class="oauth">
-      <button class="oauth-btn"><span class="badge">G</span> Continue with Google</button>
-      <button class="oauth-btn"><span class="badge">GH</span> Continue with GitHub</button>
-      <button class="oauth-btn"><span class="badge">f</span> Continue with Facebook</button>
-      <button class="oauth-btn"><span class="badge">A</span> Continue with Apple</button>
-    </div>
-    <div class="divider">OR</div>
-    <input class="field" type="email" placeholder="you@email.com" /><input class="field" type="password" placeholder="Password" />
-    <button class="primary" id="createBtn">Create account</button>
-    <div class="coming" id="coming">Accounts are coming soon — the council above works right now, free, no login.</div>
-    <div class="fine">By continuing you agree to the Terms of Service.</div>
-  </div>
-</section>
+  These Terms of Service ("Terms") govern your use of the Council website and service (the "Service"). By accessing or using the Service, you agree to these Terms. If you do not agree, do not use the Service.
 
-<footer>council · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · © 2026</footer>
+  1. The Service
+  Council uses multiple AI models to generate perspectives and a combined answer to questions you submit. The Service is provided for general informational purposes.
 
-<script>
-  var DPR=Math.min(window.devicePixelRatio||1,2);
-  var pointer={x:innerWidth/2,y:-999};
-  addEventListener('mousemove',function(e){pointer.x=e.clientX;pointer.y=e.clientY;});
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var doors=document.getElementById('doors');
-  if(reduce){doors.style.display='none';}else{doors.classList.add('open');setTimeout(function(){doors.classList.add('done');},2050);}
+  2. AI-generated content — important
+  Responses are generated by AI and may be inaccurate, incomplete, or out of date. The Service is not a substitute for professional advice (legal, medical, financial, or otherwise). You are responsible for independently verifying any answer before relying on it, and for any decisions you make based on it.
 
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.2});
-  document.querySelectorAll('.anim').forEach(function(el){io.observe(el);});
-  function prog(el){var r=el.getBoundingClientRect();var total=r.height-innerHeight;if(total<=0)return 0;return Math.min(1,Math.max(0,(-r.top)/total));}
-  function seg(p,a,b){return Math.min(1,Math.max(0,(p-a)/(b-a)));}
+  3. Eligibility and accounts
+  You must be at least 16 years old to use the Service. If you create an account, you are responsible for keeping your credentials secure and for activity under your account.
 
-  var heroSec=document.getElementById('heroSec'),heroTitle=document.getElementById('heroTitle'),heroCue=document.getElementById('heroCue'),heroBg=document.getElementById('heroBg');
-  var debateSec=document.getElementById('debateSec'),debateText=document.getElementById('debateText'),eqText=document.getElementById('eqText');
-  var perSec=document.getElementById('perSec'),perHead=document.getElementById('perHead'),perLeft=document.getElementById('perLeft'),perRight=document.getElementById('perRight'),f0=document.getElementById('f0'),f1=document.getElementById('f1'),f2=document.getElementById('f2');
-  var arcSec=document.getElementById('arcSec'),arcLines=[document.getElementById('al0'),document.getElementById('al1'),document.getElementById('al2'),document.getElementById('al3')];
-  var arcPath=document.getElementById('arcPath'),arcLen=0;
-  var topBar=document.getElementById('top'),floatSignup=document.getElementById('floatSignup'),shutAside=document.getElementById('shutAside'),shutSecEl=document.getElementById('shutSec');
-
-  function makeShatter(canvas,sec,lines,mode){
-    var ctx=canvas.getContext('2d'),W=0,H=0,parts=[];
-    function build(){
-      W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);
-      var off=document.createElement('canvas');off.width=W;off.height=H;var o=off.getContext('2d');
-      var fs=Math.min(W*0.135,150);o.fillStyle='#fff';o.textAlign='center';o.textBaseline='middle';o.font='800 '+fs+"px 'Bricolage Grotesque', sans-serif";
-      var lh=fs*0.98,sy=H/2-(lines.length-1)*lh/2;for(var i=0;i<lines.length;i++)o.fillText(lines[i],W/2,sy+i*lh);
-      var d=o.getImageData(0,0,W,H).data,gap=Math.max(3,Math.round(W/340));parts=[];
-      for(var y=0;y<H;y+=gap){for(var x=0;x<W;x+=gap){if(d[(y*W+x)*4+3]>128){var a=Math.random()*6.283,dist=50+Math.random()*260;
-        parts.push({hx:x,hy:y,dx:Math.cos(a)*dist,dy:Math.sin(a)*dist,x:x,y:y,c:Math.random()<0.35?'#FF3E6C':'#F3F3F1',s:2});}}}
-    }
-    function tick(){
-      if(!W)return;var r=canvas.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight){ctx.clearRect(0,0,W,H);return;}
-      var p=prog(sec),f,al;
-      if(mode==='in'){f=1-Math.min(1,p/0.5);al=(p<0.7?1:Math.max(0,1-(p-0.7)/0.26));}
-      else{f=Math.min(1,p/0.88);al=(p<0.55?1:Math.max(0,1-(p-0.55)/0.4));}
-      ctx.clearRect(0,0,W,H);if(al<=0)return;var mx=pointer.x-r.left,my=pointer.y-r.top;
-      for(var i=0;i<parts.length;i++){var t=parts[i];var bx=t.hx+t.dx*f,by=t.hy+t.dy*f;var ddx=bx-mx,ddy=by-my,dd=Math.sqrt(ddx*ddx+ddy*ddy);
-        if(dd<80&&dd>0){var pf=(80-dd)*1.1;bx+=ddx/dd*pf;by+=ddy/dd*pf;}
-        t.x+=(bx-t.x)*0.18;t.y+=(by-t.y)*0.18;ctx.globalAlpha=al;ctx.fillStyle=t.c;ctx.fillRect(t.x,t.y,t.s,t.s);}
-      ctx.globalAlpha=1;
-    }
-    return {build:build,tick:tick};
-  }
-  var shut=makeShatter(document.getElementById('shutCanvas'),document.getElementById('shutSec'),['It knows when','to shut up.'],'out');
-  var test=makeShatter(document.getElementById('testCanvas'),document.getElementById('testSec'),['Test your','council now.'],'in');
-
-  function makeWordParticles(canvas,words){
-    var ctx=canvas.getContext('2d'),W=0,H=0,groups=[],alpha=0;
-    function build(){
-      W=canvas.clientWidth;H=canvas.clientHeight;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);groups=[];
-      var fs=Math.max(22,Math.min(W*0.04,40)),off=document.createElement('canvas'),o=off.getContext('2d');
-      for(var wi=0;wi<words.length;wi++){o.font='700 '+fs+"px 'Space Mono', monospace";var word=words[wi];
-        var tw=Math.max(1,Math.ceil(o.measureText(word).width))+4,th=Math.ceil(fs*1.4);
-        off.width=tw;off.height=th;o.font='700 '+fs+"px 'Space Mono', monospace";o.fillStyle='#fff';o.textAlign='left';o.textBaseline='middle';o.clearRect(0,0,tw,th);o.fillText(word,2,th/2);
-        var d=o.getImageData(0,0,tw,th).data,gap=Math.max(2,Math.round(fs/18)),offs=[];
-        for(var y=0;y<th;y+=gap){for(var x=0;x<tw;x+=gap){if(d[(y*tw+x)*4+3]>140)offs.push({ox:x-tw/2,oy:y-th/2});}}
-        var gx=tw/2+Math.random()*(W-tw),gy=th/2+Math.random()*(H-th),an=Math.random()*6.283,sp=0.22+Math.random()*0.28,pts=[];
-        for(var k=0;k<offs.length;k++)pts.push({x:Math.random()*W,y:Math.random()*H});
-        groups.push({w:tw,h:th,gx:gx,gy:gy,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp,hot:(wi%3===0),offs:offs,pts:pts});}
-      alpha=0;
-    }
-    function step(){
-      if(!W)return;var r=canvas.getBoundingClientRect(),vis=r.bottom>0&&r.top<innerHeight;alpha+=((vis?1:0)-alpha)*0.05;ctx.clearRect(0,0,W,H);
-      if(alpha<=0.01)return;var mx=pointer.x-r.left,my=pointer.y-r.top,edge=H*0.2;
-      for(var gi=0;gi<groups.length;gi++){var g=groups[gi];
-        if(vis){g.gx+=g.vx;g.gy+=g.vy;if(g.gx-g.w/2<0){g.gx=g.w/2;g.vx*=-1;}if(g.gx+g.w/2>W){g.gx=W-g.w/2;g.vx*=-1;}if(g.gy-g.h/2<0){g.gy=g.h/2;g.vy*=-1;}if(g.gy+g.h/2>H){g.gy=H-g.h/2;g.vy*=-1;}}
-        for(var pi=0;pi<g.offs.length;pi++){var pt=g.pts[pi],tx=g.gx+g.offs[pi].ox,ty=g.gy+g.offs[pi].oy;pt.x+=(tx-pt.x)*0.09;pt.y+=(ty-pt.y)*0.09;
-          var ddx=pt.x-mx,ddy=pt.y-my,dd=Math.sqrt(ddx*ddx+ddy*ddy);if(dd<75&&dd>0){var pf=(75-dd)*0.2;pt.x+=ddx/dd*pf;pt.y+=ddy/dd*pf;}
-          var vf=Math.min(1,Math.min(pt.y,H-pt.y)/edge);if(vf<0)vf=0;
-          ctx.globalAlpha=alpha*vf;ctx.fillStyle=g.hot?'#FF3E6C':'#D2D2D7';ctx.fillRect(pt.x,pt.y,1.8,1.8);}}
-      ctx.globalAlpha=1;
-    }
-    return {build:build,step:step};
-  }
-  var words=makeWordParticles(document.getElementById('wordsCanvas'),['Debate','Compare','Verify','Decide','Question','Argue','Fact-check','Weigh','Reason','Challenge','Summarize','Conclude','Analyse','Rank','Judge','Explain','Cross-examine']);
-
-  var orbEl=document.getElementById('orb'),orbCv=document.getElementById('orbCanvas'),orbScene=document.getElementById('orbScene');
-  var octx=orbCv.getContext('2d'),oS=0;
-  function orbSize(){oS=orbCv.clientWidth;orbCv.width=oS*DPR;orbCv.height=oS*DPR;octx.setTransform(DPR,0,0,DPR,0,0);}
-  var blobCols=['#FF3E6C','#8B5CF6','#22D3EE','#10A37F','#FF8A3D'],names=[document.getElementById('nm0'),document.getElementById('nm1'),document.getElementById('nm2')],ang=0,odx=0,ody=0;
-  function orbStep(t){
-    if(oS){var cx=oS/2,cy=oS/2,R=oS/2;octx.clearRect(0,0,oS,oS);octx.save();octx.beginPath();octx.arc(cx,cy,R,0,7);octx.clip();
-      octx.fillStyle='#070709';octx.fillRect(0,0,oS,oS);octx.globalCompositeOperation='screen';
-      for(var i=0;i<blobCols.length;i++){var a=t*0.00035+i*1.4,bx=cx+Math.cos(a*1.1+i)*R*0.34,by=cy+Math.sin(a*0.9+i*2)*R*0.24+R*0.04,rad=R*0.72;
-        var g=octx.createRadialGradient(bx,by,0,bx,by,rad);g.addColorStop(0,blobCols[i]);g.addColorStop(1,'rgba(0,0,0,0)');octx.globalAlpha=0.5;octx.fillStyle=g;octx.beginPath();octx.arc(bx,by,rad,0,7);octx.fill();}
-      octx.globalAlpha=1;octx.globalCompositeOperation='source-over';
-      var v=octx.createRadialGradient(cx,cy*0.82,R*0.15,cx,cy,R);v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(0.65,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,0,0,0.9)');octx.fillStyle=v;octx.fillRect(0,0,oS,oS);
-      var h=octx.createRadialGradient(cx,cy*0.55,0,cx,cy*0.55,R*0.85);h.addColorStop(0,'rgba(255,255,255,0.14)');h.addColorStop(0.5,'rgba(255,255,255,0)');octx.fillStyle=h;octx.beginPath();octx.arc(cx,cy,R,0,7);octx.fill();octx.restore();
-      octx.beginPath();octx.arc(cx,cy,R-1,0,7);octx.lineWidth=1.4;octx.strokeStyle='rgba(255,255,255,0.09)';octx.stroke();}
-    var r=orbEl.getBoundingClientRect(),ox=r.left+r.width/2,oy=r.top+r.height/2,dx=ox-pointer.x,dy=oy-pointer.y,dist=Math.hypot(dx,dy),R2=r.width*0.95,tx=0,ty=0;
-    if(dist<R2&&dist>0){var f=(1-dist/R2)*46;tx=dx/dist*f;ty=dy/dist*f;}
-    odx+=(tx-odx)*0.1;ody+=(ty-ody)*0.1;orbEl.style.transform='translate('+odx+'px,'+ody+'px)';
-    ang+=0.0016;var or=orbEl.getBoundingClientRect(),sr=orbScene.getBoundingClientRect(),ccx=(or.left-sr.left)+or.width/2,ccy=(or.top-sr.top)+or.height/2,RR=or.width/2+30;
-    for(var n=0;n<3;n++){var aa=ang+n*2*Math.PI/3;names[n].style.left=(ccx+RR*Math.cos(aa))+'px';names[n].style.top=(ccy+RR*Math.sin(aa))+'px';}
-  }
-
-  // cursor: ring + dot locked together (both exact)
-  var cursorOn=matchMedia('(pointer:fine)').matches && !reduce, cur=document.getElementById('cur'),curd=document.getElementById('curd');
-  if(cursorOn){document.body.classList.add('cursor-on');
-    addEventListener('mousemove',function(e){cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';curd.style.left=e.clientX+'px';curd.style.top=e.clientY+'px';});
-    document.querySelectorAll('a,button,input,.orb').forEach(function(el){el.addEventListener('mouseenter',function(){cur.classList.add('big');});el.addEventListener('mouseleave',function(){cur.classList.remove('big');});});}
-
-  function master(t){orbStep(t);shut.tick();test.tick();words.step();requestAnimationFrame(master);}
-
-  function buildArc(){
-    var cx=innerWidth/2,baseY=innerHeight*0.80,Rx=innerWidth*0.40,Ry=innerHeight*0.54,d='';
-    for(var k=0;k<=64;k++){var th=k/64*Math.PI,x=cx+Rx*Math.cos(th),y=baseY-Ry*Math.sin(th);d+=(k?'L':'M')+x.toFixed(1)+' '+y.toFixed(1)+' ';}
-    arcPath.setAttribute('d',d);arcLen=arcPath.getTotalLength();arcPath.style.strokeDasharray=arcLen;arcPath.style.strokeDashoffset=arcLen;
-  }
-  function buildAll(){orbSize();shut.build();test.build();words.build();buildArc();onScroll();}
-  function onScroll(){
-    var p=prog(heroSec);heroTitle.style.transform='scale('+(1+p*7)+')';heroTitle.style.opacity=Math.max(0,1-p*1.35);heroCue.style.opacity=Math.max(0,1-p*4);
-    heroBg.style.transform='translate(calc(-50% - '+(scrollY*0.5)+'px), -50%)';
-    // debate then every-question, same spot
-    var pd=prog(debateSec);
-    var db=Math.min(1,pd/0.26)*20;debateText.style.filter='blur('+db+'px)';debateText.style.opacity=(pd<0.3?1:Math.max(0,1-(pd-0.3)/0.12));
-    var eqIn=seg(pd,0.42,0.56),eqOut=seg(pd,0.82,1);eqText.style.opacity=eqIn*(1-eqOut);eqText.style.filter='blur('+((1-eqIn)*16)+'px)';eqText.style.transform='translate(-50%,-50%) scale('+(0.92+eqIn*0.08)+')';
-    // folders: slide small → gather → grow with pink glow, head/note fill space
-    var pp=prog(perSec),W=innerWidth;var enter=[seg(pp,0,0.18),seg(pp,0.1,0.28),seg(pp,0.2,0.38)],grow=seg(pp,0.44,0.86),sc=0.5+grow*0.4,spread=0.4+grow*0.6,sprPx=Math.min(178,innerHeight*0.24),sides=[1,-1,1],fds=[f0,f1,f2];
-    perHead.style.opacity=seg(pp,0,0.12)*(1-seg(pp,0.32,0.54));perLeft.style.opacity=grow;perRight.style.opacity=grow;
-    for(var i=0;i<3;i++){var x=(1-enter[i])*sides[i]*W*1.3,yy=(i-1)*sprPx*spread;fds[i].style.transform='translate(-50%,-50%) translate('+x+'px,'+yy+'px) scale('+sc+')';fds[i].style.opacity=enter[i];
-      fds[i].style.boxShadow='0 24px 60px rgba(0,0,0,.45), 0 0 '+(grow*48)+'px rgba(255,62,108,'+(grow*0.55)+')';
-      fds[i].style.borderColor=(grow>0.05)?'rgba(255,62,108,'+(0.25+grow*0.55)+')':'var(--line)';
-      var dd=fds[i].querySelector('.fdesc'),ds=fds[i].querySelector('.fsub');if(dd)dd.style.opacity=grow;if(ds)ds.style.opacity=grow*0.9;}
-    // arc: draw semicircle + travel lines, alternating colours
-    var pa=prog(arcSec);if(arcLen)arcPath.style.strokeDashoffset=arcLen*(1-pa);
-    var N=arcLines.length,cxA=innerWidth/2,baseY=innerHeight*0.80,Rx=innerWidth*0.40,Ry=innerHeight*0.54;
-    for(var j=0;j<N;j++){var ti=pa*(N+1)-j-0.3,el=arcLines[j];
-      if(ti<=0||ti>=1){el.style.opacity=0;continue;}
-      var th=ti*Math.PI,ax=cxA+Rx*Math.cos(th),ay=baseY-Ry*Math.sin(th),near=Math.sin(th),scl=0.72+near*0.38,edge=Math.min(1,Math.min(ti,1-ti)*6);
-      el.style.transform='translate('+ax+'px,'+ay+'px) translate(-50%,-50%) scale('+scl+')';el.style.opacity=Math.min(1,near*1.3)*edge;}
-    var ps=prog(shutSecEl);shutAside.style.opacity=seg(ps,0.02,0.15)*(1-seg(ps,0.4,0.6));
-    var rPer=perSec.getBoundingClientRect(),perActive=(rPer.top<=innerHeight*0.15&&rPer.bottom>=innerHeight*0.85);topBar.classList.toggle('show',scrollY>innerHeight*0.75);floatSignup.classList.toggle('show',scrollY>innerHeight*0.9&&!perActive);
-  }
-  var ticking=false;
-  addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(function(){onScroll();ticking=false;});ticking=true;}},{passive:true});
-  addEventListener('resize',buildAll);
-  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(buildAll);}else{addEventListener('load',buildAll);}
-  buildAll();
-  if(!reduce)requestAnimationFrame(master);
-
-  var qEl=document.getElementById('q'),goEl=document.getElementById('go'),resultsSec=document.getElementById('results');
-  function esc(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
-  function convene(){var q=qEl.value.trim();if(!q)return;goEl.disabled=true;
-    resultsSec.innerHTML='<div class="results-inner"><div class="status">THE COUNCIL IS IN SESSION…</div><div class="out"></div></div>';
-    var statusEl=resultsSec.querySelector('.status'),outEl=resultsSec.querySelector('.out');
-    setTimeout(function(){resultsSec.scrollIntoView({behavior:'smooth'});},60);
-    fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})}).then(function(r){return r.json();})
-      .then(function(data){statusEl.style.display='none';if(data.error){outEl.innerHTML='<div class="err">'+data.error+'</div>';return;}
-        if(data.kind==='fact'){outEl.innerHTML='<div class="fact-card"><div class="fact-kicker">Not a council question</div><div class="fact-answer">'+esc(data.factAnswer)+'</div><div class="fact-nudge">'+esc(data.nudge)+'</div></div>';return;}
-        var h='';(data.members||[]).forEach(function(m){h+='<div class="member"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>'+esc(m.answer)+'</p></div>';});
-        var c=data.chairman||{};h+='<div class="verdict"><div class="vlabel">The verdict</div>';
-        if(c.whyListen){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">Why listen to '+esc(c.strongest||'the strongest voice')+'</div><p>'+esc(c.whyListen)+'</p></div>';}
-        h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">The answer</div><p class="final-answer">'+esc(c.finalAnswer||'')+'</p></div>';
-        if(data.verificationText){h+='<div class="vcheck">'+esc(data.verificationText)+'</div>';}h+='</div>';outEl.innerHTML=h;})
-      .catch(function(){statusEl.style.display='none';outEl.innerHTML='<div class="err">Could not reach the council. Try again.</div>';})
-      .finally(function(){goEl.disabled=false;});}
-  goEl.addEventListener('click',convene);qEl.addEventListener('keydown',function(e){if(e.key==='Enter')convene();});
-  var coming=document.getElementById('coming');
-  document.querySelectorAll('.oauth-btn').forEach(function(b){b.addEventListener('click',function(){coming.style.display='block';});});
-  document.getElementById('createBtn').addEventListener('click',function(){coming.style.display='block';});
-</script>
-</body>
-</html>
+  4. Acceptable use
+  
+    Do not use the Service for unlawful, harmful, or abusive purposes.</li>
+<li>Do not attempt to disrupt, overload, reverse-engineer, or gain unauthorised access to the Service.</li>
+<li>Do not use automated means to access the Service in a way that exceeds reasonable use.</li>
+</ul>
+<h2 class="sec">5. Intellectual property</h2>
+<p>The Service, including its design and content we create, is owned by us or our licensors. You retain rights to the questions you submit, and grant us the limited right to process them to provide the Service.</p>
+<h2 class="sec">6. No warranty</h2>
+<p>The Service is provided "as is" and "as available", without warranties of any kind, whether express or implied, including fitness for a particular purpose and accuracy of results.</p>
+<h2 class="sec">7. Limitation of liability</h2>
+<p>To the maximum extent permitted by law, we are not liable for any indirect, incidental, or consequential damages, or for any decisions made in reliance on the Service.</p>
+<h2 class="sec">8. Termination</h2>
+<p>We may suspend or terminate access to the Service at any time if these Terms are violated or to protect the Service.</p>
+<h2 class="sec">9. Changes</h2>
+<p>We may update these Terms from time to time. Continued use after changes take effect constitutes acceptance of the revised Terms.</p>
+<h2 class="sec">10. Governing law</h2>
+<p>These Terms are governed by the laws of your applicable jurisdiction (insert governing law before publishing).</p>
+<h2 class="sec">11. Contact</h2>
+<p>Questions about these Terms? Contact us at hello@example.com (replace with your address).</p>
+<div class="note"><strong>Plain-English note:</strong> this is starter wording, not lawyer-reviewed. Before you take real sign-ups or money, have a solicitor look at it and replace the contact address and governing-law clause with your real ones.</div></div>
+<footer class="pf">
+  <a href="index.html">Home</a> &middot; <a href="why-council.html">Why Council</a> &middot;
+  <a href="compare.html">Compare</a> &middot; <a href="pricing.html">Pricing</a> &middot;
+  <a href="about.html">About</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a>
+  <div style="margin-top:12px">council &middot; &copy; 2026</div>
+</footer></body></html>
