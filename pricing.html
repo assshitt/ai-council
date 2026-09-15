@@ -1,0 +1,155 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Pricing &mdash; Council</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070E; --ink:#F5F7FA; --pink:#FF3E6C; --violet:#8B5CF6; --blue:#5AA0FF;
+  --faint:#79839A; --line:rgba(255,255,255,.12);
+  --disp:'Inter',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(40,54,100,.34),transparent 70%)}
+.wrap{position:relative;z-index:1;width:min(980px,92vw);margin:0 auto}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:15px 24px;background:rgba(5,7,14,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.top .wm{font-family:var(--mono);font-size:.76rem;letter-spacing:.32em;color:#EAF0FF;text-decoration:none}
+header.top .wm b{color:var(--pink)}
+header.top nav{display:flex;gap:22px;margin-left:auto;margin-right:18px}
+header.top nav a{font-size:.84rem;color:#C6CFE0;text-decoration:none;font-weight:500}
+header.top nav a:hover,header.top nav a.on{color:#fff}
+.cta{font-weight:700;font-size:.82rem;color:var(--pink);text-decoration:none;border:1.4px solid var(--pink);
+  padding:8px 18px;border-radius:999px;box-shadow:0 0 16px rgba(255,62,108,.4);transition:.22s}
+.cta:hover{background:var(--pink);color:#fff}
+@media(max-width:760px){header.top nav{display:none}}
+
+.hero{padding:86px 0 40px;text-align:center}
+.kick{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+h1{font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.lede{color:#B9C3D6;font-size:1.05rem;max-width:640px;margin:20px auto 0}
+h2.sec{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;margin:56px 0 16px}
+h3{font-size:1.05rem;font-weight:700;margin-bottom:7px}
+p{color:#C2CBDC;margin-bottom:14px}
+.card{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:15px;padding:20px 22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:13px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--violet)}
+.muted{color:var(--faint);font-size:.85rem}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:16px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.86rem}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.04)}
+td:first-child{font-weight:700}
+.gd{color:#5ED89B}.md{color:#E8B366}.bd{color:var(--faint)}
+ul.tick{list-style:none;margin:10px 0}
+ul.tick li{padding-left:22px;position:relative;margin-bottom:8px;color:#C2CBDC;font-size:.92rem}
+ul.tick li::before{content:'';position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--violet)}
+.plan{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:17px;padding:24px;display:flex;flex-direction:column}
+.plan.hi{border-color:rgba(255,62,108,.55);box-shadow:0 0 40px rgba(255,62,108,.16)}
+.plan .pn{font-size:1.2rem;font-weight:800}
+.plan .pp{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;margin:12px 0 2px}
+.plan .pp span{font-size:.85rem;font-weight:500;color:var(--faint)}
+.plan .pd{color:var(--faint);font-size:.85rem;min-height:42px}
+.btn{display:block;text-align:center;margin-top:16px;padding:11px;border-radius:11px;font-weight:700;
+  font-size:.9rem;text-decoration:none;border:1.4px solid var(--pink);color:var(--pink);transition:.2s}
+.btn:hover{background:var(--pink);color:#fff}
+.btn.solid{background:var(--pink);color:#fff}
+.note{background:rgba(255,62,108,.07);border:1px solid rgba(255,62,108,.3);border-radius:13px;
+  padding:15px 18px;color:#E6C2CC;font-size:.88rem;margin-top:22px}
+footer.pf{position:relative;z-index:1;margin-top:80px;padding:34px 24px;border-top:1px solid var(--line);
+  text-align:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--faint)}
+footer.pf a{color:var(--faint);text-decoration:none}
+footer.pf a:hover{color:#fff}
+
+.card,.plan{transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+.card:hover,.plan:hover{transform:translateY(-5px) scale(1.02);border-color:rgba(139,92,246,.75);box-shadow:0 0 38px rgba(139,92,246,.32)}
+</style></head><body>
+<header class="top">
+  <a class="wm" href="index.html"><b>.</b> council</a>
+  <nav>
+    <a href="why-council.html">Why Council</a>
+    <a href="compare.html">Compare</a>
+    <a href="pricing.html" class="on">Pricing</a>
+    <a href="about.html">About</a>
+  </nav>
+  <a class="cta" href="index.html#ask">Try Council</a>
+</header>
+<div class="wrap">
+<section class="hero">
+  <div class="kick">Pricing</div>
+  <h1>Pay for scrutiny, not for seats.</h1>
+  <p class="lede">Council runs three frontier models on every judgment question, then a fourth to weigh them. That costs real money per question, so the plans are built around how many questions you ask &mdash; not around locking models behind tiers.</p>
+</section>
+
+<div class="grid3" style="margin-top:34px">
+  <div class="plan">
+    <div class="pn">Free</div>
+    <div class="pp">&pound;0<span>/mo</span></div>
+    <div class="pd">Enough to find out whether a panel actually helps you.</div>
+    <ul class="tick">
+      <li>10 council questions a month</li>
+      <li>All three roles, full verdict</li>
+      <li>The fact gate &mdash; no faked debates</li>
+      <li>No card required</li>
+    </ul>
+    <a class="btn" href="index.html#ask">Start free</a>
+  </div>
+  <div class="plan hi">
+    <div class="pn">Plus</div>
+    <div class="pp">&pound;9<span>/mo</span></div>
+    <div class="pd">For people making real decisions often enough to want a record of them.</div>
+    <ul class="tick">
+      <li>200 council questions a month</li>
+      <li>External verification on verdicts</li>
+      <li>Choose your own three models</li>
+      <li>Saved debates and search</li>
+      <li>Export a verdict as Markdown or PDF</li>
+    </ul>
+    <a class="btn solid" href="index.html#signup">Get Plus</a>
+  </div>
+  <div class="plan">
+    <div class="pn">Pro</div>
+    <div class="pp">&pound;29<span>/mo</span></div>
+    <div class="pd">For heavy use, and for the memory layer once it ships.</div>
+    <ul class="tick">
+      <li>Unlimited fair-use questions</li>
+      <li>Everything in Plus</li>
+      <li>Memory: Council remembers past decisions</li>
+      <li>Outcome follow-ups &mdash; how did it go?</li>
+      <li>Priority when the queue is busy</li>
+    </ul>
+    <a class="btn" href="index.html#signup">Get Pro</a>
+  </div>
+</div>
+
+<div class="note"><strong>Being straight with you:</strong> Council is early. Accounts and billing are not live yet &mdash; the free council on the front page works right now with no login and no card. These prices are what we intend to charge, published early so you can tell us if they are wrong. Memory and outcome follow-ups are on the roadmap, not shipped. We would rather show you the plan than pretend the product is further along than it is.</div>
+
+<h2 class="sec">What every plan includes</h2>
+<div class="grid2">
+  <div class="card"><h3>No model paywalled</h3><p class="muted">Plans differ by how many questions you ask, not by which models you are allowed to reach. Locking the good model behind the expensive tier is a pricing trick, not a product.</p></div>
+  <div class="card"><h3>The fact gate</h3><p class="muted">Ask something with one correct answer and Council answers in one line and tells you it is not what a panel is for. You are not billed for theatre.</p></div>
+  <div class="card"><h3>Disagreement shown</h3><p class="muted">Every verdict carries the split underneath it. Where the models disagreed is information you paid for, so you get to see it.</p></div>
+  <div class="card"><h3>Your questions stay yours</h3><p class="muted">We do not train models on your conversations. We could not if we wanted to &mdash; we do not own any.</p></div>
+</div>
+
+<h2 class="sec">Questions about cost</h2>
+<div class="grid2">
+  <div class="card"><h3>Why is this not free forever?</h3><p class="muted">Every question runs three frontier models plus a chairman, so a single Council question costs several times what one chatbot reply costs. The free tier is real, but it has a floor.</p></div>
+  <div class="card"><h3>Why would I pay when I already pay for ChatGPT?</h3><p class="muted">Keep it. This is for the narrower set of questions where being wrong is expensive, and where one model cannot tell you how confident to be. Most people here use it for the decision that matters, not for everyday chat.</p></div>
+  <div class="card"><h3>What happens if I hit the limit?</h3><p class="muted">Nothing scary and no surprise bill. You are told you have reached the cap and can wait for the reset or upgrade. We do not silently keep charging.</p></div>
+  <div class="card"><h3>Can I cancel?</h3><p class="muted">Yes, any time, and access continues to the end of the period you already paid for.</p></div>
+</div>
+</div>
+<footer class="pf">
+  <a href="index.html">Home</a> &middot; <a href="why-council.html">Why Council</a> &middot;
+  <a href="compare.html">Compare</a> &middot; <a href="pricing.html">Pricing</a> &middot;
+  <a href="about.html">About</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a>
+  <div style="margin-top:12px">council &middot; &copy; 2026</div>
+</footer></body></html>
