@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Privacy Policy &mdash; Council</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070E; --ink:#F5F7FA; --pink:#FF3E6C; --violet:#8B5CF6; --blue:#5AA0FF;
+  --faint:#79839A; --line:rgba(255,255,255,.12);
+  --disp:'Inter',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(40,54,100,.34),transparent 70%)}
+.wrap{position:relative;z-index:1;width:min(980px,92vw);margin:0 auto}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:15px 24px;background:rgba(5,7,14,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.top .wm{font-family:var(--mono);font-size:.76rem;letter-spacing:.32em;color:#EAF0FF;text-decoration:none}
+header.top .wm b{color:var(--pink)}
+header.top nav{display:flex;gap:22px;margin-left:auto;margin-right:18px}
+header.top nav a{font-size:.84rem;color:#C6CFE0;text-decoration:none;font-weight:500}
+header.top nav a:hover,header.top nav a.on{color:#fff}
+.cta{font-weight:700;font-size:.82rem;color:var(--pink);text-decoration:none;border:1.4px solid var(--pink);
+  padding:8px 18px;border-radius:999px;box-shadow:0 0 16px rgba(255,62,108,.4);transition:.22s}
+.cta:hover{background:var(--pink);color:#fff}
+@media(max-width:760px){header.top nav{display:none}}
+
+.hero{padding:86px 0 40px;text-align:center}
+.kick{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+h1{font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.lede{color:#B9C3D6;font-size:1.05rem;max-width:640px;margin:20px auto 0}
+h2.sec{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;margin:56px 0 16px}
+h3{font-size:1.05rem;font-weight:700;margin-bottom:7px}
+p{color:#C2CBDC;margin-bottom:14px}
+.card{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:15px;padding:20px 22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:13px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--violet)}
+.muted{color:var(--faint);font-size:.85rem}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:16px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.86rem}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.04)}
+td:first-child{font-weight:700}
+.gd{color:#5ED89B}.md{color:#E8B366}.bd{color:var(--faint)}
+ul.tick{list-style:none;margin:10px 0}
+ul.tick li{padding-left:22px;position:relative;margin-bottom:8px;color:#C2CBDC;font-size:.92rem}
+ul.tick li::before{content:'';position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--violet)}
+.plan{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:17px;padding:24px;display:flex;flex-direction:column}
+.plan.hi{border-color:rgba(255,62,108,.55);box-shadow:0 0 40px rgba(255,62,108,.16)}
+.plan .pn{font-size:1.2rem;font-weight:800}
+.plan .pp{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;margin:12px 0 2px}
+.plan .pp span{font-size:.85rem;font-weight:500;color:var(--faint)}
+.plan .pd{color:var(--faint);font-size:.85rem;min-height:42px}
+.btn{display:block;text-align:center;margin-top:16px;padding:11px;border-radius:11px;font-weight:700;
+  font-size:.9rem;text-decoration:none;border:1.4px solid var(--pink);color:var(--pink);transition:.2s}
+.btn:hover{background:var(--pink);color:#fff}
+.btn.solid{background:var(--pink);color:#fff}
+.note{background:rgba(255,62,108,.07);border:1px solid rgba(255,62,108,.3);border-radius:13px;
+  padding:15px 18px;color:#E6C2CC;font-size:.88rem;margin-top:22px}
+footer.pf{position:relative;z-index:1;margin-top:80px;padding:34px 24px;border-top:1px solid var(--line);
+  text-align:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--faint)}
+footer.pf a{color:var(--faint);text-decoration:none}
+footer.pf a:hover{color:#fff}
+
+</style></head><body>
+<header class="top">
+  <a class="wm" href="index.html"><b>.</b> council</a>
+  <nav>
+    <a href="why-council.html">Why Council</a>
+    <a href="compare.html">Compare</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="about.html">About</a>
+  </nav>
+  <a class="cta" href="index.html#ask">Try Council</a>
+</header>
+<div class="wrap"><section class="hero"><div class="kick">Privacy</div><h1>Privacy Policy</h1><p class="lede">Last updated 14 September 2026.</p></section>
+<ul class="tick">
+<li>Council — Privacy Policy
+
+
+
+
+
+  
+    COUNCIL
+    ← Home
+  
+
+
+  [ LEGAL ]
+  Privacy Policy
+  Effective date: 1 January 2026
+  STARTER TEMPLATE — This policy is a professional starting point, not legal advice. Have it reviewed by a qualified lawyer and adjusted for your jurisdiction before you rely on it.
+
+  This Privacy Policy explains how Council ("we", "us") collects, uses, and protects information when you use our website and service (the "Service"). By using the Service, you agree to this policy.
+
+  1. Information we collect
+  
+    Account information — if you create an account, the name and email address you provide.</li>
+<li>Questions you submit — the prompts and questions you send to the council in order to generate answers.</li>
+<li>Usage and technical data — basic information such as IP address, browser type, device, and interaction logs, collected automatically to operate and secure the Service.</li>
+</ul>
+<h2 class="sec">2. How we use information</h2>
+<ul class="tick">
+<li>To provide and operate the Service and generate responses to your questions.</li>
+<li>To maintain security, prevent abuse, and diagnose technical issues.</li>
+<li>To improve the Service and, where you have opted in, to send you related communications.</li>
+</ul>
+<h2 class="sec">3. Third-party processing</h2>
+<p>To generate answers, the questions you submit are sent to third-party AI model providers through our routing provider, which process that content on our behalf to return a response. Our website and functions are hosted on third-party infrastructure. These providers process data only to deliver the Service and are subject to their own terms and privacy practices.</p>
+<h2 class="sec">4. Cookies and local storage</h2>
+<p>We use essential cookies and browser storage needed to run the Service (for example, to keep you signed in). We do not use them to build advertising profiles.</p>
+<h2 class="sec">5. Data retention</h2>
+<p>We keep information only as long as needed to provide the Service and meet legal obligations, after which it is deleted or anonymised.</p>
+<h2 class="sec">6. Your rights</h2>
+<p>Depending on your location, you may have the right to access, correct, export, or delete your personal information, and to object to certain processing. To exercise these rights, contact us using the details below.</p>
+<h2 class="sec">7. Security</h2>
+<p>We take reasonable technical and organisational measures to protect your information. No method of transmission or storage is completely secure, and we cannot guarantee absolute security.</p>
+<h2 class="sec">8. Children</h2>
+<p>The Service is not directed to children under 16, and we do not knowingly collect their personal information.</p>
+<h2 class="sec">9. Changes to this policy</h2>
+<p>We may update this policy from time to time. Material changes will be posted on this page with a revised effective date.</p>
+<h2 class="sec">10. Contact</h2>
+<p>Questions about this policy? Contact us at hello@example.com (replace with your address).</p>
+<div class="note"><strong>Plain-English note:</strong> this is starter wording, not lawyer-reviewed. Before you take real sign-ups or money, have a solicitor look at it and replace the contact address and governing-law clause with your real ones.</div></div>
+<footer class="pf">
+  <a href="index.html">Home</a> &middot; <a href="why-council.html">Why Council</a> &middot;
+  <a href="compare.html">Compare</a> &middot; <a href="pricing.html">Pricing</a> &middot;
+  <a href="about.html">About</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a>
+  <div style="margin-top:12px">council &middot; &copy; 2026</div>
+</footer></body></html>
