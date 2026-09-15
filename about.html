@@ -1,0 +1,121 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>About &mdash; Council</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070E; --ink:#F5F7FA; --pink:#FF3E6C; --violet:#8B5CF6; --blue:#5AA0FF;
+  --faint:#79839A; --line:rgba(255,255,255,.12);
+  --disp:'Inter',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--disp);-webkit-font-smoothing:antialiased;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(40,54,100,.34),transparent 70%)}
+.wrap{position:relative;z-index:1;width:min(980px,92vw);margin:0 auto}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+  padding:15px 24px;background:rgba(5,7,14,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+header.top .wm{font-family:var(--mono);font-size:.76rem;letter-spacing:.32em;color:#EAF0FF;text-decoration:none}
+header.top .wm b{color:var(--pink)}
+header.top nav{display:flex;gap:22px;margin-left:auto;margin-right:18px}
+header.top nav a{font-size:.84rem;color:#C6CFE0;text-decoration:none;font-weight:500}
+header.top nav a:hover,header.top nav a.on{color:#fff}
+.cta{font-weight:700;font-size:.82rem;color:var(--pink);text-decoration:none;border:1.4px solid var(--pink);
+  padding:8px 18px;border-radius:999px;box-shadow:0 0 16px rgba(255,62,108,.4);transition:.22s}
+.cta:hover{background:var(--pink);color:#fff}
+@media(max-width:760px){header.top nav{display:none}}
+
+.hero{padding:86px 0 40px;text-align:center}
+.kick{font-family:var(--mono);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+h1{font-size:clamp(2.1rem,5.4vw,3.6rem);font-weight:800;letter-spacing:-.035em;line-height:1.05}
+.lede{color:#B9C3D6;font-size:1.05rem;max-width:640px;margin:20px auto 0}
+h2.sec{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.02em;margin:56px 0 16px}
+h3{font-size:1.05rem;font-weight:700;margin-bottom:7px}
+p{color:#C2CBDC;margin-bottom:14px}
+.card{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:15px;padding:20px 22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:13px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:13px}
+.tag{font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:var(--violet)}
+.muted{color:var(--faint);font-size:.85rem}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin-top:16px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.86rem}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.04)}
+td:first-child{font-weight:700}
+.gd{color:#5ED89B}.md{color:#E8B366}.bd{color:var(--faint)}
+ul.tick{list-style:none;margin:10px 0}
+ul.tick li{padding-left:22px;position:relative;margin-bottom:8px;color:#C2CBDC;font-size:.92rem}
+ul.tick li::before{content:'';position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--violet)}
+.plan{background:linear-gradient(180deg,#161D2E,#0F1421);border:1px solid rgba(255,255,255,.18);
+  border-radius:17px;padding:24px;display:flex;flex-direction:column}
+.plan.hi{border-color:rgba(255,62,108,.55);box-shadow:0 0 40px rgba(255,62,108,.16)}
+.plan .pn{font-size:1.2rem;font-weight:800}
+.plan .pp{font-size:2.1rem;font-weight:800;letter-spacing:-.03em;margin:12px 0 2px}
+.plan .pp span{font-size:.85rem;font-weight:500;color:var(--faint)}
+.plan .pd{color:var(--faint);font-size:.85rem;min-height:42px}
+.btn{display:block;text-align:center;margin-top:16px;padding:11px;border-radius:11px;font-weight:700;
+  font-size:.9rem;text-decoration:none;border:1.4px solid var(--pink);color:var(--pink);transition:.2s}
+.btn:hover{background:var(--pink);color:#fff}
+.btn.solid{background:var(--pink);color:#fff}
+.note{background:rgba(255,62,108,.07);border:1px solid rgba(255,62,108,.3);border-radius:13px;
+  padding:15px 18px;color:#E6C2CC;font-size:.88rem;margin-top:22px}
+footer.pf{position:relative;z-index:1;margin-top:80px;padding:34px 24px;border-top:1px solid var(--line);
+  text-align:center;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;color:var(--faint)}
+footer.pf a{color:var(--faint);text-decoration:none}
+footer.pf a:hover{color:#fff}
+
+.card,.plan{transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
+.card:hover,.plan:hover{transform:translateY(-5px) scale(1.02);border-color:rgba(139,92,246,.75);box-shadow:0 0 38px rgba(139,92,246,.32)}
+</style></head><body>
+<header class="top">
+  <a class="wm" href="index.html"><b>.</b> council</a>
+  <nav>
+    <a href="why-council.html">Why Council</a>
+    <a href="compare.html">Compare</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="about.html" class="on">About</a>
+  </nav>
+  <a class="cta" href="index.html#ask">Try Council</a>
+</header>
+<div class="wrap">
+<section class="hero">
+  <div class="kick">About</div>
+  <h1>The room you walk into<br>before a big decision.</h1>
+  <p class="lede">Council is a small project with one idea behind it: the questions that matter most are the ones with no single right answer, and those are exactly the questions a confident chatbot handles worst.</p>
+</section>
+
+<h2 class="sec" id="story">Where this came from</h2>
+<p>It started as an argument with a chatbot. Not a technical one &mdash; a practical one. Ask an AI whether to take a job, or whether an idea is worth building, and it gives you an answer in the same assured voice it uses for the boiling point of water. That voice is the problem. It hides the fact that reasonable people, and reasonable models, would disagree.</p>
+<p>So Council was built the other way round. Three models are given three different jobs &mdash; argue for it, argue against it, work out how to improve it &mdash; and they answer independently. A fourth reads all three and issues one verdict, with the disagreement left visible underneath. Where a claim can be checked against the outside world, it is.</p>
+
+<h2 class="sec">What we actually are</h2>
+<div class="grid2">
+  <div class="card"><h3>An orchestrator, not a lab</h3><p class="muted">We do not train models. We rent frontier models through an API and put them into a structured argument. Anyone telling you their wrapper is an AI company is selling you something.</p></div>
+  <div class="card"><h3>Small and early</h3><p class="muted">This is not a funded team. It is a working product with a free council you can use right now, and a roadmap we are honest about.</p></div>
+  <div class="card"><h3>Built on honesty as the feature</h3><p class="muted">Other tools compete on sounding capable. We would rather be the one that tells you when it is a coin flip, because that is the information you were missing.</p></div>
+  <div class="card"><h3>Not the only ones thinking this</h3><p class="muted">Multi-model panels are a live idea and there are others building in this space. We think the gate, the assigned roles and the verification layer make ours a different product, but we are not going to pretend we invented the category.</p></div>
+</div>
+
+<h2 class="sec">Where it is going</h2>
+<div class="grid3">
+  <div class="card"><div class="tag">Shipped</div><h3>The council</h3><p class="muted">Fact gate, three roles, chairman verdict, external checking. Free, no login.</p></div>
+  <div class="card"><div class="tag">Next</div><h3>Memory</h3><p class="muted">Every debate and verdict saved, so Council can draw on what you have already decided.</p></div>
+  <div class="card"><div class="tag">The real goal</div><h3>Outcomes</h3><p class="muted">Asking, months later, how the decision actually went &mdash; and learning which reasoning led you right.</p></div>
+</div>
+<p style="margin-top:18px">That last step is the one that matters. Models are frozen; they do not learn from you. But a system built around them can remember what you decided and what happened next, and that record gets more useful the longer you use it. That is the version of Council worth building.</p>
+
+<h2 class="sec" id="contact">Contact</h2>
+<p>Questions, criticism, or a bug &mdash; especially criticism. The fastest way to make this better is to tell us where it was wrong.</p>
+<p class="muted">hello@council.app &middot; built in Delhi</p>
+<div class="note">Council is not affiliated with OpenAI, Anthropic, Google, xAI, Mistral, DeepSeek, Alibaba, Meta or Moonshot. Model names are their trademarks and are used here to describe which models we call.</div>
+</div>
+<footer class="pf">
+  <a href="index.html">Home</a> &middot; <a href="why-council.html">Why Council</a> &middot;
+  <a href="compare.html">Compare</a> &middot; <a href="pricing.html">Pricing</a> &middot;
+  <a href="about.html">About</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a>
+  <div style="margin-top:12px">council &middot; &copy; 2026</div>
+</footer></body></html>
