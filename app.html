@@ -154,6 +154,7 @@
   const palette = ['var(--gpt)','var(--claude)','var(--gemini)'];
   const STAGES = [[0,'Convening the council'],[3,'Assigning roles for this question'],[9,'The panel is answering'],[24,'The chairman is weighing the answers'],[40,'Still deliberating, free models can be slow']];
   let inflight = false;
+  const SYNTH_LABELS = { contested:['Where both cases agree','Where it actually splits','The takeaway'], evaluative:["What's settled","What's still argued",'The takeaway'] };
 
   function esc(s){ return String(s==null?'':s).replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
   function httpMessage(status){
@@ -215,7 +216,7 @@
       outEl.innerHTML = '<div class="verdict"><div class="cap">Quick take</div><p class="final-answer">'+esc(c&&c.finalAnswer)+'</p></div>';
       return;
     }
-    let html = '<div class="round-label">The panel</div>';
+    let html = '<div class="round-label">'+esc(data.kindLabel||'The panel')+'</div>';
     (data.members||[]).forEach((m,i)=>{
       const col = palette[i]||'var(--muted)';
       const failed = m.ok===false;
@@ -230,9 +231,17 @@
     let chairNote = null;
     (data.notices||[]).forEach(n=>{ if(/^The chairman/.test(n)){ chairNote = n; return; } html += '<div class="notice">'+esc(n)+'</div>'; });
     if(c && c.finalAnswer){
-      html += '<div class="verdict"><div class="cap">The verdict</div>';
-      if(c.whyListen){ html += '<div class="vsec"><div class="vlabel">Why listen to '+esc(c.strongest||'this verdict')+'</div><p>'+esc(c.whyListen)+'</p></div>'; }
-      html += '<div class="vsec"><div class="vlabel">The answer</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+      const synth = c.mode==='synthesis';
+      const L = SYNTH_LABELS[data.kind] || SYNTH_LABELS.contested;
+      html += '<div class="verdict"><div class="cap">'+(synth?'The synthesis':'The verdict')+'</div>';
+      if(synth){
+        if(c.agreed){ html += '<div class="vsec"><div class="vlabel">'+esc(L[0])+'</div><p>'+esc(c.agreed)+'</p></div>'; }
+        if(c.disputed){ html += '<div class="vsec"><div class="vlabel">'+esc(L[1])+'</div><p>'+esc(c.disputed)+'</p></div>'; }
+        html += '<div class="vsec"><div class="vlabel">'+esc(L[2])+'</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+      }else{
+        if(c.whyListen){ html += '<div class="vsec"><div class="vlabel">Why listen to '+esc(c.strongest||'this verdict')+'</div><p>'+esc(c.whyListen)+'</p></div>'; }
+        html += '<div class="vsec"><div class="vlabel">The answer</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+      }
       if(data.verificationText){ html += '<div class="vcheck">'+esc(data.verificationText)+'</div>'; }
       html += '</div>';
     }else{
