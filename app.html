@@ -88,6 +88,12 @@
   .final-answer{font-family:var(--f-display);font-weight:700;font-size:1.3rem;line-height:1.35;color:var(--text);letter-spacing:-.01em;white-space:pre-wrap;}
   .vcheck{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line);font-family:var(--f-mono);font-size:.72rem;color:var(--muted);line-height:1.6;word-break:break-word;}
   .err{color:var(--accent);font-family:var(--f-mono);font-size:.85rem;margin:20px 0;text-align:center;}
+  .status .clock{margin-left:12px;color:var(--muted);}
+  .member.failed{opacity:.6;border-style:dashed;}
+  .member.failed p{color:var(--muted);font-style:italic;}
+  .notice{border:1px solid rgba(139,92,246,.45);background:rgba(139,92,246,.1);border-radius:6px;padding:12px 16px;margin:12px 0;color:#C9B8FF;font-size:.9rem;line-height:1.5;}
+  .verdict.muted{border-color:var(--line);box-shadow:none;}
+  .verdict.muted p{color:var(--muted);}
   @media (prefers-reduced-motion: reduce){ .tri-line,.tri-wrap::before{animation:none;} }
 </style>
 </head>
@@ -131,7 +137,7 @@
   <section class="ask-area">
     <h2>Ask three AIs. Get one answer.</h2>
     <div class="ask">
-      <input id="q" type="text" placeholder="Ask the council anything…" />
+      <input id="q" type="text" maxlength="1500" placeholder="Ask the council anything…" />
       <button id="go">Convene</button>
     </div>
     <div class="note">they answer, critique each other, then a chairman decides &amp; fact-checks it · ~20–40s</div>
@@ -146,47 +152,92 @@
   const statusEl = document.getElementById('status');
   const outEl = document.getElementById('out');
   const palette = ['var(--gpt)','var(--claude)','var(--gemini)'];
+  const STAGES = [[0,'Convening the council'],[3,'Assigning roles for this question'],[9,'The panel is answering'],[24,'The chairman is weighing the answers'],[40,'Still deliberating, free models can be slow']];
+  let inflight = false;
+
+  function esc(s){ return String(s==null?'':s).replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+  function httpMessage(status){
+    if(status===504||status===503) return 'The council took too long to answer. Try again, or ask a shorter question.';
+    if(status===429) return 'Too many questions right now. Give it a minute and try again.';
+    if(status===413) return 'That question is too long for the council.';
+    return 'The council hit a problem (HTTP '+status+'). Try again in a moment.';
+  }
+  function showError(msg){ outEl.innerHTML = '<div class="err">'+esc(msg)+'</div>'; }
 
   async function convene(){
     const q = qEl.value.trim();
-    if(!q) return;
+    if(!q || inflight) return;
+    inflight = true;
     goEl.disabled = true;
     outEl.innerHTML = '';
     statusEl.className = 'status on';
-    statusEl.textContent = 'The council is in session…';
+    const t0 = Date.now();
+    const tick = ()=>{
+      const sec = Math.floor((Date.now()-t0)/1000);
+      let m = STAGES[0][1];
+      for(const [at,msg] of STAGES) if(sec>=at) m = msg;
+      statusEl.innerHTML = esc(m)+'…<span class="clock">'+sec+'s</span>';
+    };
+    tick();
+    const timer = setInterval(tick, 1000);
+    const ctrl = new AbortController();
+    const kill = setTimeout(()=>ctrl.abort(), 75000);
     try{
       const res = await fetch('/api/council', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ question:q })
+        body: JSON.stringify({ question:q }),
+        signal: ctrl.signal
       });
-      const data = await res.json();
-      if(data.error){ statusEl.className='status'; outEl.innerHTML = '<div class="err">'+data.error+'</div>'; return; }
+      const text = await res.text();
+      let data = null;
+      try{ data = JSON.parse(text); }catch(e){}
+      if(!data || typeof data !== 'object'){ showError(httpMessage(res.status)); return; }
+      if(data.error){ showError(data.error); return; }
       render(data);
     }catch(e){
-      outEl.innerHTML = '<div class="err">Could not reach the council. Try again.</div>';
+      showError(e && e.name==='AbortError' ? 'The council took too long to answer. Try again, or ask a shorter question.' : 'Could not reach the council. Check your connection and try again.');
     }finally{
+      clearInterval(timer);
+      clearTimeout(kill);
       goEl.disabled = false;
+      inflight = false;
       statusEl.className = 'status';
     }
   }
-  function esc(s){ return (s||'').replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
   function render(data){
+    if(data.kind==='fact'){
+      outEl.innerHTML = '<div class="verdict"><div class="cap">Not a council question</div><p class="final-answer">'+esc(data.factAnswer)+'</p><div class="vcheck">'+esc(data.nudge)+'</div></div>';
+      return;
+    }
+    const c = data.chairman;
+    if(data.mode==='quick'){
+      outEl.innerHTML = '<div class="verdict"><div class="cap">Quick take</div><p class="final-answer">'+esc(c&&c.finalAnswer)+'</p></div>';
+      return;
+    }
     let html = '<div class="round-label">The panel</div>';
     (data.members||[]).forEach((m,i)=>{
       const col = palette[i]||'var(--muted)';
-      html += '<div class="member">'
+      const failed = m.ok===false;
+      html += '<div class="member'+(failed?' failed':'')+'">'
         + '<div class="role" style="color:'+col+'">'+esc(m.role||'Panel member')+'</div>'
         + '<div class="who"><span class="dot" style="background:'+col+';color:'+col+'"></span>'+esc(m.name)+'</div>'
-        + '<p>'+esc(m.answer)+'</p>'
+        + (failed
+            ? '<p>Didn\'t respond'+(m.error?' ('+esc(m.error)+')':'')+'. Not counted in the verdict.</p>'
+            : '<p>'+esc(m.answer)+'</p>')
         + '</div>';
     });
-    const c = data.chairman||{};
-    html += '<div class="verdict"><div class="cap">The verdict</div>';
-    if(c.whyListen){ html += '<div class="vsec"><div class="vlabel">Why listen to '+esc(c.strongest||'the strongest voice')+'</div><p>'+esc(c.whyListen)+'</p></div>'; }
-    html += '<div class="vsec"><div class="vlabel">The answer</div><p class="final-answer">'+esc(c.finalAnswer||'')+'</p></div>';
-    if(data.verificationText){ html += '<div class="vcheck">'+esc(data.verificationText)+'</div>'; }
-    html += '</div>';
+    let chairNote = null;
+    (data.notices||[]).forEach(n=>{ if(/^The chairman/.test(n)){ chairNote = n; return; } html += '<div class="notice">'+esc(n)+'</div>'; });
+    if(c && c.finalAnswer){
+      html += '<div class="verdict"><div class="cap">The verdict</div>';
+      if(c.whyListen){ html += '<div class="vsec"><div class="vlabel">Why listen to '+esc(c.strongest||'this verdict')+'</div><p>'+esc(c.whyListen)+'</p></div>'; }
+      html += '<div class="vsec"><div class="vlabel">The answer</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+      if(data.verificationText){ html += '<div class="vcheck">'+esc(data.verificationText)+'</div>'; }
+      html += '</div>';
+    }else{
+      html += '<div class="verdict muted"><div class="cap">No verdict this time</div><p>'+esc(chairNote||'The chairman couldn\'t reach a verdict. The panel\'s answers stand on their own.')+' Ask again to convene a fresh council.</p></div>';
+    }
     outEl.innerHTML = html;
   }
   goEl.addEventListener('click', convene);

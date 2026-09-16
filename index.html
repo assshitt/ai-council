@@ -228,6 +228,13 @@ h2.big{font-weight:800;letter-spacing:-.035em;line-height:1.02;text-align:center
 .fact-kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
 .fact-answer{font-size:1.4rem;font-weight:500;line-height:1.5}
 .fact-nudge{margin-top:26px;border:1px solid rgba(255,62,108,.32);background:rgba(255,62,108,.07);border-radius:12px;padding:16px 20px;color:var(--pink);font-size:.95rem}
+.status .stClock{margin-left:14px;color:var(--faint);letter-spacing:.1em}
+.member.failed{opacity:.6;border-style:dashed}
+.member.failed p{color:var(--faint);font-style:italic}
+.notice{border:1px solid rgba(139,92,246,.4);background:rgba(139,92,246,.09);border-radius:12px;padding:12px 16px;margin-top:14px;color:#C9B8FF;font-size:.88rem;line-height:1.5}
+.verdict.muted{border-color:var(--line);background:transparent}
+.verdict.muted p{color:var(--faint);line-height:1.65}
+.quick-note{margin-top:14px;color:var(--faint);font-family:var(--mono);font-size:.68rem;letter-spacing:.1em}
 
 .auth{width:min(420px,92vw);margin:26px auto 0;text-align:left}
 .oauth{display:grid;gap:10px}
@@ -378,7 +385,7 @@ footer{position:relative;z-index:3;padding:64px 24px 40px;border-top:1px solid v
     <h2 class="big shine anim" style="font-size:clamp(1.9rem,5vw,3.4rem);margin-bottom:26px;">Ask the council anything.</h2>
     <div class="composer anim d1">
       <div class="pillRow">
-        <textarea id="q" rows="1" placeholder="Type shit.."></textarea>
+        <textarea id="q" rows="1" maxlength="1500" placeholder="Ask something with sides to it..."></textarea>
         <button id="quill" aria-label="Sharpen this question" title="Sharpen this question"><svg viewBox="0 0 24 24" fill="none" stroke="#C9D2E2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20s1.5-6 7-10.5S19 3 19 3s.5 6-4 10.5S6 20 6 20"/><path d="M4 20c2-2 4-3 6.5-3.5"/></svg></button>
         <button id="go" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
       </div>
@@ -1165,20 +1172,60 @@ document.addEventListener('click',function(e){
   }
 });
 function esc(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
-function convene(){var q=qEl.value.trim();if(!q)return;goEl.disabled=true;
-  resultsSec.innerHTML='<div class="results-inner"><div class="status">THE COUNCIL IS IN SESSION...</div><div class="out"></div></div>';
-  var statusEl=resultsSec.querySelector('.status'),outEl=resultsSec.querySelector('.out');
+var STAGES=[[0,'Convening the council'],[3,'Assigning roles for this question'],[9,'The panel is answering'],[24,'The chairman is weighing the answers'],[40,'Still deliberating, free models can be slow']];
+var QUICK_STAGES=[[0,'Getting a quick take'],[10,'Still thinking']];
+var inflight=false;
+function httpMessage(status){
+  if(status===504||status===503)return 'The council took too long to answer. Try again, or ask a shorter question.';
+  if(status===429)return 'Too many questions right now. Give it a minute and try again.';
+  if(status===413)return 'That question is too long for the council.';
+  return 'The council hit a problem (HTTP '+status+'). Try again in a moment.';
+}
+function renderCouncil(data){
+  if(data.kind==='fact'){return '<div class="fact-card"><div class="fact-kicker">Not a council question</div><div class="fact-answer">'+esc(data.factAnswer)+'</div><div class="fact-nudge">'+esc(data.nudge)+'</div></div>';}
+  var c=data.chairman;
+  if(data.mode==='quick'){
+    return '<div class="verdict"><div class="vlabel">Quick take</div><div class="vsec"><p class="final-answer">'+esc(c&&c.finalAnswer)+'</p></div><div class="quick-note">ONE MODEL, NO DEBATE. SWITCH TO FULL DEBATE FOR THREE ANGLES AND A VERDICT.</div></div>';
+  }
+  var h='';
+  (data.members||[]).forEach(function(m){
+    if(m.ok===false){h+='<div class="member failed"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>Didn\'t respond'+(m.error?' ('+esc(m.error)+')':'')+'. Not counted in the verdict.</p></div>';}
+    else{h+='<div class="member"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>'+esc(m.answer)+'</p></div>';}
+  });
+  var chairNote=null,notices=(data.notices||[]).filter(function(n){if(/^The chairman/.test(n)){chairNote=n;return false;}return true;});
+  notices.forEach(function(n){h+='<div class="notice">'+esc(n)+'</div>';});
+  if(c&&c.finalAnswer){
+    h+='<div class="verdict"><div class="vlabel">The verdict</div>';
+    if(c.whyListen){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">Why listen to '+esc(c.strongest||'this verdict')+'</div><p>'+esc(c.whyListen)+'</p></div>';}
+    h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">The answer</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+    if(data.verificationText){h+='<div class="vcheck">'+esc(data.verificationText)+'</div>';}
+    h+='</div>';
+  }else{
+    h+='<div class="verdict muted"><div class="vlabel">No verdict this time</div><p>'+esc(chairNote||'The chairman couldn\'t reach a verdict. The panel\'s answers stand on their own.')+' Ask again to convene a fresh council.</p></div>';
+  }
+  return h;
+}
+function convene(){var q=qEl.value.trim();if(!q||inflight)return;
+  var mb=document.getElementById('modeBtn');var mode=(mb&&mb.getAttribute('data-mode')==='quick')?'quick':'debate';
+  inflight=true;goEl.disabled=true;
+  resultsSec.innerHTML='<div class="results-inner"><div class="status"><span class="stMsg"></span><span class="stClock"></span></div><div class="out"></div></div>';
+  var statusEl=resultsSec.querySelector('.status'),msgEl=resultsSec.querySelector('.stMsg'),clockEl=resultsSec.querySelector('.stClock'),outEl=resultsSec.querySelector('.out');
+  var t0=Date.now(),stages=mode==='quick'?QUICK_STAGES:STAGES;
+  function tick(){var sec=Math.floor((Date.now()-t0)/1000);var m=stages[0][1];for(var i=0;i<stages.length;i++){if(sec>=stages[i][0])m=stages[i][1];}msgEl.textContent=m.toUpperCase()+'...';clockEl.textContent=sec+'s';}
+  tick();var timer=setInterval(tick,1000);
   setTimeout(function(){resultsSec.scrollIntoView({behavior:'smooth'});},60);
-  fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})}).then(function(r){return r.json();})
-    .then(function(data){statusEl.style.display='none';if(data.error){outEl.innerHTML='<div class="err">'+data.error+'</div>';return;}
-      if(data.kind==='fact'){outEl.innerHTML='<div class="fact-card"><div class="fact-kicker">Not a council question</div><div class="fact-answer">'+esc(data.factAnswer)+'</div><div class="fact-nudge">'+esc(data.nudge)+'</div></div>';return;}
-      var h='';(data.members||[]).forEach(function(m){h+='<div class="member"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>'+esc(m.answer)+'</p></div>';});
-      var c=data.chairman||{};h+='<div class="verdict"><div class="vlabel">The verdict</div>';
-      if(c.whyListen){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">Why listen to '+esc(c.strongest||'the strongest voice')+'</div><p>'+esc(c.whyListen)+'</p></div>';}
-      h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">The answer</div><p class="final-answer">'+esc(c.finalAnswer||'')+'</p></div>';
-      if(data.verificationText){h+='<div class="vcheck">'+esc(data.verificationText)+'</div>';}h+='</div>';outEl.innerHTML=h;})
-    .catch(function(){statusEl.style.display='none';outEl.innerHTML='<div class="err">Could not reach the council. Try again.</div>';})
-    .finally(function(){goEl.disabled=false;});}
+  var ctrl=window.AbortController?new AbortController():null;
+  var kill=ctrl?setTimeout(function(){ctrl.abort();},75000):null;
+  fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,mode:mode}),signal:ctrl?ctrl.signal:undefined})
+    .then(function(r){return r.text().then(function(t){var d=null;try{d=JSON.parse(t);}catch(e){}return {status:r.status,data:d};});})
+    .then(function(res){
+      var data=res.data;
+      if(!data||typeof data!=='object'){outEl.innerHTML='<div class="err">'+esc(httpMessage(res.status))+'</div>';return;}
+      if(data.error){outEl.innerHTML='<div class="err">'+esc(data.error)+'</div>';return;}
+      outEl.innerHTML=renderCouncil(data);
+    })
+    .catch(function(e){var aborted=e&&e.name==='AbortError';outEl.innerHTML='<div class="err">'+(aborted?'The council took too long to answer. Try again, or ask a shorter question.':'Could not reach the council. Check your connection and try again.')+'</div>';})
+    .finally(function(){clearInterval(timer);if(kill)clearTimeout(kill);statusEl.style.display='none';goEl.disabled=false;inflight=false;});}
 (function(){
   var pill=document.querySelector('.pillRow');
   function pulse(){
