@@ -144,8 +144,7 @@ h2.big{font-weight:800;letter-spacing:-.035em;line-height:1.02;text-align:center
   transition:border-color .3s,box-shadow .3s,transform .3s}
 .pillRow.hot{border-color:rgba(255,62,108,.55);box-shadow:0 0 34px rgba(255,62,108,.22);transform:translateY(-2px)}
 .composer textarea{flex:1;background:transparent;border:0;outline:none;resize:none;color:var(--ink);
-  font-family:var(--disp);font-size:1.05rem;line-height:1.6;padding:6px 0;max-height:120px;overflow:hidden;
-  transition:letter-spacing .5s cubic-bezier(.2,.7,.2,1)}
+  font-family:var(--disp);font-size:1.05rem;line-height:1.6;padding:6px 0;max-height:120px;overflow:hidden}
 .composer textarea::placeholder{color:#5A6479}
 #go{flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:#20263A;color:#EAF0FF;border:0;
   padding:0;line-height:0;display:flex;align-items:center;justify-content:center;
@@ -159,6 +158,18 @@ h2.big{font-weight:800;letter-spacing:-.035em;line-height:1.02;text-align:center
 #go:disabled{opacity:.45}
 .cRow{margin-top:12px;padding:0 6px}
 #quillNote{display:none;margin-top:10px;font-size:.82rem;color:var(--violet);text-align:left;padding:0 6px}
+
+#tblTable{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:76px 20px 40px;opacity:0;text-align:center;pointer-events:none}
+.cmp{width:min(1080px,95vw);overflow-x:auto;border:1px solid rgba(255,255,255,.18);border-radius:15px;
+  background:linear-gradient(180deg,#161D2E,#0F1421);box-shadow:0 0 40px rgba(110,120,255,.16)}
+.cmp table{border-collapse:collapse;width:100%;min-width:760px;font-size:.86rem}
+.cmp th,.cmp td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.cmp th{font-family:var(--mono);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.04)}
+.cmp tr:last-child td{border-bottom:0}
+.cmp td:first-child{font-weight:700;color:#F2F6FC}
+.cmp .ba{color:#B9C3D6}
+.cmp .gd{color:#5ED89B}.cmp .md{color:#E8B366}.cmp .bd{color:var(--faint)}
 
 /* ---- hover-glow boxes ---- */
 .mc,.card,.folder,.uChip,.pkItem{transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s,border-color .28s}
@@ -213,7 +224,11 @@ h2.big{font-weight:800;letter-spacing:-.035em;line-height:1.02;text-align:center
 
 #results{position:relative;z-index:3}
 .results-inner{width:min(860px,92vw);margin:0 auto;padding:40px 0 80px}
-.status{font-family:var(--mono);font-size:.75rem;letter-spacing:.24em;color:var(--pink);text-align:center;padding:40px 0}
+.status{font-family:var(--mono);font-size:.75rem;letter-spacing:.24em;color:var(--pink);text-align:center;padding:40px 0;
+  animation:breathe 2.2s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+.out{opacity:0;transform:translateY(14px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.out.in{opacity:1;transform:none}
 .member{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:14px}
 .member .role{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--pink)}
 .member .who{font-family:var(--mono);font-size:.66rem;color:var(--faint);margin:6px 0 12px}
@@ -229,12 +244,14 @@ h2.big{font-weight:800;letter-spacing:-.035em;line-height:1.02;text-align:center
 .fact-answer{font-size:1.4rem;font-weight:500;line-height:1.5}
 .fact-nudge{margin-top:26px;border:1px solid rgba(255,62,108,.32);background:rgba(255,62,108,.07);border-radius:12px;padding:16px 20px;color:var(--pink);font-size:.95rem}
 .status .stClock{margin-left:14px;color:var(--faint);letter-spacing:.1em}
+.kind{font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);text-align:center;margin-bottom:18px}
 .member.failed{opacity:.6;border-style:dashed}
 .member.failed p{color:var(--faint);font-style:italic}
 .notice{border:1px solid rgba(139,92,246,.4);background:rgba(139,92,246,.09);border-radius:12px;padding:12px 16px;margin-top:14px;color:#C9B8FF;font-size:.88rem;line-height:1.5}
 .verdict.muted{border-color:var(--line);background:transparent}
 .verdict.muted p{color:var(--faint);line-height:1.65}
 .quick-note{margin-top:14px;color:var(--faint);font-family:var(--mono);font-size:.68rem;letter-spacing:.1em}
+#quill.busy{opacity:.45;pointer-events:none}
 
 .auth{width:min(420px,92vw);margin:26px auto 0;text-align:left}
 .oauth{display:grid;gap:10px}
@@ -317,11 +334,25 @@ footer{position:relative;z-index:3;padding:64px 24px 40px;border-top:1px solid v
     </div>
   </div></section>
 
-  <section class="tall" id="tblSec" style="height:240vh;"><div class="sticky">
+  <section class="tall" id="tblSec" style="height:360vh;"><div class="sticky">
     <div id="tblWrap">
       <h2 class="big shine" style="font-size:clamp(1.5rem,3.8vw,2.7rem)">Which tool is better for what type of question?</h2>
       <div class="grid" id="mgrid"></div>
       <p class="tnote">Strengths are drawn from public comparison charts, not our own testing. Council picks the panel for you by default.</p>
+    </div>
+    <div id="tblTable">
+      <h2 class="big shine" style="font-size:clamp(1.4rem,3.4vw,2.4rem);margin-bottom:4px">Strengths, side by side.</h2>
+      <p class="tnote" style="margin:0 auto 18px">The five most people actually choose between.</p>
+      <div class="cmp"><table>
+        <thead><tr><th>Model</th><th>Best at</th><th>Coding</th><th>Writing</th><th>Reasoning</th><th>Live web</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td>GPT-6 Astra</td><td class="ba">Agentic, multi-step work</td><td class="gd">Excellent</td><td class="md">Very good</td><td class="gd">Excellent</td><td class="gd">Native</td><td class="bd">Premium</td></tr>
+          <tr><td>Claude Opus 5</td><td class="ba">Writing, long documents</td><td class="gd">Excellent</td><td class="gd">Excellent</td><td class="md">Very good</td><td class="gd">Native</td><td class="bd">High</td></tr>
+          <tr><td>GPT-5.6 Sol</td><td class="ba">General reasoning</td><td class="gd">Excellent</td><td class="md">Very good</td><td class="gd">Excellent</td><td class="gd">Native</td><td class="bd">High</td></tr>
+          <tr><td>Gemini 3 Pro</td><td class="ba">Research, huge context</td><td class="md">Very good</td><td class="md">Very good</td><td class="gd">Excellent</td><td class="gd">Native</td><td class="md">Mid</td></tr>
+          <tr><td>Grok 4.3</td><td class="ba">Current events</td><td class="bd">Good</td><td class="bd">Good</td><td class="md">Very good</td><td class="gd">Native (X)</td><td class="gd">Low</td></tr>
+        </tbody>
+      </table></div>
     </div>
   </div></section>
 
@@ -381,11 +412,11 @@ footer{position:relative;z-index:3;padding:64px 24px 40px;border-top:1px solid v
   <section class="tall" id="wordsSec" style="height:250vh;"><div class="sticky"></div></section>
   <section class="tall" id="testSec" style="height:170vh;"><div class="sticky"></div></section>
 
-  <section class="panel" id="ask" style="padding-top:20vh;">
+  <section class="panel" id="ask" style="min-height:165vh;padding-top:34vh;justify-content:flex-start;">
     <h2 class="big shine anim" style="font-size:clamp(1.9rem,5vw,3.4rem);margin-bottom:26px;">Ask the council anything.</h2>
     <div class="composer anim d1">
       <div class="pillRow">
-        <textarea id="q" rows="1" maxlength="1500" placeholder="Ask something with sides to it..."></textarea>
+        <textarea id="q" rows="1" maxlength="1500" placeholder="Type shit.."></textarea>
         <button id="quill" aria-label="Sharpen this question" title="Sharpen this question"><svg viewBox="0 0 24 24" fill="none" stroke="#C9D2E2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20s1.5-6 7-10.5S19 3 19 3s.5 6-4 10.5S6 20 6 20"/><path d="M4 20c2-2 4-3 6.5-3.5"/></svg></button>
         <button id="go" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
       </div>
@@ -396,7 +427,7 @@ footer{position:relative;z-index:3;padding:64px 24px 40px;border-top:1px solid v
         </div>
         <div class="cRight"><span class="meta" id="meta">3 models &middot; ~30s</span></div>
       </div>
-      <div id="quillNote">Question sharpening isn't wired up yet &mdash; ask it in your own words for now.</div>
+      <div id="quillNote"></div>
     </div>
     <div class="usingWrap anim d2">
       <div class="usingLbl">Currently using</div>
@@ -511,22 +542,33 @@ function assign(pts){
     xOrder=[];for(var q=0;q<N;q++)xOrder.push(q);
   }
   xOrder.sort(function(a,b){return S[a].lx-S[b].lx;});
-  var n=Math.min(byX.length,N);
-  for(var j=0;j<n;j++)m[xOrder[j]]=byX[j];
+  var n=Math.min(byX.length,N),stride=N/n;
+  /* walk the whole width with a stride, otherwise only the leftmost n stars
+     are ever recruited and the opposite band drains */
+  for(var j=0;j<n;j++)m[xOrder[Math.floor(j*stride)]]=byX[j];
   return m;
 }
 function clamp(v,a,b){return v<a?a:v>b?b:v;}
 function ease(t){t=clamp(t,0,1);return 1-Math.pow(1-t,3);}
 
+var BUDGET=0;
 function sampleText(lines,fontPx,cy){
   var oc=document.createElement('canvas');oc.width=W;oc.height=H;
   var o=oc.getContext('2d');o.fillStyle='#fff';o.textAlign='center';o.textBaseline='middle';
   o.font='700 '+fontPx+'px Inter,system-ui,sans-serif';
   var lh=fontPx*1.12,y0=cy-(lines.length-1)*lh/2;
   for(var i=0;i<lines.length;i++)o.fillText(lines[i],W/2,y0+i*lh);
-  var d=o.getImageData(0,0,W,H).data,pts=[],step=2;
-  for(var y=0;y<H;y+=step)for(var x=0;x<W;x+=step)
-    if(d[(y*W+x)*4+3]>120)pts.push({x:x+(Math.random()-.5)*.8,y:y+(Math.random()-.5)*.8,w:-1});
+  var d=o.getImageData(0,0,W,H).data;
+  /* count first, then pick a spacing that lands near the budget, then jitter */
+  var filled=0,x,y;
+  for(y=0;y<H;y+=2)for(x=0;x<W;x+=2)if(d[(y*W+x)*4+3]>120)filled++;
+  var want=(typeof BUDGET==='number'&&BUDGET>0)?BUDGET:900;
+  var step=Math.max(2,Math.round(2*Math.sqrt(filled/Math.max(want,1))));
+  var pts=[],j=step*.46;
+  for(y=0;y<H;y+=step)for(x=0;x<W;x+=step){
+    if(d[(y*W+x)*4+3]>120)
+      pts.push({x:x+(Math.random()-.5)*j*2,y:y+(Math.random()-.5)*j*2,w:-1});
+  }
   return pts;
 }
 function wordPoints(text,fontPx,px,py){
@@ -568,7 +610,7 @@ function build(){
   W=window.innerWidth;H=window.innerHeight;
   cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
   oc2.width=W*DPR;oc2.height=H*DPR;oxc.setTransform(DPR,0,0,DPR,0,0);
-  N=W<760?620:(W<1200?1180:1700);
+  N=W<760?760:(W<1200?1420:2050);
   if(S.length!==N){
     S=[];
     for(var i=0;i<N;i++){
@@ -593,9 +635,10 @@ function build(){
   for(var q=0;q<7;q++)PL.push({x:Math.random()*W,y:Math.random()*H,r:2.1+Math.random()*1.4,
     col:cols[(Math.random()*cols.length)|0],ph:Math.random()*6.28});
   var CAP=Math.floor(N*.74);   /* the rest stay as background sky */
-  councilPts=assign(thin(sampleText(['COUNCIL'],Math.min(W*.152,H*.30),H*.48),CAP));
-  shutPts=assign(thin(sampleText(['IT KNOWS WHEN','TO SHUT UP.'],Math.min(W*.076,H*.135),H*.47),CAP));
-  testPts=assign(thin(sampleText(['TEST YOUR','COUNCIL NOW.'],Math.min(W*.078,H*.14),H*.47),CAP));
+  BUDGET=CAP;
+  councilPts=assign(sampleText(['COUNCIL'],Math.min(W*.152,H*.30),H*.48));
+  shutPts=assign(sampleText(['IT KNOWS WHEN','TO SHUT UP.'],Math.min(W*.076,H*.135),H*.47));
+  testPts=assign(sampleText(['TEST YOUR','COUNCIL NOW.'],Math.min(W*.078,H*.14),H*.47));
   wordFont=Math.min(W*.034,H*.058);
   var budget=Math.floor(N*.70);
   wordPts=[];wordOff=[];wordMeta=[];
@@ -678,6 +721,9 @@ function frame(now){
     var s=S[i],tx,ty,alpha=1,k=.085,tight=0;
     var sideX=s.lx+Math.sin(now*.00010+s.ph)*s.amp*.6;
     var sideY=(((s.ly-drift)%H)+H)%H;
+    /* one shared open-sky resting place, so every handover is seamless */
+    var skyX=s.sx+Math.sin(now*.00010+s.ph)*s.amp*.5;
+    var skyY=(((s.sy-drift*.42)%H)+H)%H;
     if(mode==='birth'){
       /* they are already where they belong; only the light comes up */
       var app=ease(p);
@@ -689,25 +735,24 @@ function frame(now){
         tx=sideX+(pt2.x-sideX)*inn;ty=sideY+(pt2.y-sideY)*inn;
         alpha=.72+inn*.28;tight=inn;
       }else{
-        tx=sideX+(s.sx-sideX)*inn*.55;ty=sideY+(s.sy-sideY)*inn*.55;alpha=.34;
+        tx=sideX+(skyX-sideX)*inn*.55;ty=sideY+(skyY-sideY)*inn*.55;alpha=.34;
       }
       k=.055;
     }else if(mode==='form'){
-      var f=ease(clamp(p/.34,0,1)),g2=ease(1-clamp((p-.56)/.26,0,1)),amt=Math.min(f,g2);
+      var f=ease(clamp(p/.34,0,1)),g2=ease(1-clamp((p-.52)/.34,0,1)),amt=Math.min(f,g2);
       var fp=pts[i];
       if(fp){
         var ox3=0,oy3=0;
         if(fp.w>=0&&wordOff[fp.w]){var WO=wordOff[fp.w];ox3=WO.x+WO.px;oy3=WO.y+WO.py;}
         var lx2=fp.x+ox3,ly2=fp.y+oy3;
-        tx=s.sx+(lx2-s.sx)*amt;ty=s.sy+(ly2-s.sy)*amt;
+        tx=skyX+(lx2-skyX)*amt;ty=skyY+(ly2-skyY)*amt;
         alpha=.30+amt*.70;tight=amt;
       }else{
-        tx=s.sx;ty=s.sy;alpha=.30;            /* background sky, always present */
+        tx=skyX;ty=skyY;alpha=.30;            /* background sky, always present */
       }
       k=.055;
     }else if(mode==='loose'){
-      tx=s.sx+Math.sin(now*.00010+s.ph)*s.amp*.5;
-      ty=(((s.sy-drift*.42)%H)+H)%H;alpha=.74;
+      tx=skyX;ty=skyY;alpha=.74;
       if(Math.abs(ty-s.y)>H*.55)s.y=ty;
     }else{tx=sideX;ty=sideY;alpha=.72;if(Math.abs(ty-s.y)>H*.55)s.y=ty;}
 
@@ -725,7 +770,7 @@ function frame(now){
   cx.globalAlpha=1;
 
   if(isWords){
-    var amtW=Math.min(ease(clamp(p/.34,0,1)),ease(1-clamp((p-.56)/.26,0,1)));
+    var amtW=Math.min(ease(clamp(p/.34,0,1)),ease(1-clamp((p-.52)/.34,0,1)));
     if(amtW>.02){
       cx.save();
       cx.font='800 '+wordFont+'px Inter,system-ui,sans-serif';
@@ -982,7 +1027,7 @@ document.addEventListener('pointerup',function(e){
 });
 
 /* ---------- scroll ---------- */
-var states,folders,labStage,labHead,hRoles,hLab,capTop,capBot,labBody,tblWrap,orbWrapper,
+var states,folders,labStage,labHead,hRoles,hLab,capTop,capBot,labBody,tblWrap,tblTable,orbWrapper,
     hLe,hRe,orbSub,arcPath,arcDot,arcLines,heroCue,arcLen=0;
 function pathT(u){if(u<.36)return u/.36*.5;if(u<.64)return .5;return .5+(u-.64)/.36*.5;}
 function onScroll(){
@@ -1021,9 +1066,14 @@ function onScroll(){
   /* expertise slide — fully isolated */
   var tp2=prog(tblSec);
   if(tp2>-.06&&tp2<1.06){
-    tblWrap.style.opacity=clamp(tp2<.15?tp2/.15:(tp2>.85?(1-tp2)/.15:1),0,1);
-    tblWrap.style.transform='scale('+(.968+clamp(tp2/.15,0,1)*.032)+')';
-  }else tblWrap.style.opacity=0;
+    /* stage one: the ten cards.  stage two: the head-to-head table */
+    var a1=clamp(tp2<.10?tp2/.10:(tp2>.40?1-(tp2-.40)/.10:1),0,1);
+    tblWrap.style.opacity=a1;
+    tblWrap.style.transform='scale('+(.968+clamp(tp2/.10,0,1)*.032)+')';
+    var a2=clamp(tp2<.52?(tp2-.52)/.09:(tp2>.88?1-(tp2-.88)/.10:1),0,1);
+    tblTable.style.opacity=a2;
+    tblTable.style.transform='scale('+(.972+a2*.028)+')';
+  }else{tblWrap.style.opacity=0;tblTable.style.opacity=0;}
 
   /* merged roles -> lab slide */
   var lp=prog(labSec);
@@ -1087,7 +1137,7 @@ function init(){
   labStage=document.getElementById('labStage');labHead=document.getElementById('labHead');
   hRoles=document.getElementById('hRoles');hLab=document.getElementById('hLab');
   capTop=document.getElementById('capTop');capBot=document.getElementById('capBot');
-  labBody=document.getElementById('labBody');tblWrap=document.getElementById('tblWrap');
+  labBody=document.getElementById('labBody');tblWrap=document.getElementById('tblWrap');tblTable=document.getElementById('tblTable');
   orbWrapper=document.getElementById('orbWrapper');
   hLe=document.getElementById('hL');hRe=document.getElementById('hR');
   orbSub=document.getElementById('orbSub');
@@ -1156,11 +1206,7 @@ document.addEventListener('click',function(e){
     if(active.indexOf(idx)<0){active[pickSlot]=idx;renderUsing();renderPicker();}
     return;
   }
-  if(e.target.closest('#quill')){
-    var n=document.getElementById('quillNote');
-    if(n){n.style.display='block';clearTimeout(n._t);n._t=setTimeout(function(){n.style.display='none';},3200);}
-    return;
-  }
+  if(e.target.closest('#quill')){sharpen();return;}
   var mb=e.target.closest('#modeBtn');
   if(mb){
     var deep=mb.getAttribute('data-mode')==='debate';
@@ -1172,15 +1218,33 @@ document.addEventListener('click',function(e){
   }
 });
 function esc(s){return (s||'').replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
-var STAGES=[[0,'Convening the council'],[3,'Assigning roles for this question'],[9,'The panel is answering'],[24,'The chairman is weighing the answers'],[40,'Still deliberating, free models can be slow']];
+var STAGES=[[0,'Convening the council'],[3,'Reading the question'],[7,'The panel is answering'],[22,'The chairman is weighing the answers'],[40,'Still deliberating, free models can be slow']];
 var QUICK_STAGES=[[0,'Getting a quick take'],[10,'Still thinking']];
-var inflight=false;
+var inflight=false,sharpening=false;
 function httpMessage(status){
   if(status===504||status===503)return 'The council took too long to answer. Try again, or ask a shorter question.';
   if(status===429)return 'Too many questions right now. Give it a minute and try again.';
   if(status===413)return 'That question is too long for the council.';
   return 'The council hit a problem (HTTP '+status+'). Try again in a moment.';
 }
+function quillNote(msg){var n=document.getElementById('quillNote');if(!n)return;n.textContent=msg;n.style.display='block';clearTimeout(n._t);n._t=setTimeout(function(){n.style.display='none';},3600);}
+function sharpen(){
+  var t=qEl.value.trim(),qb=document.getElementById('quill');
+  if(!t){quillNote('Type a question first, then I\'ll sharpen it.');return;}
+  if(t.length>500){quillNote('Sharpening works on questions under 500 characters.');return;}
+  if(sharpening)return;
+  sharpening=true;if(qb)qb.classList.add('busy');quillNote('Sharpening…');
+  fetch('/api/sharpen',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t})})
+    .then(function(r){return r.text().then(function(x){var d=null;try{d=JSON.parse(x);}catch(e){}return {status:r.status,data:d};});})
+    .then(function(res){var d=res.data;
+      if(!d||typeof d!=='object'){quillNote(httpMessage(res.status));return;}
+      if(d.error){quillNote(d.error);return;}
+      if(d.sharpened&&d.sharpened!==t){qEl.value=d.sharpened;qEl.dispatchEvent(new Event('input'));quillNote('Sharpened. Edit it if I changed too much.');}
+      else{quillNote('Already sharp — nothing to fix.');}})
+    .catch(function(){quillNote('Couldn\'t reach the sharpener. Try again.');})
+    .finally(function(){sharpening=false;if(qb)qb.classList.remove('busy');});
+}
+var SYNTH_LABELS={contested:['Where both cases agree','Where it actually splits','The takeaway'],evaluative:['What\'s settled','What\'s still argued','The takeaway']};
 function renderCouncil(data){
   if(data.kind==='fact'){return '<div class="fact-card"><div class="fact-kicker">Not a council question</div><div class="fact-answer">'+esc(data.factAnswer)+'</div><div class="fact-nudge">'+esc(data.nudge)+'</div></div>';}
   var c=data.chairman;
@@ -1188,6 +1252,7 @@ function renderCouncil(data){
     return '<div class="verdict"><div class="vlabel">Quick take</div><div class="vsec"><p class="final-answer">'+esc(c&&c.finalAnswer)+'</p></div><div class="quick-note">ONE MODEL, NO DEBATE. SWITCH TO FULL DEBATE FOR THREE ANGLES AND A VERDICT.</div></div>';
   }
   var h='';
+  if(data.kindLabel){h+='<div class="kind">'+esc(data.kindLabel)+'</div>';}
   (data.members||[]).forEach(function(m){
     if(m.ok===false){h+='<div class="member failed"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>Didn\'t respond'+(m.error?' ('+esc(m.error)+')':'')+'. Not counted in the verdict.</p></div>';}
     else{h+='<div class="member"><div class="role">'+esc(m.role||'Panel member')+'</div><div class="who">'+esc(m.name)+'</div><p>'+esc(m.answer)+'</p></div>';}
@@ -1195,9 +1260,16 @@ function renderCouncil(data){
   var chairNote=null,notices=(data.notices||[]).filter(function(n){if(/^The chairman/.test(n)){chairNote=n;return false;}return true;});
   notices.forEach(function(n){h+='<div class="notice">'+esc(n)+'</div>';});
   if(c&&c.finalAnswer){
-    h+='<div class="verdict"><div class="vlabel">The verdict</div>';
-    if(c.whyListen){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">Why listen to '+esc(c.strongest||'this verdict')+'</div><p>'+esc(c.whyListen)+'</p></div>';}
-    h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">The answer</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+    var synth=c.mode==='synthesis',L=SYNTH_LABELS[data.kind]||SYNTH_LABELS.contested;
+    h+='<div class="verdict"><div class="vlabel">'+(synth?'The synthesis':'The verdict')+'</div>';
+    if(synth){
+      if(c.agreed){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">'+esc(L[0])+'</div><p>'+esc(c.agreed)+'</p></div>';}
+      if(c.disputed){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">'+esc(L[1])+'</div><p>'+esc(c.disputed)+'</p></div>';}
+      h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">'+esc(L[2])+'</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+    }else{
+      if(c.whyListen){h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">Why listen to '+esc(c.strongest||'this verdict')+'</div><p>'+esc(c.whyListen)+'</p></div>';}
+      h+='<div class="vsec"><div class="vlabel" style="color:var(--faint)">The answer</div><p class="final-answer">'+esc(c.finalAnswer)+'</p></div>';
+    }
     if(data.verificationText){h+='<div class="vcheck">'+esc(data.verificationText)+'</div>';}
     h+='</div>';
   }else{
@@ -1216,15 +1288,16 @@ function convene(){var q=qEl.value.trim();if(!q||inflight)return;
   setTimeout(function(){resultsSec.scrollIntoView({behavior:'smooth'});},60);
   var ctrl=window.AbortController?new AbortController():null;
   var kill=ctrl?setTimeout(function(){ctrl.abort();},75000):null;
+  function show(html){outEl.classList.remove('in');outEl.innerHTML=html;requestAnimationFrame(function(){outEl.classList.add('in');});}
   fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,mode:mode}),signal:ctrl?ctrl.signal:undefined})
     .then(function(r){return r.text().then(function(t){var d=null;try{d=JSON.parse(t);}catch(e){}return {status:r.status,data:d};});})
     .then(function(res){
       var data=res.data;
-      if(!data||typeof data!=='object'){outEl.innerHTML='<div class="err">'+esc(httpMessage(res.status))+'</div>';return;}
-      if(data.error){outEl.innerHTML='<div class="err">'+esc(data.error)+'</div>';return;}
-      outEl.innerHTML=renderCouncil(data);
+      if(!data||typeof data!=='object'){show('<div class="err">'+esc(httpMessage(res.status))+'</div>');return;}
+      if(data.error){show('<div class="err">'+esc(data.error)+'</div>');return;}
+      show(renderCouncil(data));
     })
-    .catch(function(e){var aborted=e&&e.name==='AbortError';outEl.innerHTML='<div class="err">'+(aborted?'The council took too long to answer. Try again, or ask a shorter question.':'Could not reach the council. Check your connection and try again.')+'</div>';})
+    .catch(function(e){var aborted=e&&e.name==='AbortError';show('<div class="err">'+(aborted?'The council took too long to answer. Try again, or ask a shorter question.':'Could not reach the council. Check your connection and try again.')+'</div>');})
     .finally(function(){clearInterval(timer);if(kill)clearTimeout(kill);statusEl.style.display='none';goEl.disabled=false;inflight=false;});}
 (function(){
   var pill=document.querySelector('.pillRow');
@@ -1235,9 +1308,7 @@ function convene(){var q=qEl.value.trim();if(!q||inflight)return;
     qEl.style.height='auto';
     qEl.style.height=Math.min(qEl.scrollHeight,120)+'px';
     /* a breath of letter-spacing that settles as you keep typing */
-    qEl.style.letterSpacing='.012em';
-    clearTimeout(qEl._t);
-    qEl._t=setTimeout(function(){qEl.style.letterSpacing='0em';},220);
+
   }
   qEl.addEventListener('input',pulse);
   qEl.addEventListener('focus',pulse);
