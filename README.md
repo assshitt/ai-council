@@ -44,9 +44,37 @@ git push -u origin main
 ### 5. Deploy
 - Vercel gives you a live URL like `council-app.vercel.app`. Open it and ask the council something.
 
+## How the API behaves
+
+`POST /api/council` with `{"question": "...", "mode": "debate" | "quick"}`.
+
+- **debate** (default): one planning call assigns roles, three members answer in parallel, the chairman picks the strongest and writes the verdict. A plain lookup ("capital of Peru") is answered directly instead, with `kind: "fact"`.
+- **quick**: one model, one direct answer, no debate. The home page's "Quick take" toggle sends this.
+
+What you get back is honest about failures:
+
+- A member that errors or times out comes back with `ok: false` and a short `error`, is left out of the chairman's prompt, and is listed in `notices`. `status` is `"partial"` instead of `"ok"`.
+- If the chairman fails, `chairman` is `null` and a notice explains why. The final answer is never an error message dressed as an answer.
+- If nothing usable came back, the response is a real HTTP error (`502`, `504`, `429`, `400`) with a plain-English `error`.
+
+Guard rails, all in `api/council.js` under SETTINGS:
+
+- Questions are capped at 1500 characters and wrapped in `<question>` tags so they can't rewrite the prompts.
+- Every model and Wikipedia call has a timeout, and the whole request runs against a 52s budget inside Vercel's 60s limit.
+- `max_tokens` is set on every call and model output is length-capped before it is returned.
+- A best-effort per-visitor limit of 12 questions per 10 minutes (set the `COUNCIL_RATE_LIMIT` env var to change it, `0` to turn it off). It lives in one function instance's memory, so treat it as a speed bump, not a wall.
+
+## Running the tests
+
+```bash
+npm test
+```
+
+The suite in `test/` runs the real handler against a mocked model provider, so it needs no key and no network. It covers every failure path above.
+
 ## Changing the models
 Model names live at the top of `api/council.js` in `COUNCIL`. They change over time — if one errors, grab the current slug from https://openrouter.ai/models and paste it in. Push to GitHub and Vercel redeploys automatically.
 
 ## Safety notes
 - The key is only ever in Vercel's Environment Variables and on the server. It is never sent to the browser.
-- Because every user's questions cost *you* money per call, add rate limiting before sharing this widely (a simple per-IP cap, or require a login). Otherwise one person can run up your bill.
+- Every user's question costs *you* calls. The built-in per-visitor limit slows abuse down but is not durable across function instances; before sharing widely, add a real cap (Vercel KV, Upstash, or a login).
