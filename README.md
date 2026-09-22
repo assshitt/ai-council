@@ -7,6 +7,7 @@ Three AIs (GPT, Claude, Gemini) answer a question, critique each other, and a ch
 - `index.html` — the frontend. Runs in the browser. **Contains no secrets.**
 - `api/council.js` — a serverless function. Runs on Vercel's server. Holds the key and does all the model calls.
 - The browser POSTs a question to `/api/council`; the function runs the debate and returns the answers.
+- `videos/earth.mp4` — the background loop. Every `<video class="fv">` on the site points at it, and the fade-in/fade-out loop applies automatically to anything with that class. Keep replacements under ~10MB, muted and `playsinline`.
 
 ## Deploy it (about 15 minutes)
 
