@@ -14,6 +14,7 @@
 <style>
 :root{--w90:rgba(255,255,255,.9);--w80:rgba(255,255,255,.8);--w60:rgba(255,255,255,.6);--w50:rgba(255,255,255,.5);
   --w30:rgba(255,255,255,.3);--w15:rgba(255,255,255,.15);--w10:rgba(255,255,255,.1);
+  --mint:#bff3d6;--leaf:rgba(64,190,132,1);
   --heading:'Instrument Serif',Georgia,serif;--body:'Barlow',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -40,20 +41,29 @@ img,svg,video,canvas{display:block}
 /* ---------- the space layers ---------- */
 #stars{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .nebula{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.nebula i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;mix-blend-mode:screen}
-.nebula i:nth-child(1){width:52vw;height:52vw;left:-12vw;top:8vh;background:radial-gradient(circle,rgba(120,140,200,.22),transparent 65%);animation:drift1 60s ease-in-out infinite}
-.nebula i:nth-child(2){width:44vw;height:44vw;right:-10vw;top:40vh;background:radial-gradient(circle,rgba(170,150,210,.16),transparent 65%);animation:drift2 75s ease-in-out infinite}
-.nebula i:nth-child(3){width:36vw;height:36vw;left:30vw;bottom:-14vh;background:radial-gradient(circle,rgba(200,210,240,.12),transparent 65%);animation:drift1 90s ease-in-out infinite reverse}
+.nebula i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen}
+.nebula i:nth-child(1){width:52vw;height:52vw;left:-14vw;top:6vh;background:radial-gradient(circle,rgba(46,170,118,.26),transparent 65%);animation:drift1 60s ease-in-out infinite}
+.nebula i:nth-child(2){width:44vw;height:44vw;right:-12vw;top:38vh;background:radial-gradient(circle,rgba(18,122,98,.24),transparent 65%);animation:drift2 75s ease-in-out infinite}
+.nebula i:nth-child(3){width:36vw;height:36vw;left:30vw;bottom:-14vh;background:radial-gradient(circle,rgba(150,232,190,.13),transparent 65%);animation:drift1 90s ease-in-out infinite reverse}
+.nebula i:nth-child(4){width:30vw;height:30vw;right:18vw;top:-10vh;background:radial-gradient(circle,rgba(90,210,160,.14),transparent 65%);animation:drift2 82s ease-in-out infinite reverse}
 @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(8vw,-6vh) scale(1.12)}}
 @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-9vw,5vh) scale(.9)}}
 #glow{position:fixed;z-index:2;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;
-  background:radial-gradient(circle,rgba(210,220,255,.07),transparent 60%);left:-9999px;top:-9999px;transition:opacity .4s}
+  background:radial-gradient(circle,rgba(190,255,220,.065),transparent 60%);left:-9999px;top:-9999px;transition:opacity .4s}
 .page{position:relative}
-/* no stacking context on .page, so section videos (z0) sit UNDER the stars (z1)
-   and every content layer sits above both at z10 */
+/* no stacking context on .page: videos (z0) sit under the stars (z1), content sits above both (z10) */
 .sec,.foot{position:relative;z-index:10}
 
-/* ---------- fading video ---------- */
+/* ---------- one continuous planet (home page) ---------- */
+.planet{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity 1.6s ease}
+.planet.on{opacity:1}
+.planet video{position:absolute;left:-6vw;top:0;width:112vw;height:140vh;object-fit:cover;object-position:50% 30%;
+  transform-origin:50% 0;will-change:transform,opacity}
+.planet .pb{opacity:0}
+.planet .scrim{position:absolute;inset:0;background:#000;opacity:.12}
+.planet .edge{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,0) 22%,rgba(0,0,0,0) 70%,rgba(0,0,0,.55))}
+
+/* ---------- fading video (sub-page heroes) ---------- */
 .fv{opacity:0;will-change:opacity}
 .sec-video{position:relative;overflow:hidden}
 .sec-video>video{position:absolute;z-index:0}
@@ -99,7 +109,7 @@ img,svg,video,canvas{display:block}
 /* ---------- shared pieces ---------- */
 .wrap{max-width:74rem;margin:0 auto;padding:0 20px}
 @media(min-width:768px){.wrap{padding:0 40px}}
-.sec{position:relative;padding:96px 0}
+.sec{padding:96px 0}
 @media(min-width:768px){.sec{padding:128px 0}}
 .lbl{font-size:14px;color:var(--w80);margin-bottom:20px}
 .big{font-size:52px;line-height:.9;letter-spacing:-3px}
@@ -118,21 +128,25 @@ img,svg,video,canvas{display:block}
 @media(min-width:768px){.g3{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .g2{display:grid;grid-template-columns:1fr;gap:18px}
 @media(min-width:768px){.g2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.g4{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:640px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1100px){.g4{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .card{border-radius:1.25rem;padding:24px}
 .card h3{font-family:var(--heading);font-style:italic;font-weight:400;font-size:30px;letter-spacing:-1px;line-height:1}
 .card p{font-size:15px;line-height:1.55;color:var(--w90);margin-top:12px}
 .sq{width:44px;height:44px;border-radius:.75rem;display:flex;align-items:center;justify-content:center}
 .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
 .tags span{border-radius:999px;padding:4px 12px;font-size:11px;color:var(--w90);white-space:nowrap}
-.cap{min-height:360px;display:flex;flex-direction:column}
+.cap{min-height:340px;display:flex;flex-direction:column}
 .cap .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .cap .grow{flex:1}
 .cap p{max-width:32ch}
+.more{margin-top:36px;display:flex;justify-content:center}
+.sub-h{margin-top:88px}
 
 /* ---------- home hero ---------- */
-.hero{height:100vh;height:100svh;min-height:680px}
-.hero>video{left:50%;top:0;transform:translateX(-50%);width:120%;height:120%;object-fit:cover;object-position:top}
-.hero-c{position:relative;z-index:10;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:110px 16px 0}
+.hero{position:relative;z-index:10;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:116px 16px 48px}
 .badge{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:5px 16px 5px 5px;font-size:13px;color:var(--w90)}
 .badge b{background:#fff;color:#000;border-radius:999px;padding:3px 10px;font-weight:600;font-size:12px}
 .hero h1{margin-top:24px;max-width:48rem;font-size:60px;line-height:.82;letter-spacing:-4px}
@@ -141,69 +155,122 @@ img,svg,video,canvas{display:block}
 .hero .sub{margin-top:20px;max-width:40rem;font-size:15px;line-height:1.35}
 @media(min-width:768px){.hero .sub{font-size:17px}}
 .ctas{display:flex;gap:18px;margin-top:26px;align-items:center;flex-wrap:wrap;justify-content:center}
-.stats{display:flex;gap:14px;margin-top:32px;flex-wrap:wrap;justify-content:center}
-.stat{width:220px;border-radius:1.25rem;padding:20px;text-align:left}
+.stats{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+.stat{flex:0 1 220px;min-width:0;border-radius:1.25rem;padding:20px;text-align:left}
 .stat .n{font-family:var(--heading);font-style:italic;font-size:40px;letter-spacing:-1px;line-height:1;margin-top:16px}
 .stat .t{font-size:13px;color:var(--w80);margin-top:6px;line-height:1.35}
-.trust{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:14px;padding-bottom:30px;margin-top:-120px}
+@media(max-height:820px){.stats{display:none}}
+/* the model row now sits in normal flow under the buttons, so it can never overlap them */
+.trust{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:44px}
 .trust .pl{border-radius:999px;padding:7px 18px;font-size:13px;color:var(--w90)}
 .trust .names{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 40px;padding:0 16px}
 .trust .names span{font-family:var(--heading);font-style:italic;font-size:24px;letter-spacing:-.5px;color:var(--w80)}
 @media(min-width:768px){.trust .names span{font-size:28px}}
-@media(max-height:760px){.stats{display:none}}
 
-/* ---------- capabilities ---------- */
-.capsec{min-height:100vh}
-.capsec>video{inset:0;width:100%;height:100%;object-fit:cover}
-.capsec .inner{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;padding:96px 20px 40px}
-@media(min-width:768px){.capsec .inner{padding:96px 64px 40px}}
-@media(min-width:1024px){.capsec .inner{padding:96px 80px 40px}}
-.capsec .g3{margin-top:64px}
-.more{margin-top:28px;display:flex;justify-content:center}
+/* ---------- home: three roles ---------- */
+.capsec{padding-top:40px}
+.capsec .g3{margin-top:56px}
+
+/* ---------- process steps ---------- */
+.steps{display:grid;grid-template-columns:1fr;gap:18px;margin-top:56px}
+@media(min-width:640px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1100px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.step{display:flex;flex-direction:column;min-height:260px}
+.step .num{font-family:var(--heading);font-style:italic;font-size:22px;color:var(--w60)}
+.step h3{margin-top:auto;padding-top:40px}
+
+/* ---------- the five lines: pinned, scroll-linked ---------- */
+.linesec{position:relative;z-index:10;height:270vh}
+.lines-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;padding:0 20px}
+.lines{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.lines p{font-family:var(--heading);font-style:italic;font-size:36px;letter-spacing:-1px;line-height:1.18;color:#fff;
+  opacity:.2;filter:blur(3px);transform:translateY(14px);will-change:opacity,filter,transform}
+@media(min-width:768px){.lines p{font-size:58px}}
+.lines-hint{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-size:13px;color:var(--w50)}
+
+/* ---------- quotes ---------- */
+.quote{min-height:250px;display:flex;flex-direction:column;justify-content:space-between}
+.quote .qt{font-family:var(--heading);font-style:italic;font-size:32px;letter-spacing:-1px;line-height:1.05}
+.quote .qa{font-size:12px;letter-spacing:.1em;color:var(--w50);margin-top:16px}
 
 /* ---------- page hero (sub pages) ---------- */
 .phero{min-height:78vh;display:flex;align-items:flex-end}
 .phero>video{inset:0;width:100%;height:100%;object-fit:cover}
 .phero .inner{position:relative;z-index:10;width:100%;padding:150px 0 64px}
 
-/* ---------- process / lines ---------- */
-.step .num{font-family:var(--heading);font-style:italic;font-size:22px;color:var(--w60)}
-.lines{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
-.lines p{font-family:var(--heading);font-style:italic;font-size:34px;letter-spacing:-1px;line-height:1.2;color:var(--w30);transition:color .9s ease,filter .9s ease;filter:blur(3px);transition-delay:var(--d,0s)}
-@media(min-width:768px){.lines p{font-size:52px}}
-.lines p.in{color:#fff;filter:blur(0)}
-.quote{min-height:250px;display:flex;flex-direction:column;justify-content:space-between}
-.quote .qt{font-family:var(--heading);font-style:italic;font-size:32px;letter-spacing:-1px;line-height:1.05}
-.quote .qa{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--w50);margin-top:16px}
-
 /* ---------- models ---------- */
 .mg{display:grid;grid-template-columns:1fr;gap:14px}
 @media(min-width:560px){.mg{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1100px){.mg{grid-template-columns:repeat(5,minmax(0,1fr))}}
-.mc{border-radius:1.25rem;padding:20px}
+.mc{border-radius:1.25rem;padding:20px;display:flex;flex-direction:column}
 .mc .mn{font-family:var(--heading);font-style:italic;font-size:26px;letter-spacing:-.8px;line-height:1}
-.mc .mv{font-size:12px;color:var(--w60);margin-top:6px;letter-spacing:.08em;text-transform:uppercase}
+.mc .mv{font-size:13px;color:var(--w60);margin-top:6px}
 .mc .mb{font-size:14px;line-height:1.5;color:var(--w90);margin-top:14px}
+.mc .ms{font-size:12.5px;line-height:1.45;color:var(--mint);margin-top:auto;padding-top:14px;opacity:.85}
+.cfeat{border-radius:1.5rem;padding:28px;margin-bottom:14px;display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
+@media(min-width:900px){.cfeat{grid-template-columns:1.1fr 1fr}}
+.cfeat .cn{font-family:var(--heading);font-style:italic;font-size:44px;letter-spacing:-1.5px;line-height:1}
+.cfeat .cv{font-size:13px;color:var(--mint);margin-top:8px}
+.cfeat .cb{font-size:15.5px;line-height:1.6;color:var(--w90)}
 .tw{border-radius:1.25rem;overflow-x:auto !important}
 table{border-collapse:collapse;width:100%;min-width:680px;font-size:15px}
 th,td{padding:14px 18px;text-align:left;white-space:nowrap}
-th{font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--w60);background:rgba(255,255,255,.05)}
+th{font-size:12.5px;font-weight:500;letter-spacing:.04em;color:var(--w60);background:rgba(255,255,255,.05)}
 tbody tr:nth-child(even) td{background:rgba(255,255,255,.03)}
 td:first-child{font-family:var(--heading);font-style:italic;font-size:20px}
+td.wrapc{white-space:normal;min-width:180px;font-size:14px;color:var(--w80);line-height:1.45}
 .r3{color:#fff;font-weight:500}.r2{color:var(--w80)}.r1{color:var(--w50)}
 .fine{font-size:13px;line-height:1.55;color:var(--w60);margin-top:14px}
 
+/* auto-pick demo */
+.router{border-radius:1.5rem;padding:24px;margin-top:40px}
+@media(min-width:768px){.router{padding:32px}}
+.rbar{display:flex;align-items:center;gap:10px;border-radius:999px;padding:6px 6px 6px 22px}
+.rbar input{flex:1;min-width:0;background:transparent;border:0;outline:none;color:#fff;font:inherit;font-weight:400;font-size:16px;padding:10px 0}
+.rbar input::placeholder{color:var(--w50)}
+.rex{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.rex button{font-size:13px;padding:7px 14px;border-radius:999px;color:var(--w90);text-align:left}
+.rex button:hover{background:rgba(255,255,255,.06)}
+.rout{margin-top:26px}
+.rtype{font-size:14px;color:var(--w80)}
+.rtype b{font-family:var(--heading);font-style:italic;font-weight:400;font-size:28px;color:#fff;letter-spacing:-.5px;display:block;margin-top:4px;line-height:1.1}
+.rwhy{font-size:14.5px;color:var(--w80);margin-top:8px;max-width:46rem;line-height:1.5}
+.rseats{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
+@media(min-width:760px){.rseats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.rseat{border-radius:1rem;padding:14px 16px;transition:background .4s}
+.rseat .sr{font-size:12.5px;color:var(--w60)}
+.rseat .sm{font-family:var(--heading);font-style:italic;font-size:22px;margin-top:4px;letter-spacing:-.4px}
+.rseat.chair .sr{color:var(--mint)}
+.rseat.flash{background:rgba(120,230,175,.08)}
+
+/* use-one / use-council */
+.usecol h3{font-family:var(--heading);font-style:italic;font-weight:400;font-size:32px;letter-spacing:-1px;line-height:1;margin-bottom:14px}
+.usecol ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.usecol li{font-size:15.5px;line-height:1.5;color:var(--w90);padding-left:18px;position:relative}
+.usecol li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:999px;background:var(--w60)}
+.usecol.c li::before{background:var(--mint)}
+
 /* ---------- pricing ---------- */
-.plan{border-radius:1.5rem;padding:28px;display:flex;flex-direction:column}
-.plan .pn{font-family:var(--heading);font-style:italic;font-size:34px;letter-spacing:-1px}
-.plan .pp{font-family:var(--heading);font-style:italic;font-size:64px;letter-spacing:-2px;line-height:1;margin:12px 0 10px}
+.ptop{min-height:100vh;min-height:100svh;padding:132px 0 56px;display:flex;align-items:center}
+.ptop>video{inset:0;width:100%;height:100%;object-fit:cover}
+.ptop>.wrap{position:relative;z-index:10;width:100%}
+.ptop .head{display:grid;grid-template-columns:1fr;gap:12px 48px;align-items:end;margin-bottom:34px}
+@media(min-width:960px){.ptop .head{grid-template-columns:1.2fr 1fr}}
+.ptop h1{font-size:46px;line-height:.92;letter-spacing:-2.5px}
+@media(min-width:768px){.ptop h1{font-size:64px}}
+.ptop .lede{margin-top:0}
+.plan{border-radius:1.5rem;padding:26px;display:flex;flex-direction:column}
+.plan .pn{font-family:var(--heading);font-style:italic;font-size:32px;letter-spacing:-1px}
+.plan .pp{font-family:var(--heading);font-style:italic;font-size:60px;letter-spacing:-2px;line-height:1;margin:10px 0 8px}
 .plan .pp span{font-family:var(--body);font-style:normal;font-size:15px;letter-spacing:0;color:var(--w60)}
-.plan ul{list-style:none;margin:20px 0 26px;display:flex;flex-direction:column;gap:10px}
+.plan ul{list-style:none;margin:18px 0 22px;display:flex;flex-direction:column;gap:9px}
 .plan li{font-size:15px;line-height:1.45;color:var(--w90);padding-left:18px;position:relative}
 .plan li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:999px;background:#fff}
 .plan .btn{margin-top:auto;justify-content:center}
+.plan .tagp{display:inline-block;font-size:12px;border-radius:999px;padding:4px 11px;margin-left:10px;vertical-align:middle;color:#000;background:var(--mint);font-family:var(--body);font-style:normal;letter-spacing:0}
 .note{border-radius:1.25rem;padding:20px 24px;font-size:15px;line-height:1.6;color:var(--w90)}
 .note b{font-weight:600;color:#fff}
+.ck{color:var(--mint);font-weight:500}.nx{color:var(--w30)}
 details{border-radius:1.25rem}
 summary{list-style:none;cursor:pointer;padding:18px 22px;font-size:16px;font-weight:500;display:flex;justify-content:space-between;align-items:center;gap:14px}
 summary::-webkit-details-marker{display:none}
@@ -214,6 +281,37 @@ details[open] summary svg{transform:rotate(45deg)}
 .db ul{padding-left:18px}.db li{margin:4px 0}.db a{text-decoration:underline}
 .eff{font-size:13px;color:var(--w60);margin-bottom:10px}
 .acc{display:flex;flex-direction:column;gap:10px}
+
+/* ---------- how it works: timeline ---------- */
+.tl{display:flex;flex-direction:column;gap:18px;margin-top:56px}
+.tstep{display:grid;grid-template-columns:1fr;gap:18px;border-radius:1.5rem;padding:26px}
+@media(min-width:900px){.tstep{grid-template-columns:260px 1fr;gap:40px;padding:34px}}
+.tstep .tn{font-family:var(--heading);font-style:italic;font-size:22px;color:var(--w60)}
+.tstep .tt{font-family:var(--heading);font-style:italic;font-size:40px;letter-spacing:-1.5px;line-height:1;margin-top:8px}
+.tstep .tm{font-size:13px;color:var(--mint);margin-top:12px}
+.tstep .tb>p:not(.fine){font-size:16px;line-height:1.6;color:var(--w90)}
+.tstep .tb>p+p{margin-top:12px}
+.ex{margin-top:18px;border-radius:1rem;padding:16px 18px}
+.ex .el{font-size:12.5px;color:var(--w60)}
+.ex .eq{font-family:var(--heading);font-style:italic;font-size:22px;line-height:1.2;margin-top:6px}
+.ex .ea{font-size:14.5px;line-height:1.55;color:var(--w90);margin-top:8px}
+.ex2{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}
+@media(min-width:700px){.ex2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ex2 .ex{margin-top:0}
+.ex3{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}
+@media(min-width:900px){.ex3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.ex3 .ex{margin-top:0}
+
+/* annotated verdict */
+.anat{display:grid;grid-template-columns:1fr;gap:28px;margin-top:48px;align-items:start}
+@media(min-width:960px){.anat{grid-template-columns:1.25fr 1fr;gap:48px}}
+.keys{display:flex;flex-direction:column;gap:18px}
+.key{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start}
+.key .kn{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#000;background:var(--mint)}
+.key h4{font-family:var(--heading);font-style:italic;font-weight:400;font-size:24px;letter-spacing:-.5px;line-height:1.1}
+.key p{font-size:15px;line-height:1.55;color:var(--w80);margin-top:4px}
+.pin{display:inline-flex;width:22px;height:22px;border-radius:999px;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  color:#000;background:var(--mint);margin-right:8px;vertical-align:middle;font-family:var(--body);font-style:normal}
 
 /* ---------- split / pull ---------- */
 .split{display:grid;grid-template-columns:1fr;gap:40px;align-items:start}
@@ -226,8 +324,8 @@ details[open] summary svg{transform:rotate(45deg)}
 .ask{text-align:center}
 .composer{max-width:44rem;margin:36px auto 0;text-align:left}
 .bar{display:flex;align-items:center;gap:10px;border-radius:999px;padding:9px 9px 9px 26px;transition:box-shadow .4s}
-.bar.hot{box-shadow:4px 4px 4px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.15),0 0 40px rgba(210,220,255,.16)}
-.bar textarea{flex:1;background:transparent;border:0;outline:none;resize:none;color:#fff;font:inherit;font-weight:400;font-size:16px;line-height:1.6;padding:7px 0;max-height:132px;overflow:hidden}
+.bar.hot{box-shadow:4px 4px 4px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.15),0 0 44px rgba(120,230,175,.16)}
+.bar textarea{flex:1;background:transparent;border:0;outline:none;resize:none;color:#fff;font:inherit;font-weight:400;font-size:16px;line-height:1.6;padding:7px 0;max-height:132px;overflow:hidden;overflow-anchor:none}
 .bar textarea::placeholder{color:var(--w50)}
 #go{flex:0 0 46px;width:46px;height:46px;border-radius:999px;background:var(--w15);display:flex;align-items:center;justify-content:center;padding:0;line-height:0;transition:background .3s,color .3s}
 #go.ready{background:#fff;color:#000}
@@ -238,11 +336,17 @@ details[open] summary svg{transform:rotate(45deg)}
 .chipb.on{background:var(--w15);color:#fff}
 .meta{font-size:13px;color:var(--w60)}
 .using{margin-top:22px}
+.uhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
 .using .ul{font-size:13px;color:var(--w60)}
+.using .ul b{font-weight:500;color:var(--mint)}
+.resetb{font-size:13px;color:var(--w80);text-decoration:underline;display:none}
+.resetb.on{display:inline}
 .urow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.uchip{display:flex;flex-direction:column;gap:2px;text-align:left;padding:11px 16px;border-radius:1rem;min-width:150px}
-.uchip .ur{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--w60)}
+.uchip{display:flex;flex-direction:column;gap:2px;text-align:left;padding:11px 16px;border-radius:1rem;min-width:150px;flex:1 1 150px;transition:background .5s}
+.uchip .ur{font-size:12px;color:var(--w60)}
 .uchip .un{font-family:var(--heading);font-style:italic;font-size:21px;letter-spacing:-.5px}
+.uchip.flash{background:rgba(120,230,175,.09)}
+.unote{font-size:12.5px;color:var(--w50);margin-top:10px;line-height:1.5}
 .picker{display:none;margin-top:14px;padding:18px;border-radius:1.5rem}
 .picker.open{display:block}
 .pk-h{font-size:14px;color:var(--w80);margin-bottom:12px;padding-right:44px}
@@ -253,25 +357,51 @@ details[open] summary svg{transform:rotate(45deg)}
 .pk .pn{font-family:var(--heading);font-style:italic;font-size:19px}
 .pk .pb{font-size:13px;line-height:1.45;color:var(--w80);margin-top:4px}
 .small{text-align:center;font-size:13px;color:var(--w60);margin-top:18px}
+
+/* ---------- results ---------- */
 #results:empty{display:none}
-#results{max-width:52rem;margin:40px auto 0;text-align:left}
-.status{text-align:center;padding:26px 0;font-family:var(--heading);font-style:italic;font-size:26px;animation:breathe 2.4s ease-in-out infinite}
+#results{max-width:52rem;margin:110px auto 0;text-align:left}
+.asked{border-radius:1.25rem;padding:18px 22px;scroll-margin-top:96px}
+.asked .ak{font-size:12.5px;color:var(--w60)}
+.asked .aq{font-family:var(--heading);font-style:italic;font-size:26px;line-height:1.15;letter-spacing:-.5px;margin-top:4px;overflow-wrap:anywhere}
+.session{min-height:calc(100vh - 260px);min-height:calc(100svh - 260px);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;transition:opacity .5s ease}
+.session.gone{opacity:0}
+.status{font-family:var(--heading);font-style:italic;font-size:36px;letter-spacing:-.8px;animation:breathe 2.4s ease-in-out infinite}
+@media(min-width:768px){.status{font-size:46px}}
 @keyframes breathe{0%,100%{opacity:.35;filter:blur(2px)}50%{opacity:1;filter:blur(0)}}
-.out{opacity:0;filter:blur(8px);transform:translateY(12px);transition:opacity .8s ease,filter .8s ease,transform .8s ease}
-.out.in{opacity:1;filter:blur(0);transform:none}
-.member{padding:22px;border-radius:1.25rem;margin-bottom:12px}
-.member .role{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--w60)}
-.member .who{font-family:var(--heading);font-style:italic;font-size:22px;margin:4px 0 10px}
-.member p:last-child{font-size:15px;line-height:1.6;color:var(--w90)}
+.seats{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.seats span{font-size:13px;color:var(--w60);padding:6px 14px;border-radius:999px;animation:seat 3.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes seat{0%,100%{color:rgba(255,255,255,.45);background:rgba(255,255,255,0)}33%{color:#fff;background:rgba(120,230,175,.1)}66%{color:rgba(255,255,255,.45);background:rgba(255,255,255,0)}}
+.elapsed{font-size:13px;color:var(--w50);margin-top:18px}
+.out{margin-top:14px}
+.out>*{opacity:0;filter:blur(8px);transform:translateY(14px);transition:opacity .8s ease,filter .8s ease,transform .8s ease;transition-delay:var(--d,0s)}
+.out.in>*{opacity:1;filter:blur(0);transform:none}
+.member{padding:22px 24px;border-radius:1.25rem;margin-bottom:12px}
+.mh{display:flex;align-items:flex-start;gap:14px}
+.mh .mi{width:38px;height:38px;flex:0 0 38px;border-radius:.7rem;display:flex;align-items:center;justify-content:center}
+.mh .mt{flex:1;min-width:0}
+.member .role{font-size:12.5px;color:var(--w60)}
+.member .who{font-family:var(--heading);font-style:italic;font-size:24px;margin-top:2px;letter-spacing:-.4px;line-height:1.1}
+.member .via{font-size:12px;color:var(--w50);text-align:right;max-width:13rem;line-height:1.35;padding-top:2px}
+.ans{margin-top:14px;font-size:15.5px;line-height:1.62;color:var(--w90)}
+.ans p+p,.ans ul+p,.ans p+ul{margin-top:10px}
+.ans ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ans li{padding-left:18px;position:relative}
+.ans li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;border-radius:999px;background:var(--mint);opacity:.8}
+.ans b{font-weight:600;color:#fff}
+.member.miss .ans{color:var(--w60)}
 .verdict{margin-top:18px;padding:28px;border-radius:1.5rem}
-.vl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--w60)}
+.vl{font-size:12.5px;color:var(--w60)}
 .vsec{margin-top:16px}
-.vsec p:last-child{font-size:15px;line-height:1.6;color:var(--w90);margin-top:4px}
-.final{font-family:var(--heading);font-style:italic;font-size:28px !important;line-height:1.15 !important;letter-spacing:-.5px;color:#fff !important}
+.vsec p:last-child{font-size:15.5px;line-height:1.6;color:var(--w90);margin-top:4px}
+.final{font-family:var(--heading);font-style:italic;font-size:30px !important;line-height:1.15 !important;letter-spacing:-.5px;color:#fff !important}
+.conf{display:inline-block;font-size:12px;border-radius:999px;padding:3px 10px;margin-left:8px;background:rgba(120,230,175,.12);color:var(--mint)}
 .vcheck{margin-top:18px;padding-top:14px;font-size:13px;color:var(--w60);box-shadow:inset 0 1px 0 var(--w15)}
+.again{display:flex;justify-content:center;margin-top:22px}
 .err{text-align:center;padding:24px;color:var(--w90)}
-.fact{text-align:center}
-.fact .fa{font-family:var(--heading);font-style:italic;font-size:32px;line-height:1.1;margin-top:12px}
+.fact{text-align:center;padding:10px 0}
+.fact .fa{font-family:var(--heading);font-style:italic;font-size:34px;line-height:1.1;margin-top:12px}
 .fact .fn{margin-top:22px;padding:16px 20px;border-radius:1.25rem;font-size:15px;color:var(--w90)}
 
 /* ---------- sign up ---------- */
@@ -308,20 +438,24 @@ details[open] summary svg{transform:rotate(45deg)}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .bi,[data-r],.bw span{filter:none !important;opacity:1 !important;transform:none !important;animation:none !important;transition:none !important}
+  .bi,[data-r],.bw span,.out>*{filter:none !important;opacity:1 !important;transform:none !important;animation:none !important;transition:none !important}
   .nebula i{animation:none}
-  .lines p{color:#fff;filter:none}
-  .status{animation:none}
+  .linesec{height:auto}
+  .lines-pin{position:relative;height:auto;padding:96px 20px}
+  .lines p{opacity:1 !important;filter:none !important;transform:none !important}
+  .status,.seats span{animation:none}
   .fv{opacity:.85 !important}
+  .planet{transition:none}
   .btn:hover{transform:none}
 }
 
 </style>
 </head>
 <body>
-<canvas id="stars" aria-hidden="true"></canvas><div class="nebula" aria-hidden="true"><i></i><i></i><i></i></div><div id="glow" aria-hidden="true"></div>
-<header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><span class="spacer dsk"></span><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html" class="on">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
-<div class="page"><main><section class="sec-video hero" id="top"><video class="fv" src="videos/earth.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video><div class="shade" style="background:linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,0) 45%,rgba(0,0,0,.85) 100%)"></div><div class="hero-c"><div class="badge liquid-glass bi" style="--d:.4s"><b>New</b>Your first question is free, no login</div><h1 class="h bw" data-bw="Not a chatbot. | A council."></h1><p class="sub bi" style="--d:.8s">Ask a hard question and three AI models argue it: one for, one against, one on how to make it better. A fourth weighs them into one verdict, with the disagreement left in view.</p><div class="ctas bi" style="--d:1.1s"><a class="btn liquid-glass-strong" href="#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="how-it-works.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> See how it works</a></div><div class="stats bi" style="--d:1.3s"><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14.3" r="1.8" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14.3" r="1.8" fill="currentColor" stroke="none"/></svg><p class="n">3 + 1</p><p class="t">Three models argue, a fourth decides</p></div><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg><p class="n">~30s</p><p class="t">Typical wait for a full verdict</p></div></div></div></section><div class="trust bi" style="--d:1.4s"><p class="pl liquid-glass">Runs on the frontier models</p><div class="names"><span>GPT</span><span>Claude</span><span>Gemini</span><span>Grok</span><span>DeepSeek</span></div></div><section class="sec-video capsec"><video class="fv" src="videos/earth.mp4" autoplay muted playsinline preload="auto" aria-hidden="true"></video><div class="shade" style="background:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.2) 25%,rgba(0,0,0,.2) 75%,#000 100%)"></div><div class="inner"><div style="margin-bottom:auto"><p class="lbl" data-r>// Three roles</p><h2 class="h big bw l" data-bw="Every question, | three sides."></h2></div><div class="g3"><article class="card cap liquid-glass" data-r style="--d:0.00s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg></div><div class="tags"><span class="liquid-glass">For it</span><span class="liquid-glass">Strongest case</span><span class="liquid-glass">Best version</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Advocate</h3><p>The case for it. Argues the strongest honest version of yes, so the best case gets made properly rather than assumed.</p></div></article><article class="card cap liquid-glass" data-r style="--d:0.12s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div><div class="tags"><span class="liquid-glass">Against it</span><span class="liquid-glass">Failure modes</span><span class="liquid-glass">Blind spots</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Critic</h3><p>The case against it. Finds what breaks before you do. This is the seat most single-model answers are missing.</p></div></article><article class="card cap liquid-glass" data-r style="--d:0.24s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div><div class="tags"><span class="liquid-glass">Next step</span><span class="liquid-glass">Improvements</span><span class="liquid-glass">Action</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Builder</h3><p>How to make it better. Turns the argument into a next step instead of leaving you with two opposed opinions.</p></div></article></div><div class="more" data-r><a class="btn liquid-glass" href="how-it-works.html">How a question moves through Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div></div></section><section class="sec ask" id="ask"><div class="wrap"><p class="lbl" data-r>// Test your council now</p><h2 class="h big bw" data-bw="Ask the council anything."></h2><p class="lede" data-r style="margin-left:auto;margin-right:auto">Three angles, weighed into one verdict. Your first question is free, no login.</p><div class="composer" data-r style="--d:.2s"><div class="bar liquid-glass-strong" id="bar"><label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label><textarea id="q" rows="1" placeholder="Should I take the job, or hold out for the other one?"></textarea><button id="go" type="button" aria-label="Ask the council"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button></div><div class="crow"><div class="l"><button class="chipb liquid-glass" id="modeBtn" type="button" data-mode="debate">Full debate</button><button class="chipb liquid-glass" id="pickBtn" type="button" aria-expanded="false" aria-controls="picker">Models</button></div><span class="meta" id="meta">3 models, about 30 seconds</span></div><div class="using"><p class="ul">Currently using</p><div class="urow" id="usingRow"></div></div><div class="picker liquid-glass-strong" id="picker"><button class="pk-x liquid-glass" id="pkClose" type="button" aria-label="Close model list"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button><p class="pk-h" id="pkHead">Choose a model</p><div class="pk-g" id="pkGrid"></div></div><p class="small">Want a record of your debates? <a href="signup.html" style="text-decoration:underline">Sign up</a>.</p></div><div id="results" aria-live="polite"></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
+<div class="planet" id="planet" aria-hidden="true"><video class="pa" src="videos/earth.mp4" muted playsinline preload="auto"></video><video class="pb" src="videos/earth.mp4" muted playsinline preload="auto"></video><div class="scrim"></div><div class="edge"></div></div>
+<canvas id="stars" aria-hidden="true"></canvas><div class="nebula" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div id="glow" aria-hidden="true"></div>
+<header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><span class="spacer dsk"></span><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html" class="on">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
+<div class="page"><main><section class="hero" id="top"><div class="badge liquid-glass bi" style="--d:.4s"><b>New</b>Your first question is free, no login</div><h1 class="h bw" data-bw="Not a chatbot. | A council."></h1><p class="sub bi" style="--d:.8s">Ask a hard question and three AI models argue it: one for, one against, one on how to make it better. A fourth weighs them into one verdict, with the disagreement left in view.</p><div class="ctas bi" style="--d:1.1s"><a class="btn liquid-glass-strong" href="#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="#how"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> See how it works</a></div><div class="stats bi" style="--d:1.3s"><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14.3" r="1.8" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14.3" r="1.8" fill="currentColor" stroke="none"/></svg><p class="n">3 + 1</p><p class="t">Three models argue, a fourth decides</p></div><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><p class="n">~30s</p><p class="t">Typical wait for a full verdict</p></div></div><div class="trust bi" style="--d:1.5s"><p class="pl liquid-glass">Runs on the frontier models</p><div class="names"><span>GPT</span><span>Claude</span><span>Gemini</span><span>Grok</span><span>DeepSeek</span></div></div></section><section class="sec capsec" id="roles"><div class="wrap"><p class="lbl" data-r>// Three roles</p><h2 class="h big bw l" data-bw="Every question, | three sides."></h2><div class="g3"><article class="card cap liquid-glass" data-r style="--d:0.00s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg></div><div class="tags"><span class="liquid-glass">For it</span><span class="liquid-glass">Strongest case</span><span class="liquid-glass">Best version</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Advocate</h3><p>The case for it. Argues the strongest honest version of yes, so the best case gets made properly rather than assumed.</p></div></article><article class="card cap liquid-glass" data-r style="--d:0.12s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div><div class="tags"><span class="liquid-glass">Against it</span><span class="liquid-glass">Failure modes</span><span class="liquid-glass">Blind spots</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Critic</h3><p>The case against it. Finds what breaks before you do. This is the seat most single-model answers are missing.</p></div></article><article class="card cap liquid-glass" data-r style="--d:0.24s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div><div class="tags"><span class="liquid-glass">Next step</span><span class="liquid-glass">Improvements</span><span class="liquid-glass">Action</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Builder</h3><p>How to make it better. Turns the argument into a next step instead of leaving you with two opposed opinions.</p></div></article></div></div></section><section class="sec" id="how"><div class="wrap"><p class="lbl" data-r>// How it works</p><h2 class="h mid bw l" data-bw="From question | to verdict."></h2><p class="lede" data-r>Four steps, in the same order, every time. The panel is picked for the kind of question you ask.</p><div class="steps"><article class="card step liquid-glass" data-r style="--d:0.00s"><p class="num">01</p><h3>The gate</h3><p>Council decides whether your question has one correct answer. Factual ones get a single line and an honest nudge, not a staged debate.</p></article><article class="card step liquid-glass" data-r style="--d:0.12s"><p class="num">02</p><h3>Three roles</h3><p>Judgment questions convene a panel picked for the type of question: one argues for, one against, one works out how to make it better. They answer in parallel.</p></article><article class="card step liquid-glass" data-r style="--d:0.24s"><p class="num">03</p><h3>The chairman</h3><p>A fourth model reads all three, picks the strongest reasoning and issues one verdict, with the disagreement left in view.</p></article><article class="card step liquid-glass" data-r style="--d:0.36s"><p class="num">04</p><h3>Verification</h3><p>Factual claims in the verdict are checked against an outside source, so the parts that can be checked, are.</p></article></div></div></section><section class="linesec" id="lines" aria-label="What Council does"><div class="lines-pin"><div class="lines"><p data-ln>It argues with itself.</p><p data-ln>It picks the strongest case.</p><p data-ln>It commits to one answer.</p><p data-ln>It shows you the reasoning.</p><p data-ln>It refuses to fake certainty.</p></div></div></section><section class="sec" id="verdict"><div class="wrap"><p class="lbl" data-r>// Behind the verdict</p><h2 class="h mid bw l" data-bw="What keeps | it honest."></h2><p class="lede" data-r>The three seats do the arguing. These three parts decide what you actually get back.</p><div class="g3" style="margin-top:48px"><article class="card liquid-glass" data-r style="--d:0.00s"><div class="sq liquid-glass" style="margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h12v2H1zM5.245 8.07l2.83-2.827 14.14 14.142-2.828 2.828zM12.317 1l5.657 5.656-2.83 2.83-5.654-5.66zM3.825 9.485l5.657 5.657-2.828 2.828-5.657-5.657z"/></svg></div><h3>The Chairman</h3><p>Reads all three, picks the strongest reasoning and issues one verdict with the reasoning attached. It never sits on the panel it judges.</p></article><article class="card liquid-glass" data-r style="--d:0.10s"><div class="sq liquid-glass" style="margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.25 5.61C6.27 8.2 10 13 10 13v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6s3.72-4.8 5.74-7.39A.998.998 0 0 0 18.95 4H5.04c-.83 0-1.3.95-.79 1.61z"/></svg></div><h3>The fact gate</h3><p>A question with one right answer gets a single line and an honest nudge. It stays silent when there is nothing to add.</p></article><article class="card liquid-glass" data-r style="--d:0.20s"><div class="sq liquid-glass" style="margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg></div><h3>Verification</h3><p>Factual claims inside the verdict are checked against an outside source. Runs on the full version.</p></article></div></div></section><section class="sec"><div class="wrap"><p class="lbl" data-r>// What we hold to</p><h2 class="h mid bw l" data-bw="We debate before | we believe."></h2><div class="g3" style="margin-top:48px"><article class="card quote liquid-glass" data-r style="--d:0.00s"><p class="qt">&ldquo;It knows when to shut up.&rdquo;</p><div><p style="font-size:15px;line-height:1.55;color:var(--w90)">Ask something with one correct answer and you get one line, not a staged debate. You are not billed for theatre.</p><p class="qa">Council principle</p></div></article><article class="card quote liquid-glass" data-r style="--d:0.10s"><p class="qt">&ldquo;It refuses to fake certainty.&rdquo;</p><div><p style="font-size:15px;line-height:1.55;color:var(--w90)">The same confident tone for a settled fact and a coin flip is the problem Council exists to fix.</p><p class="qa">Council principle</p></div></article><article class="card quote liquid-glass" data-r style="--d:0.20s"><p class="qt">&ldquo;Every question has three sides.&rdquo;</p><div><p style="font-size:15px;line-height:1.55;color:var(--w90)">For it, against it, and how to make it better. The verdict comes with the split left in view.</p><p class="qa">Council principle</p></div></article></div><div class="more" data-r><a class="btn liquid-glass" href="how-it-works.html">Walk through a real question <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div></div></section><section class="sec ask" id="ask"><div class="wrap"><p class="lbl" data-r>// Test your council now</p><h2 class="h big bw" data-bw="Ask the council anything."></h2><p class="lede" data-r style="margin-left:auto;margin-right:auto">Three angles, weighed into one verdict. Your first question is free, no login.</p><div class="composer" data-r style="--d:.2s"><div class="bar liquid-glass-strong" id="bar"><label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label><textarea id="q" rows="1" placeholder="Should I take the job, or hold out for the other one?"></textarea><button id="go" type="button" aria-label="Ask the council"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button></div><div class="crow"><div class="l"><button class="chipb liquid-glass" id="modeBtn" type="button" data-mode="debate">Full debate</button><button class="chipb liquid-glass" id="pickBtn" type="button" aria-expanded="false" aria-controls="picker">Models</button></div><span class="meta" id="meta">3 models, about 30 seconds</span></div><div class="using"><div class="uhead"><p class="ul" id="usingLbl">Council picks the panel from your question</p><button class="resetb" id="resetBtn" type="button">Back to auto-pick</button></div><div class="urow" id="usingRow"></div><p class="unote">The free preview runs on open models and shows which one answered each seat. This panel runs on Plus.</p></div><div class="picker liquid-glass-strong" id="picker"><button class="pk-x liquid-glass" id="pkClose" type="button" aria-label="Close model list"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button><p class="pk-h" id="pkHead">Choose a model</p><div class="pk-g" id="pkGrid"></div></div><p class="small">Want a record of your debates? <a href="signup.html" style="text-decoration:underline">Sign up</a>.</p></div><div id="results" aria-live="polite"></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
 <script>
 (function(){
 "use strict";
@@ -339,13 +473,13 @@ function sprite(rgb){
   gr.addColorStop(.36,'rgba('+rgb+',.22)');gr.addColorStop(1,'rgba('+rgb+',0)');
   g.fillStyle=gr;g.fillRect(0,0,s,s);return c;
 }
-var SPR=[sprite('255,255,255'),sprite('200,214,255'),sprite('255,222,196')];
+var SPR=[sprite('255,255,255'),sprite('196,242,218'),sprite('255,226,200')];
 function build(){
   W=window.innerWidth;H=window.innerHeight;
   cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
   var n=Math.min(1100,Math.round(W*H/1500));S=[];
   for(var i=0;i<n;i++){
-    var z=Math.pow(Math.random(),1.8)*0.9+0.1;          /* depth: most stars far away */
+    var z=Math.pow(Math.random(),1.8)*0.9+0.1;
     S.push({x:Math.random()*W,y:Math.random()*H,z:z,r:.3+z*1.9+(Math.random()<.04?1.6:0),
       tw:Math.random()*6.28,ts:.4+Math.random()*1.3,c:Math.random()<.72?0:(Math.random()<.6?1:2),dx:0,dy:0});
   }
@@ -356,21 +490,19 @@ function frame(now){
   var sy=window.scrollY;
   for(var i=0;i<S.length;i++){
     var s=S[i];
-    /* depth parallax: near stars travel further with the mouse and with scroll */
     var x=s.x+px*s.z*26+s.dx;
     var y=((s.y-sy*s.z*.18+py*s.z*18)%H+H)%H+s.dy;
     if(fine){
       var ddx=x-mx,ddy=y-my,d2=ddx*ddx+ddy*ddy;
       if(d2<14400){var d=Math.sqrt(d2)||1,f=(1-d/120)*.9;s.dx+=ddx/d*f;s.dy+=ddy/d*f;}
     }
-    s.dx*=.94;s.dy*=.94;                                 /* ease back, never snap */
+    s.dx*=.94;s.dy*=.94;
     s.tw+=.012*s.ts;
     var a=(.35+s.z*.65)*(.72+Math.sin(s.tw)*.28);
     var rr=s.r*2.4;
     cx.globalAlpha=a;cx.drawImage(SPR[s.c],x-rr,y-rr,rr*2,rr*2);
   }
   cx.globalAlpha=1;
-  /* the occasional shooting star */
   if(now>nextMeteor){
     var fromL=Math.random()<.5;
     meteors.push({x:fromL?-40:W+40,y:Math.random()*H*.5,vx:(fromL?1:-1)*(6+Math.random()*4),vy:2+Math.random()*1.8,l:0,m:120+Math.random()*60,len:110+Math.random()*90});
@@ -381,18 +513,18 @@ function frame(now){
     if(m.l>m.m){meteors.splice(j,1);continue;}
     var fd=Math.sin(m.l/m.m*Math.PI),dd=Math.sqrt(m.vx*m.vx+m.vy*m.vy);
     var tx=m.x-m.vx/dd*m.len,ty=m.y-m.vy/dd*m.len,gr=cx.createLinearGradient(m.x,m.y,tx,ty);
-    gr.addColorStop(0,'rgba(255,255,255,'+(.8*fd)+')');gr.addColorStop(1,'rgba(200,214,255,0)');
+    gr.addColorStop(0,'rgba(255,255,255,'+(.8*fd)+')');gr.addColorStop(1,'rgba(196,242,218,0)');
     cx.strokeStyle=gr;cx.lineWidth=1.4;cx.lineCap='round';cx.beginPath();cx.moveTo(m.x,m.y);cx.lineTo(tx,ty);cx.stroke();
   }
   requestAnimationFrame(frame);
 }
-build();
-window.addEventListener('resize',function(){build();if(reduce)frame0();});
-function frame0(){                                      /* reduced motion: one still frame */
+function frame0(){
   cx.clearRect(0,0,W,H);
   for(var i=0;i<S.length;i++){var s=S[i],rr=s.r*2.4;cx.globalAlpha=.35+s.z*.55;cx.drawImage(SPR[s.c],s.x-rr,s.y-rr,rr*2,rr*2);}
   cx.globalAlpha=1;
 }
+build();
+window.addEventListener('resize',function(){build();if(reduce)frame0();});
 if(reduce)frame0();else requestAnimationFrame(frame);
 
 /* ================= cursor light ================= */
@@ -403,7 +535,7 @@ window.addEventListener('mousemove',function(e){
 },{passive:true});
 document.addEventListener('mouseleave',function(){mx=my=-9999;});
 
-/* ================= fading video ================= */
+/* ================= fading video (sub-page heroes) ================= */
 function fading(v){
   var raf=0,out=false,max=parseFloat(v.getAttribute('data-max')||'1');
   function fadeTo(to,ms){
@@ -418,7 +550,6 @@ function fading(v){
     if(!out&&v.duration&&v.duration-v.currentTime<=.55){out=true;fadeTo(0,550);}
   });
   v.addEventListener('ended',function(){v.currentTime=0;out=false;play();fadeTo(max,500);});
-  /* only decode what is on screen */
   new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)play();else v.pause();});}).observe(v);
 }
 document.querySelectorAll('video.fv').forEach(fading);
@@ -437,7 +568,7 @@ document.querySelectorAll('.bw').forEach(function(el){bio.observe(el);});
 
 /* ================= scroll reveals ================= */
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -80px 0px'});
-document.querySelectorAll('[data-r],[data-line]').forEach(function(el){io.observe(el);});
+document.querySelectorAll('[data-r]').forEach(function(el){io.observe(el);});
 
 /* ================= menu ================= */
 var menu=document.getElementById('menu'),ob=document.getElementById('menuOpen'),cb=document.getElementById('menuClose');
@@ -453,17 +584,108 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classL
 (function(){
 "use strict";
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-var AIS=[{n:'GPT-6 Astra',b:'Multi-step tasks it can carry out itself.'},{n:'GPT-5.6 Sol',b:'Everyday judgment calls and general reasoning.'},
- {n:'Claude Opus 5',b:'Careful writing and long-document analysis.'},{n:'Gemini 3 Pro',b:'Research across huge context and images.'},
- {n:'DeepSeek V4 Pro',b:'Heavy reasoning when budget matters.'},{n:'Grok 4.3',b:'Anything that happened this week.'},
- {n:'Mistral Large 3',b:'European languages and image questions.'},{n:'Qwen3.8-Max',b:'Multilingual coding and web research.'},
- {n:'Llama 4 Maverick',b:'When it must run on your own hardware.'},{n:'Kimi K2',b:'Very long files read end to end.'}];
-var ROLE=['The Advocate','The Critic','The Builder'],active=[1,2,3],slot=0;
+function clamp(v,a,b){return v<a?a:(v>b?b:v);}
+
+/* ================= one continuous planet =================
+   A single clip sits behind the whole home page, from the hero down to the ask box.
+   Scrolling pans and slowly zooms it, so each section shows a different part of the same planet. */
+var planet=document.getElementById('planet'),askSec=document.getElementById('ask');
+if(planet){
+  var pv=[planet.querySelector('.pa'),planet.querySelector('.pb')],scrim=planet.querySelector('.scrim');
+  var endY=1,pT=0,pC=0,pRun=false;
+  function pMeasure(){var r=askSec.getBoundingClientRect();endY=Math.max(1,r.bottom+window.scrollY-window.innerHeight);pTarget();}
+  function pTarget(){pT=clamp(window.scrollY/endY,0,1);if(!pRun){pRun=true;requestAnimationFrame(pRender);}}
+  function pRender(){
+    pC+=(pT-pC)*.085;if(Math.abs(pT-pC)<.0004)pC=pT;
+    var e=pC*pC*(3-2*pC);
+    var tr=reduce?'none':'translate3d('+((.5-e)*6).toFixed(3)+'vw,'+(-e*38).toFixed(3)+'vh,0) scale('+(1+e*.14).toFixed(4)+')';
+    pv[0].style.transform=pv[1].style.transform=tr;
+    scrim.style.opacity=(.12+e*.36).toFixed(3);
+    if(pC!==pT)requestAnimationFrame(pRender);else pRun=false;
+  }
+  window.addEventListener('scroll',pTarget,{passive:true});
+  window.addEventListener('resize',pMeasure);
+  if(window.ResizeObserver)new ResizeObserver(pMeasure).observe(document.body);
+  pMeasure();
+
+  function vplay(v){var p=v.play();if(p&&p.catch)p.catch(function(){});}
+  function vfade(v,to,ms){var from=parseFloat(v.style.opacity===''?getComputedStyle(v).opacity:v.style.opacity),t0=performance.now();
+    (function step(t){var k=Math.min((t-t0)/ms,1);v.style.opacity=String(from+(to-from)*k);if(k<1)requestAnimationFrame(step);})(t0);}
+  var cur=pv[0],nxt=pv[1],XF=1.2,handing=false;
+  cur.style.opacity='1';nxt.style.opacity='0';
+  function reveal(){planet.classList.add('on');}
+  if(cur.readyState>=2)reveal();else cur.addEventListener('loadeddata',reveal,{once:true});
+  if(!reduce){
+    vplay(cur);
+    function onTime(){
+      if(handing||this!==cur||!cur.duration)return;
+      if(cur.duration-cur.currentTime<=XF){
+        handing=true;nxt.currentTime=0;vplay(nxt);vfade(nxt,1,XF*1000);vfade(cur,0,XF*1000);
+        setTimeout(function(){cur.pause();var t=cur;cur=nxt;nxt=t;handing=false;},XF*1000+80);
+      }
+    }
+    pv.forEach(function(v){
+      v.addEventListener('timeupdate',onTime);
+      v.addEventListener('ended',function(){if(this===cur&&!handing){cur.currentTime=0;vplay(cur);}});
+    });
+    document.addEventListener('visibilitychange',function(){if(document.hidden){pv[0].pause();pv[1].pause();}else vplay(cur);});
+  }
+}
+
+/* ================= the five lines: tied to the scroll, both ways ================= */
+var ls=document.getElementById('lines');
+if(ls&&!reduce){
+  var lp=ls.querySelectorAll('[data-ln]'),lT=0,lC=0,lRun=false,N=lp.length;
+  function lTarget(){var r=ls.getBoundingClientRect(),span=r.height-window.innerHeight;lT=clamp(-r.top/Math.max(1,span),-.2,1);
+    if(!lRun){lRun=true;requestAnimationFrame(lRender);}}
+  function lRender(){
+    lC+=(lT-lC)*.12;if(Math.abs(lT-lC)<.0005)lC=lT;
+    var pos=lC*(N+1.4);                       /* each line lights over one step; all are lit by ~80% */
+    for(var i=0;i<N;i++){
+      var t=clamp(pos-i,0,1),e=t*t*(3-2*t);
+      lp[i].style.opacity=(.2+.8*e).toFixed(3);
+      lp[i].style.filter='blur('+(3*(1-e)).toFixed(2)+'px)';
+      lp[i].style.transform='translateY('+(14*(1-e)).toFixed(2)+'px)';
+    }
+    if(lC!==lT)requestAnimationFrame(lRender);else lRun=false;
+  }
+  window.addEventListener('scroll',lTarget,{passive:true});
+  window.addEventListener('resize',lTarget);
+  lTarget();
+}
+
+/* ================= the composer ================= */
+var ROUTES=[{"id": "news", "label": "Current events", "short": "News", "re": "\\b(today|tonight|this week|this month|latest|news|just (announced|launched|released)|right now|currently|election|trending|breaking|recent(ly)?)\\b", "panel": ["Grok 4.3", "Gemini 3 Pro", "GPT-5.6 Sol"], "chair": "Claude Opus 5.5", "why": "The answer depends on what happened recently, so the model with live web access makes the first case.", "ex": "Should I sell my shares after this week’s news?"}, {"id": "money", "label": "Money and investing", "short": "Money", "re": "\\b(invest(ing|ment)?|stocks?|shares|crypto|bitcoin|mutual funds?|sip|loan|emi|mortgage|rent or buy|buy a (house|flat|home|car)|savings?|tax(es)?|budget|insurance|fixed deposit|retire(ment)?|salary)\\b", "panel": ["GPT-5.6 Sol", "DeepSeek V4 Pro", "Gemini 3 Pro"], "chair": "Claude Opus 5.5", "why": "Money questions turn on numbers, so a heavy reasoner takes the case against and checks the maths.", "ex": "Is it smarter to rent or buy a flat in Delhi?"}, {"id": "career", "label": "Career and life decisions", "short": "Career", "re": "\\b(job|jobs|career|quit|resign|offer|promotion|boss|manager|mba|masters|degree|college|university|course|study|abroad|relocate|move to|marry|marriage|relationship|break ?up|parents|family)\\b", "panel": ["GPT-5.6 Sol", "Claude Opus 5.5", "Gemini 3 Pro"], "chair": "GPT-6 Astra", "why": "Personal trade-offs with no right answer, so two careful reasoners argue and a researcher plans the next step.", "ex": "Should I leave my job to work on my startup full time?"}, {"id": "business", "label": "Business and startups", "short": "Business", "re": "\\b(startup|start-up|business|founder|co-?founder|launch|product|customers?|market|pricing|investors?|funding|fundraise|revenue|brand|marketing|pitch|mvp|saas|agency|clients?)\\b", "panel": ["GPT-5.6 Sol", "Claude Opus 5.5", "GPT-6 Astra"], "chair": "Gemini 3 Pro", "why": "Plans need doing, not just debating, so an agentic model takes the seat that turns the argument into steps.", "ex": "Should I launch my app now or wait until it is polished?"}, {"id": "tech", "label": "Code and technical choices", "short": "Tech", "re": "\\b(code|coding|programming|framework|react|next\\.?js|python|javascript|typescript|java|node|database|sql|api|backend|frontend|server|cloud|aws|deploy|stack|library|bug|architecture|gpu|laptop)\\b", "panel": ["Qwen3.8-Max", "Claude Opus 5.5", "GPT-6 Astra"], "chair": "GPT-5.6 Sol", "why": "A technical call, so strong coders take all three seats and a generalist judges.", "ex": "Should I build my backend in Python or Node?"}, {"id": "research", "label": "Research and long reading", "short": "Research", "re": "\\b(research|paper|papers|evidence|thesis|dissertation|report|literature|survey|studies|analy[sz]e|summar(y|ise|ize)|documents?|pdf|sources?)\\b", "panel": ["Gemini 3 Pro", "Claude Opus 5.5", "Kimi K2"], "chair": "GPT-5.6 Sol", "why": "How much a model can read at once matters here, so the long-context models take the seats.", "ex": "Does the evidence support a four-day work week?"}, {"id": "writing", "label": "Writing and creative work", "short": "Writing", "re": "\\b(write|writing|essay|story|novel|poem|name for|slogan|tagline|headline|email|speech|script|caption|blog|title|logo)\\b", "panel": ["Claude Opus 5.5", "GPT-5.6 Sol", "Mistral Large 3"], "chair": "Gemini 3 Pro", "why": "The quality of the words is the point, so the strongest writer argues for it.", "ex": "Help me choose a name for my bakery: Crumb or Oven Story?"}, {"id": "general", "label": "General judgment", "short": "General", "re": "", "panel": ["GPT-5.6 Sol", "Claude Opus 5.5", "Gemini 3 Pro"], "chair": "DeepSeek V4 Pro", "why": "Three generalists trained by different labs, so their blind spots do not overlap.", "ex": "Is it worth learning the piano at 30?"}];
+function detectRoute(q){
+  var t=' '+String(q||'').toLowerCase()+' ',best=ROUTES[ROUTES.length-1],bestN=0;
+  for(var i=0;i<ROUTES.length;i++){var r=ROUTES[i];if(!r.re)continue;var m=t.match(new RegExp(r.re,'gi'));var n=m?m.length:0;if(n>bestN){bestN=n;best=r;}}
+  return best;
+}
+var AIS=[{"n": "GPT-6 Astra", "b": "Multi-step tasks it can carry out itself."}, {"n": "GPT-5.6 Sol", "b": "Everyday judgment calls and general reasoning."}, {"n": "Claude Opus 5.5", "b": "Careful writing and long-document analysis."}, {"n": "Gemini 3 Pro", "b": "Research across huge context and images."}, {"n": "DeepSeek V4 Pro", "b": "Heavy reasoning when budget matters."}, {"n": "Grok 4.3", "b": "Anything that happened this week."}, {"n": "Mistral Large 3", "b": "European languages and image questions."}, {"n": "Qwen3.8-Max", "b": "Multilingual coding and web research."}, {"n": "Llama 4 Maverick", "b": "When it must run on your own hardware."}, {"n": "Kimi K2", "b": "Very long files read end to end."}];
+var ICON={"for": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z\"/></svg>", "against": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z\"/></svg>", "improve": "<svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z\"/></svg>"};
+var SEATS=['The case for','The case against','How to improve it'],SEATNAMES=['The Advocate','The Critic','The Builder'],SEATKEYS=['for','against','improve'];
+function idx(name){for(var i=0;i<AIS.length;i++)if(AIS[i].n===name)return i;return 0;}
+var route=ROUTES[ROUTES.length-1],active=route.panel.map(idx),manual=false,slot=0,busy=false;
 var qEl=document.getElementById('q'),goEl=document.getElementById('go'),bar=document.getElementById('bar');
-var picker=document.getElementById('picker'),pickBtn=document.getElementById('pickBtn');
+var picker=document.getElementById('picker'),pickBtn=document.getElementById('pickBtn'),modeBtn=document.getElementById('modeBtn');
+var usingLbl=document.getElementById('usingLbl'),resetBtn=document.getElementById('resetBtn');
 function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-function renderUsing(){var h='';for(var i=0;i<3;i++)h+='<button class="uchip liquid-glass" type="button" data-slot="'+i+'"><span class="ur">'+ROLE[i]+'</span><span class="un">'+esc(AIS[active[i]].n)+'</span></button>';document.getElementById('usingRow').innerHTML=h;}
-function renderPicker(){document.getElementById('pkHead').textContent='Choose a model for '+ROLE[slot];var h='';
+function renderUsing(flash){
+  var h='';for(var i=0;i<3;i++)h+='<button class="uchip liquid-glass'+(flash&&flash[i]?' flash':'')+'" type="button" data-slot="'+i+'"><span class="ur">'+SEATS[i]+'</span><span class="un">'+esc(AIS[active[i]].n)+'</span></button>';
+  document.getElementById('usingRow').innerHTML=h;
+  if(flash)setTimeout(function(){document.querySelectorAll('.uchip.flash').forEach(function(c){c.classList.remove('flash');});},700);
+  if(manual){usingLbl.innerHTML='Your panel';}
+  else if(qEl.value.trim().length>8){usingLbl.innerHTML='Auto-picked for <b>'+esc(route.label.toLowerCase())+'</b>';}
+  else{usingLbl.textContent='Council picks the panel from your question';}
+  resetBtn.classList.toggle('on',manual);
+}
+function autoPick(){
+  if(manual)return;
+  var r=qEl.value.trim().length>8?detectRoute(qEl.value):ROUTES[ROUTES.length-1];
+  var next=r.panel.map(idx),changed=[0,1,2].map(function(i){return next[i]!==active[i];});
+  route=r;active=next;renderUsing(changed.some(Boolean)?changed:null);
+}
+function renderPicker(){document.getElementById('pkHead').textContent='Choose a model for '+SEATS[slot].toLowerCase();var h='';
   for(var i=0;i<AIS.length;i++)h+='<button class="pk liquid-glass'+(active.indexOf(i)>-1?' on':'')+'" type="button" data-pk="'+i+'"><p class="pn">'+esc(AIS[i].n)+'</p><p class="pb">'+esc(AIS[i].b)+'</p></button>';
   document.getElementById('pkGrid').innerHTML=h;}
 function setPicker(o){picker.classList.toggle('open',o);pickBtn.setAttribute('aria-expanded',o?'true':'false');pickBtn.classList.toggle('on',o);if(o)renderPicker();}
@@ -472,39 +694,84 @@ document.addEventListener('click',function(e){
   var u=e.target.closest('.uchip');if(u){slot=+u.getAttribute('data-slot');setPicker(true);return;}
   if(e.target.closest('#pickBtn')){setPicker(!picker.classList.contains('open'));return;}
   if(e.target.closest('#pkClose')){setPicker(false);pickBtn.focus();return;}
-  var p=e.target.closest('.pk');if(p){var i=+p.getAttribute('data-pk');if(active.indexOf(i)<0){active[slot]=i;renderUsing();renderPicker();}return;}
+  if(e.target.closest('#resetBtn')){manual=false;autoPick();renderUsing();return;}
+  var p=e.target.closest('.pk');if(p){var i=+p.getAttribute('data-pk');if(active.indexOf(i)<0){active[slot]=i;manual=true;renderUsing();renderPicker();}return;}
+  if(e.target.closest('#againBtn')){var c=document.querySelector('.composer');window.scrollTo({top:c.getBoundingClientRect().top+window.scrollY-140,behavior:reduce?'auto':'smooth'});setTimeout(function(){qEl.focus({preventScroll:true});qEl.select();},reduce?0:600);return;}
   var mb=e.target.closest('#modeBtn');
   if(mb){var q=mb.getAttribute('data-mode')==='debate';mb.setAttribute('data-mode',q?'quick':'debate');mb.textContent=q?'Quick take':'Full debate';mb.classList.toggle('on',q);
-    document.getElementById('meta').textContent=q?'1 model, about 8 seconds':'3 models, about 30 seconds';
-    /* quick mode runs one model, so the three role chips would be a lie */
-    document.querySelector('.using').style.display=q?'none':'';
-    if(q)setPicker(false);}
+    document.getElementById('meta').textContent=q?'1 model, about 10 seconds':'3 models, about 30 seconds';}
 });
-function pulse(){var has=qEl.value.trim().length>0;bar.classList.toggle('hot',has||document.activeElement===qEl);goEl.classList.toggle('ready',has);
-  qEl.style.height='auto';qEl.style.height=Math.min(qEl.scrollHeight,132)+'px';}
+/* grow the box while typing without letting the page jump */
+var pickTimer=0;
+function pulse(){
+  var has=qEl.value.trim().length>0;bar.classList.toggle('hot',has||document.activeElement===qEl);goEl.classList.toggle('ready',has);
+  var y=window.scrollY;qEl.style.height='auto';qEl.style.height=Math.min(qEl.scrollHeight,132)+'px';
+  if(window.scrollY!==y)window.scrollTo(0,y);
+  clearTimeout(pickTimer);pickTimer=setTimeout(autoPick,250);
+}
 ['input','focus','blur'].forEach(function(ev){qEl.addEventListener(ev,pulse);});
+
+/* ================= results ================= */
+function md(t){
+  var lines=String(t||'').replace(/\r/g,'').split('\n'),h='',list=false;
+  function inl(s){return esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^(Best when|Dealbreaker if|First move|Bottom line):/i,'<b>$1:</b>');}
+  lines.forEach(function(l){
+    var s=l.trim().replace(/^#{1,4}\s*/,'');
+    var m=s.match(/^(?:[-*\u2022]|\d+[.)])\s+(.*)$/);
+    if(m){if(!list){h+='<ul>';list=true;}h+='<li>'+inl(m[1])+'</li>';return;}
+    if(list){h+='</ul>';list=false;}
+    if(s)h+='<p>'+inl(s)+'</p>';
+  });
+  if(list)h+='</ul>';return h;
+}
+var CONF={high:'High confidence',medium:'Medium confidence',low:'Low confidence, this one is close'};
 var res=document.getElementById('results');
-function convene(){
-  var q=qEl.value.trim();if(!q)return;goEl.disabled=true;
-  var mode=document.getElementById('modeBtn').getAttribute('data-mode')==='quick'?'quick':'debate';
-  res.innerHTML='<p class="status">'+(mode==='quick'?'Taking a quick look':'The council is in session')+'</p><div class="out"></div>';
-  var st=res.querySelector('.status'),out=res.querySelector('.out');
-  setTimeout(function(){res.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});},60);
-  fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,mode:mode})})
-  .then(function(r){return r.json();})
-  .then(function(d){
-    st.style.display='none';
-    if(d.error){out.innerHTML='<p class="err">'+esc(d.error)+'</p>';out.classList.add('in');return;}
-    if(d.kind==='fact'){out.innerHTML='<div class="fact"><p class="vl">Not a council question</p><p class="fa">'+esc(d.factAnswer)+'</p><p class="fn liquid-glass">'+esc(d.nudge)+'</p></div>';requestAnimationFrame(function(){out.classList.add('in');});return;}
-    var h='';(d.members||[]).forEach(function(m){h+='<article class="member liquid-glass"><p class="role">'+esc(m.role||'Panel member')+'</p><p class="who">'+esc(m.name)+'</p><p>'+esc(m.answer)+'</p></article>';});
-    var c=d.chairman||{};h+='<div class="verdict liquid-glass-strong"><p class="vl">The verdict</p>';
-    if(c.whyListen)h+='<div class="vsec"><p class="vl">Why listen to '+esc(c.strongest||'the strongest voice')+'</p><p>'+esc(c.whyListen)+'</p></div>';
+function member(m,i){
+  var seat=m.seat||SEATKEYS[i]||'for',ok=m.ok!==false;
+  return '<article class="member liquid-glass'+(ok?'':' miss')+'" style="--d:'+(i*.18).toFixed(2)+'s"><div class="mh"><div class="mi liquid-glass">'+(ICON[seat]||'')+'</div>'
+   +'<div class="mt"><p class="role">'+esc(m.role||SEATS[i])+'</p><p class="who">'+esc(m.name||SEATNAMES[i])+'</p></div>'
+   +(m.model?'<p class="via">Answered by '+esc(m.model)+'</p>':'')+'</div>'
+   +'<div class="ans">'+(ok?md(m.answer):'<p>'+esc(m.answer||'This seat did not answer in time.')+'</p>')+'</div></article>';
+}
+function show(d){
+  var ses=document.getElementById('session'),out=document.getElementById('out'),h='';
+  if(d.error){h='<p class="err">'+esc(d.error)+'</p>';}
+  else if(d.kind==='fact'){h='<div class="fact"><p class="vl">Not a council question</p><p class="fa">'+esc(d.factAnswer)+'</p><p class="fn liquid-glass">'+esc(d.nudge)+'</p></div>';}
+  else if(d.kind==='quick'){
+    h='<div class="verdict liquid-glass-strong"><p class="vl">Quick take</p><div class="ans">'+md(d.answer)+'</div>'
+     +(d.model?'<p class="vcheck">Answered by '+esc(d.model)+'. Switch to full debate for the case for, against and how to improve it.</p>':'')+'</div>';
+  }else{
+    (d.members||[]).forEach(function(m,i){h+=member(m,i);});
+    var c=d.chairman||{},who=String(c.strongest||'the strongest voice').replace(/^The /,'the ');
+    h+='<div class="verdict liquid-glass-strong" style="--d:.62s"><p class="vl">The verdict'+(c.confidence&&CONF[c.confidence]?'<span class="conf">'+CONF[c.confidence]+'</span>':'')+'</p>';
+    if(c.whyListen)h+='<div class="vsec"><p class="vl">Why listen to '+esc(who)+'</p><p>'+esc(c.whyListen)+'</p></div>';
+    if(c.split)h+='<div class="vsec"><p class="vl">Where they disagree</p><p>'+esc(c.split)+'</p></div>';
     h+='<div class="vsec"><p class="vl">The answer</p><p class="final">'+esc(c.finalAnswer)+'</p></div>';
-    if(d.verificationText)h+='<p class="vcheck">'+esc(d.verificationText)+'</p>';
-    out.innerHTML=h+'</div>';requestAnimationFrame(function(){out.classList.add('in');});
-  })
-  .catch(function(){st.style.display='none';out.innerHTML='<p class="err">Could not reach the council. Check your connection and ask again.</p>';out.classList.add('in');})
-  .finally(function(){goEl.disabled=false;});
+    var foot=[];if(c.model)foot.push('Chaired by '+c.model+'.');if(d.verificationText)foot.push(d.verificationText);
+    if(foot.length)h+='<p class="vcheck">'+esc(foot.join(' '))+'</p>';
+    h+='</div>';
+  }
+  h+='<div class="again"><button class="btn liquid-glass" id="againBtn" type="button">Ask another question</button></div>';
+  if(ses){ses.classList.add('gone');}
+  setTimeout(function(){if(ses&&ses.parentNode)ses.parentNode.removeChild(ses);out.innerHTML=h;requestAnimationFrame(function(){requestAnimationFrame(function(){out.classList.add('in');});});},reduce?0:450);
+}
+function convene(){
+  var q=qEl.value.trim();if(!q||busy)return;busy=true;goEl.disabled=true;setPicker(false);
+  var quick=modeBtn.getAttribute('data-mode')==='quick',typical=quick?10:30;
+  res.innerHTML='<div class="asked liquid-glass" id="asked"><p class="ak">You asked</p><p class="aq">'+esc(q)+'</p></div>'
+   +'<div class="session" id="session"><p class="status">The council is in session</p>'
+   +(quick?'<div class="seats"><span>Quick take</span></div>':'<div class="seats"><span style="--d:0s">The case for</span><span style="--d:1.2s">The case against</span><span style="--d:2.4s">How to improve it</span></div>')
+   +'<p class="elapsed" id="elapsed">Usually about '+typical+' seconds</p></div><div class="out" id="out"></div>';
+  /* the question goes to the top of the screen; the session line lands in the middle */
+  requestAnimationFrame(function(){var a=document.getElementById('asked');window.scrollTo({top:a.getBoundingClientRect().top+window.scrollY-96,behavior:reduce?'auto':'smooth'});});
+  var t0=Date.now(),el=document.getElementById('elapsed');
+  var timer=setInterval(function(){el.textContent=Math.round((Date.now()-t0)/1000)+'s, usually about '+typical;},1000);
+  var body={question:q,mode:quick?'quick':'debate',category:route.id,panel:manual?active.map(function(i){return AIS[i].n;}):null};
+  fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+  .then(function(r){return r.json().catch(function(){return {error:'The council took too long to answer. Ask again, or try Quick take.'};});})
+  .then(show)
+  .catch(function(){show({error:'Could not reach the council. Check your connection and ask again.'});})
+  .finally(function(){clearInterval(timer);busy=false;goEl.disabled=false;});
 }
 goEl.addEventListener('click',convene);
 qEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();convene();}});
