@@ -475,7 +475,10 @@ document.addEventListener('click',function(e){
   var p=e.target.closest('.pk');if(p){var i=+p.getAttribute('data-pk');if(active.indexOf(i)<0){active[slot]=i;renderUsing();renderPicker();}return;}
   var mb=e.target.closest('#modeBtn');
   if(mb){var q=mb.getAttribute('data-mode')==='debate';mb.setAttribute('data-mode',q?'quick':'debate');mb.textContent=q?'Quick take':'Full debate';mb.classList.toggle('on',q);
-    document.getElementById('meta').textContent=q?'1 model, about 8 seconds':'3 models, about 30 seconds';}
+    document.getElementById('meta').textContent=q?'1 model, about 8 seconds':'3 models, about 30 seconds';
+    /* quick mode runs one model, so the three role chips would be a lie */
+    document.querySelector('.using').style.display=q?'none':'';
+    if(q)setPicker(false);}
 });
 function pulse(){var has=qEl.value.trim().length>0;bar.classList.toggle('hot',has||document.activeElement===qEl);goEl.classList.toggle('ready',has);
   qEl.style.height='auto';qEl.style.height=Math.min(qEl.scrollHeight,132)+'px';}
@@ -483,10 +486,11 @@ function pulse(){var has=qEl.value.trim().length>0;bar.classList.toggle('hot',ha
 var res=document.getElementById('results');
 function convene(){
   var q=qEl.value.trim();if(!q)return;goEl.disabled=true;
-  res.innerHTML='<p class="status">The council is in session</p><div class="out"></div>';
+  var mode=document.getElementById('modeBtn').getAttribute('data-mode')==='quick'?'quick':'debate';
+  res.innerHTML='<p class="status">'+(mode==='quick'?'Taking a quick look':'The council is in session')+'</p><div class="out"></div>';
   var st=res.querySelector('.status'),out=res.querySelector('.out');
   setTimeout(function(){res.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});},60);
-  fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q})})
+  fetch('/api/council',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q,mode:mode})})
   .then(function(r){return r.json();})
   .then(function(d){
     st.style.display='none';
