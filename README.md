@@ -7,6 +7,7 @@ Three AIs (GPT, Claude, Gemini) answer a question, critique each other, and a ch
 - `index.html` — the frontend. Runs in the browser. **Contains no secrets.**
 - `api/council.js` — a serverless function. Runs on Vercel's server. Holds the key and does all the model calls.
 - The browser POSTs a question to `/api/council`; the function runs the debate and returns the answers.
+- `videos/earth.mp4` — the background loop. Every `<video class="fv">` on the site points at it, and the fade-in/fade-out loop applies automatically to anything with that class. Keep replacements under ~10MB, muted and `playsinline`.
 
 ## Deploy it (about 15 minutes)
 
@@ -48,20 +49,8 @@ git push -u origin main
 
 `POST /api/council` with `{"question": "...", "mode": "debate" | "quick"}`.
 
-**The gate.** One classification call sorts every question into one of four kinds. The panel for each kind is hardcoded in `api/council.js` under `KINDS`; the model never invents roles.
-
-| kind | when | panel | chairman |
-| --- | --- | --- | --- |
-| `fact` | one objectively checkable answer | none, answered directly with a nudge | none |
-| `decision` | "should I", "is it worth", X or Y for me | The Advocate, The Critic, The Builder | picks the strongest member and gives a verdict |
-| `contested` | informed people genuinely disagree | Case A, Case B, The Judge | synthesises: where both agree, where it splits, the takeaway. No winner forced |
-| `evaluative` | the harm is settled, the rest isn't | What it is, The harm and the evidence, Where people still disagree | synthesises: what's settled, what's still argued, the takeaway |
-
-For `contested` the classifier also names the two positions, and for `evaluative` the subject, so each member knows which side or thing it is handling. If the classifier can't be read, the question runs as a `decision` and a notice says so.
-
-`mode: "quick"` skips the gate: one model, one direct answer.
-
-`POST /api/sharpen` with `{"text": "..."}` returns `{"sharpened": "...", "changed": true|false}`: one model call that fixes spelling and grammar and makes the question clearer without changing what it asks. Input is capped at 500 characters. The quill button next to the question box calls this.
+- **debate** (default): one planning call assigns roles, three members answer in parallel, the chairman picks the strongest and writes the verdict. A plain lookup ("capital of Peru") is answered directly instead, with `kind: "fact"`.
+- **quick**: one model, one direct answer, no debate. The home page's "Quick take" toggle sends this.
 
 What you get back is honest about failures:
 
@@ -82,7 +71,7 @@ Guard rails, all in `api/council.js` under SETTINGS:
 npm test
 ```
 
-The suites in `test/` run the real handlers against a mocked model provider, so they need no key and no network. They cover the four kinds, every failure path above, and the sharpener.
+The suite in `test/` runs the real handler against a mocked model provider, so it needs no key and no network. It covers every failure path above.
 
 ## Changing the models
 Model names live at the top of `api/council.js` in `COUNCIL`. They change over time — if one errors, grab the current slug from https://openrouter.ai/models and paste it in. Push to GitHub and Vercel redeploys automatically.
