@@ -10,16 +10,19 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&family=Inter+Tight:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{--w90:rgba(255,255,255,.9);--w80:rgba(255,255,255,.8);--w60:rgba(255,255,255,.6);--w50:rgba(255,255,255,.5);
   --w30:rgba(255,255,255,.3);--w15:rgba(255,255,255,.15);--w10:rgba(255,255,255,.1);
   --mint:#bff3d6;--leaf:rgba(64,190,132,1);
-  --heading:'Instrument Serif',Georgia,serif;--body:'Barlow',system-ui,sans-serif}
+  --heading:'Instrument Serif',Georgia,serif;--body:'Barlow',system-ui,sans-serif;
+  --display:'Inter Tight','Helvetica Now Display','Helvetica Neue',Helvetica,Arial,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth iframe{pointer-events:none}
+html,body{overflow-x:clip}
 html,body{background:#000;color:#fff;font-family:var(--body)}
-body{font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-weight:300;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 img,svg,video,canvas{display:block}
@@ -54,15 +57,6 @@ img,svg,video,canvas{display:block}
 /* no stacking context on .page: videos (z0) sit under the stars (z1), content sits above both (z10) */
 .sec,.foot{position:relative;z-index:10}
 
-/* ---------- one continuous planet (home page) ---------- */
-.planet{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;opacity:0;transition:opacity 1.6s ease}
-.planet.on{opacity:1}
-.planet video{position:absolute;left:-6vw;top:0;width:112vw;height:140vh;object-fit:cover;object-position:50% 30%;
-  transform-origin:50% 0;will-change:transform,opacity}
-.planet .pb{opacity:0}
-.planet .scrim{position:absolute;inset:0;background:#000;opacity:.12}
-.planet .edge{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,0) 22%,rgba(0,0,0,0) 70%,rgba(0,0,0,.55))}
-
 /* ---------- fading video (sub-page heroes) ---------- */
 .fv{opacity:0;will-change:opacity}
 .sec-video{position:relative;overflow:hidden}
@@ -82,10 +76,10 @@ img,svg,video,canvas{display:block}
 
 /* ---------- navbar ---------- */
 .nav{position:fixed;top:16px;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
-@media(min-width:1024px){.nav{padding:0 64px}}
+@media(min-width:1100px){.nav{padding:0 56px}}
 .mk{width:48px;height:48px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-family:var(--heading);font-style:italic;font-size:26px;line-height:1;padding-bottom:3px}
 .links{display:none;align-items:center;gap:2px;border-radius:999px;padding:6px}
-@media(min-width:900px){.links{display:flex}}
+@media(min-width:1000px){.links{display:flex}}
 .links a{padding:8px 13px;font-size:14px;font-weight:500;color:var(--w90);border-radius:999px;transition:background .2s}
 .links a:hover{background:rgba(255,255,255,.06)}
 .links a.on{background:rgba(255,255,255,.1);color:#fff}
@@ -93,9 +87,9 @@ img,svg,video,canvas{display:block}
 .links .go:hover{background:rgba(255,255,255,.88)}
 .spacer{width:48px;height:48px}
 .burger{width:48px;height:48px;border-radius:999px;display:flex;align-items:center;justify-content:center}
-@media(min-width:900px){.burger{display:none}}
+@media(min-width:1000px){.burger{display:none}}
 .dsk{display:none}
-@media(min-width:900px){.dsk{display:block}}
+@media(min-width:1000px){.dsk{display:flex}}
 .menu{position:fixed;inset:10px;z-index:60;border-radius:28px;display:flex;flex-direction:column;padding:22px 26px 32px;
   opacity:0;visibility:hidden;transform:scale(.98);transition:opacity .35s,visibility .35s,transform .35s}
 .menu.open{opacity:1;visibility:visible;transform:none}
@@ -112,11 +106,13 @@ img,svg,video,canvas{display:block}
 .sec{padding:96px 0}
 @media(min-width:768px){.sec{padding:128px 0}}
 .lbl{font-size:14px;color:var(--w80);margin-bottom:20px}
-.big{font-size:52px;line-height:.9;letter-spacing:-3px}
-@media(min-width:768px){.big{font-size:72px}}
-@media(min-width:1024px){.big{font-size:96px}}
-.mid{font-size:40px;line-height:.95;letter-spacing:-2px}
-@media(min-width:768px){.mid{font-size:56px}}
+.big,.mid,.hero h1,.ptop h1,.su h1,.lines p,.pull{font-family:var(--display) !important;font-style:normal !important;font-weight:700 !important}
+.big{font-size:42px;line-height:1;letter-spacing:-.045em}
+@media(min-width:768px){.big{font-size:62px}}
+@media(min-width:1024px){.big{font-size:80px}}
+.mid{font-size:34px;line-height:1.02;letter-spacing:-.04em}
+@media(min-width:768px){.mid{font-size:48px}}
+@media(min-width:1024px){.mid{font-size:56px}}
 .lede{font-size:17px;line-height:1.45;color:var(--w90);max-width:40rem;margin-top:22px}
 .p{font-size:16px;line-height:1.6;color:var(--w80)}
 .p+.p{margin-top:14px}
@@ -137,7 +133,8 @@ img,svg,video,canvas{display:block}
 .sq{width:44px;height:44px;border-radius:.75rem;display:flex;align-items:center;justify-content:center}
 .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
 .tags span{border-radius:999px;padding:4px 12px;font-size:11px;color:var(--w90);white-space:nowrap}
-.cap{min-height:340px;display:flex;flex-direction:column}
+.cap{display:flex;flex-direction:column}
+.cap h3{margin-top:22px}
 .cap .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .cap .grow{flex:1}
 .cap p{max-width:32ch}
@@ -145,13 +142,13 @@ img,svg,video,canvas{display:block}
 .sub-h{margin-top:88px}
 
 /* ---------- home hero ---------- */
-.hero{position:relative;z-index:10;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+.hero{position:relative;z-index:10;min-height:calc(100vh - 150px);min-height:calc(100svh - 150px);display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:116px 16px 48px}
 .badge{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:5px 16px 5px 5px;font-size:13px;color:var(--w90)}
 .badge b{background:#fff;color:#000;border-radius:999px;padding:3px 10px;font-weight:600;font-size:12px}
-.hero h1{margin-top:24px;max-width:48rem;font-size:60px;line-height:.82;letter-spacing:-4px}
-@media(min-width:768px){.hero h1{font-size:76px}}
-@media(min-width:1024px){.hero h1{font-size:88px}}
+.hero h1{margin-top:24px;max-width:56rem;font-size:44px;line-height:1;letter-spacing:-.045em}
+@media(min-width:768px){.hero h1{font-size:68px}}
+@media(min-width:1024px){.hero h1{font-size:84px}}
 .hero .sub{margin-top:20px;max-width:40rem;font-size:15px;line-height:1.35}
 @media(min-width:768px){.hero .sub{font-size:17px}}
 .ctas{display:flex;gap:18px;margin-top:26px;align-items:center;flex-wrap:wrap;justify-content:center}
@@ -175,28 +172,30 @@ img,svg,video,canvas{display:block}
 .steps{display:grid;grid-template-columns:1fr;gap:18px;margin-top:56px}
 @media(min-width:640px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1100px){.steps{grid-template-columns:repeat(4,minmax(0,1fr))}}
-.step{display:flex;flex-direction:column;min-height:260px}
+.step{display:flex;flex-direction:column}
 .step .num{font-family:var(--heading);font-style:italic;font-size:22px;color:var(--w60)}
-.step h3{margin-top:auto;padding-top:40px}
+.step h3{margin-top:12px}
 
 /* ---------- the five lines: pinned, scroll-linked ---------- */
 .linesec{position:relative;z-index:10;height:270vh}
 .lines-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;padding:0 20px}
 .lines{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
-.lines p{font-family:var(--heading);font-style:italic;font-size:36px;letter-spacing:-1px;line-height:1.18;color:#fff;
+.lines p{font-size:28px;letter-spacing:-.035em;line-height:1.22;color:#fff;
   opacity:.2;filter:blur(3px);transform:translateY(14px);will-change:opacity,filter,transform}
-@media(min-width:768px){.lines p{font-size:58px}}
+@media(min-width:768px){.lines p{font-size:46px}}
+@media(min-width:1200px){.lines p{font-size:54px}}
 .lines-hint{position:absolute;bottom:34px;left:0;right:0;text-align:center;font-size:13px;color:var(--w50)}
 
 /* ---------- quotes ---------- */
-.quote{min-height:250px;display:flex;flex-direction:column;justify-content:space-between}
+.quote{display:flex;flex-direction:column;gap:12px}
 .quote .qt{font-family:var(--heading);font-style:italic;font-size:32px;letter-spacing:-1px;line-height:1.05}
-.quote .qa{font-size:12px;letter-spacing:.1em;color:var(--w50);margin-top:16px}
+.quote .qa{font-size:12px;letter-spacing:.1em;color:var(--w50)}
 
 /* ---------- page hero (sub pages) ---------- */
 .phero{min-height:78vh;display:flex;align-items:flex-end}
 .phero>video{inset:0;width:100%;height:100%;object-fit:cover}
-.phero .inner{position:relative;z-index:10;width:100%;padding:150px 0 64px}
+.phero .inner{position:relative;z-index:10;width:100%;padding:150px 0 64px;text-align:center}
+.phero .lede{margin-left:auto;margin-right:auto}
 
 /* ---------- models ---------- */
 .mg{display:grid;grid-template-columns:1fr;gap:14px}
@@ -254,10 +253,10 @@ td.wrapc{white-space:normal;min-width:180px;font-size:14px;color:var(--w80);line
 .ptop{min-height:100vh;min-height:100svh;padding:132px 0 56px;display:flex;align-items:center}
 .ptop>video{inset:0;width:100%;height:100%;object-fit:cover}
 .ptop>.wrap{position:relative;z-index:10;width:100%}
-.ptop .head{display:grid;grid-template-columns:1fr;gap:12px 48px;align-items:end;margin-bottom:34px}
-@media(min-width:960px){.ptop .head{grid-template-columns:1.2fr 1fr}}
-.ptop h1{font-size:46px;line-height:.92;letter-spacing:-2.5px}
-@media(min-width:768px){.ptop h1{font-size:64px}}
+.ptop .head{text-align:center;margin-bottom:34px}
+.ptop .head .lede{margin:16px auto 0}
+.ptop h1{font-size:38px;line-height:1.02;letter-spacing:-.045em}
+@media(min-width:768px){.ptop h1{font-size:58px}}
 .ptop .lede{margin-top:0}
 .plan{border-radius:1.5rem;padding:26px;display:flex;flex-direction:column}
 .plan .pn{font-family:var(--heading);font-style:italic;font-size:32px;letter-spacing:-1px}
@@ -317,8 +316,8 @@ details[open] summary svg{transform:rotate(45deg)}
 .split{display:grid;grid-template-columns:1fr;gap:40px;align-items:start}
 @media(min-width:900px){.split{grid-template-columns:repeat(2,minmax(0,1fr));gap:64px}}
 .split h3{font-family:var(--heading);font-style:italic;font-weight:400;font-size:34px;letter-spacing:-1px;line-height:1;margin-bottom:14px}
-.pull{font-family:var(--heading);font-style:italic;font-size:42px;letter-spacing:-1.5px;line-height:1.05}
-@media(min-width:768px){.pull{font-size:56px}}
+.pull{font-size:34px;letter-spacing:-.04em;line-height:1.08}
+@media(min-width:768px){.pull{font-size:46px}}
 
 /* ---------- ask ---------- */
 .ask{text-align:center}
@@ -404,6 +403,20 @@ details[open] summary svg{transform:rotate(45deg)}
 .fact .fa{font-family:var(--heading);font-style:italic;font-size:34px;line-height:1.1;margin-top:12px}
 .fact .fn{margin-top:22px;padding:16px 20px;border-radius:1.25rem;font-size:15px;color:var(--w90)}
 
+/* ---------- sign up: one screen ---------- */
+.su{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:92px 20px 24px}
+.su>video{inset:0;width:100%;height:100%;object-fit:cover}
+.su-in{position:relative;z-index:10;width:100%;max-width:30rem;text-align:center}
+.su h1{font-size:36px;line-height:1.02;letter-spacing:-.045em}
+@media(min-width:768px){.su h1{font-size:50px}}
+.su .lede{margin:12px auto 0;font-size:15.5px;max-width:26rem}
+.su .auth{max-width:none;margin-top:24px;gap:8px;text-align:left}
+.oag{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.oag .oa{padding:11px 14px;font-size:14px;justify-content:center}
+.su .or{display:flex;align-items:center;gap:12px;margin:6px 0}
+.su .or::before,.su .or::after{content:"";flex:1;height:1px;background:var(--w15)}
+.su .field input{padding:11px 0}
+.su .note2{font-size:12.5px;color:var(--w50);margin-top:14px}
 /* ---------- sign up ---------- */
 .auth{max-width:26rem;margin:36px auto 0;display:flex;flex-direction:column;gap:10px}
 .oa{display:flex;align-items:center;gap:12px;padding:13px 18px;border-radius:999px;font-size:15px;font-weight:400}
@@ -437,7 +450,6 @@ details[open] summary svg{transform:rotate(45deg)}
 .fbot nav{display:flex;gap:20px}.fbot a:hover{color:#fff}
 
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
   .bi,[data-r],.bw span,.out>*{filter:none !important;opacity:1 !important;transform:none !important;animation:none !important;transition:none !important}
   .nebula i{animation:none}
   .linesec{height:auto}
@@ -449,13 +461,78 @@ details[open] summary svg{transform:rotate(45deg)}
   .btn:hover{transform:none}
 }
 
+/* ================= round 4 ================= */
+/* centred section headers */
+.hdc{text-align:center}
+.hdc+.lede,.hdc~.lede{margin-left:auto;margin-right:auto;text-align:center}
+.hdc .lbl{text-align:center}
+
+/* every card: 20% more opaque */
+.card,.mc,.plan,.tstep,.member,.verdict,.asked,.note,.cfeat,.router,.stat,details,.ex,.tw,.rseat,.uchip,.pk,.fn{background-color:rgba(4,10,8,.22) !important}
+
+/* nav sign-up */
+.signup{height:44px;padding:0 24px;border-radius:999px;align-items:center;font-size:14px;font-weight:600;color:#fff;
+  background:rgba(0,0,0,.55) !important;transition:background .25s,transform .25s}
+.signup:hover{background:rgba(0,0,0,.72) !important}
+.signup.on{box-shadow:inset 0 0 0 1px rgba(191,243,214,.45)}
+
+/* moving banner under the hero */
+.marq{position:relative;z-index:10;padding:30px 0 28px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+.marq .ml{text-align:center;font-size:12.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--w60)}
+.mq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.mq-t{display:flex;width:max-content;animation:mq 38s linear infinite}
+.mq-s{display:flex;gap:88px;padding-right:88px}
+.mq-s span{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:-.02em;color:rgba(255,255,255,.82);white-space:nowrap}
+@media(min-width:768px){.mq-s span{font-size:30px}.mq-s{gap:120px;padding-right:120px}}
+.marq:hover .mq-t{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* video scenes behind the home page */
+.scenes{position:fixed;inset:0;z-index:0;pointer-events:none}
+.scene{position:absolute;inset:0;overflow:hidden;opacity:0;will-change:opacity}
+.scene video{position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:cover;transform:translate(-50%,-50%);will-change:transform}
+.scene .sb{opacity:0}
+.scene .dim{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,var(--c,.25)),rgba(0,0,0,var(--e,.6)))}
+
+/* cards that slide in from out of frame */
+@property --ga{syntax:'<number>';inherits:false;initial-value:0}
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+.fx{opacity:0;transform:translate3d(var(--fx,0),var(--fy,70px),0) scale(.96);
+  transition:opacity .9s ease var(--d,0s),transform 1.2s cubic-bezier(.16,1,.3,1) var(--d,0s),box-shadow .45s ease,--ga .4s ease;
+  background-image:radial-gradient(300px circle at var(--mx,50%) var(--my,50%),rgba(200,255,225,calc(.14*var(--ga))),transparent 65%) !important}
+.fx.fl{--fx:-75vw;--fy:0px}.fx.fr{--fx:75vw;--fy:0px}.fx.fb{--fx:0px;--fy:45vh}
+.fx.in{opacity:1;transform:none}
+.fx.settled{transition:opacity .3s ease,transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s ease,--ga .4s ease}
+.fx.settled:hover{transform:scale(1.035);--ga:1;z-index:2;
+  box-shadow:0 0 0 1px rgba(170,255,210,.22),0 0 38px rgba(110,230,170,.2),0 18px 50px rgba(0,0,0,.35)}
+.fx::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.2px;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:conic-gradient(from var(--ang),rgba(170,255,210,0) 0deg,#eafff3 8deg,rgba(150,245,195,.55) 38deg,rgba(150,245,195,0) 120deg,rgba(150,245,195,0) 360deg);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.fx.settled:hover::after{opacity:1;animation:ring 2.8s linear infinite}
+@keyframes ring{from{--ang:360deg}to{--ang:0deg}}     /* decreasing angle = anticlockwise */
+.g3,.g4,.steps{overflow:visible}
+
+/* the cursor light gets brighter over those cards */
+#glow::after{content:"";position:absolute;inset:-90px;border-radius:50%;background:radial-gradient(circle,rgba(205,255,228,.13),transparent 62%);opacity:0;transition:opacity .35s}
+#glow.hot::after{opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  .fx{opacity:1 !important;transform:none !important;transition:none !important}
+  .mq-t{animation:none}
+}
+
+@media(max-width:600px){.stats{flex-wrap:nowrap;gap:10px;width:100%;max-width:26rem}.stat{flex:1 1 0;padding:16px}.stat .n{font-size:32px;margin-top:10px}.stat .t{font-size:12px}}
+
 </style>
 </head>
 <body>
-<div class="planet" id="planet" aria-hidden="true"><video class="pa" src="videos/earth.mp4" muted playsinline preload="auto"></video><video class="pb" src="videos/earth.mp4" muted playsinline preload="auto"></video><div class="scrim"></div><div class="edge"></div></div>
+<div class="scenes" aria-hidden="true"><div class="scene" data-name="landing" data-kind="loop" data-src="https://stream.mux.com/3gErUdcrPfibrZ00ysHSLAupEL01PeX4PpAwgcGpGvbAM.m3u8" data-from="top" data-to="marq" data-max="1"><video class="sa" muted playsinline preload="none" poster="https://image.mux.com/3gErUdcrPfibrZ00ysHSLAupEL01PeX4PpAwgcGpGvbAM/thumbnail.webp?time=0"></video><video class="sb" muted playsinline preload="none"></video><div class="dim" style="--c:.28;--e:.62"></div></div><div class="scene" data-name="roles" data-kind="scrub" data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260416_103630_7be29a24-8e20-4e19-984e-7283ba81261f.mp4" data-from="roles" data-to="how" data-max=".62"><video muted playsinline preload="none"></video><div class="dim" style="--c:.5;--e:.78"></div></div><div class="scene" data-name="lines" data-kind="scrub" data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260629_021419_291eb2af-5ed4-45a0-a1d6-3ef58f4bca0b.mp4" data-from="lines" data-to="lines" data-max=".6"><video muted playsinline preload="none"></video><div class="dim" style="--c:.45;--e:.8"></div></div><div class="scene" data-name="ask" data-kind="loop" data-src="https://stream.mux.com/Jwr2RhmsNrd6GEspBNgm02vJsRZAGlaoQIh4AucGdASw.m3u8" data-from="ask" data-to="ask" data-max=".7"><video class="sa" muted playsinline preload="none" poster="https://image.mux.com/Jwr2RhmsNrd6GEspBNgm02vJsRZAGlaoQIh4AucGdASw/thumbnail.webp?time=0"></video><video class="sb" muted playsinline preload="none"></video><div class="dim" style="--c:.5;--e:.8"></div></div></div>
 <canvas id="stars" aria-hidden="true"></canvas><div class="nebula" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div id="glow" aria-hidden="true"></div>
-<header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><span class="spacer dsk"></span><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html" class="on">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
-<div class="page"><main><section class="hero" id="top"><div class="badge liquid-glass bi" style="--d:.4s"><b>New</b>Your first question is free, no login</div><h1 class="h bw" data-bw="Not a chatbot. | A council."></h1><p class="sub bi" style="--d:.8s">Ask a hard question and three AI models argue it: one for, one against, one on how to make it better. A fourth weighs them into one verdict, with the disagreement left in view.</p><div class="ctas bi" style="--d:1.1s"><a class="btn liquid-glass-strong" href="#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="#how"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> See how it works</a></div><div class="stats bi" style="--d:1.3s"><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14.3" r="1.8" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14.3" r="1.8" fill="currentColor" stroke="none"/></svg><p class="n">3 + 1</p><p class="t">Three models argue, a fourth decides</p></div><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><p class="n">~30s</p><p class="t">Typical wait for a full verdict</p></div></div><div class="trust bi" style="--d:1.5s"><p class="pl liquid-glass">Runs on the frontier models</p><div class="names"><span>GPT</span><span>Claude</span><span>Gemini</span><span>Grok</span><span>DeepSeek</span></div></div></section><section class="sec capsec" id="roles"><div class="wrap"><p class="lbl" data-r>// Three roles</p><h2 class="h big bw l" data-bw="Every question, | three sides."></h2><div class="g3"><article class="card cap liquid-glass" data-r style="--d:0.00s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg></div><div class="tags"><span class="liquid-glass">For it</span><span class="liquid-glass">Strongest case</span><span class="liquid-glass">Best version</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Advocate</h3><p>The case for it. Argues the strongest honest version of yes, so the best case gets made properly rather than assumed.</p></div></article><article class="card cap liquid-glass" data-r style="--d:0.12s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div><div class="tags"><span class="liquid-glass">Against it</span><span class="liquid-glass">Failure modes</span><span class="liquid-glass">Blind spots</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Critic</h3><p>The case against it. Finds what breaks before you do. This is the seat most single-model answers are missing.</p></div></article><article class="card cap liquid-glass" data-r style="--d:0.24s"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div><div class="tags"><span class="liquid-glass">Next step</span><span class="liquid-glass">Improvements</span><span class="liquid-glass">Action</span></div></div><div class="grow"></div><div><h3 style="font-size:40px">The Builder</h3><p>How to make it better. Turns the argument into a next step instead of leaving you with two opposed opinions.</p></div></article></div></div></section><section class="sec" id="how"><div class="wrap"><p class="lbl" data-r>// How it works</p><h2 class="h mid bw l" data-bw="From question | to verdict."></h2><p class="lede" data-r>Four steps, in the same order, every time. The panel is picked for the kind of question you ask.</p><div class="steps"><article class="card step liquid-glass" data-r style="--d:0.00s"><p class="num">01</p><h3>The gate</h3><p>Council decides whether your question has one correct answer. Factual ones get a single line and an honest nudge, not a staged debate.</p></article><article class="card step liquid-glass" data-r style="--d:0.12s"><p class="num">02</p><h3>Three roles</h3><p>Judgment questions convene a panel picked for the type of question: one argues for, one against, one works out how to make it better. They answer in parallel.</p></article><article class="card step liquid-glass" data-r style="--d:0.24s"><p class="num">03</p><h3>The chairman</h3><p>A fourth model reads all three, picks the strongest reasoning and issues one verdict, with the disagreement left in view.</p></article><article class="card step liquid-glass" data-r style="--d:0.36s"><p class="num">04</p><h3>Verification</h3><p>Factual claims in the verdict are checked against an outside source, so the parts that can be checked, are.</p></article></div></div></section><section class="linesec" id="lines" aria-label="What Council does"><div class="lines-pin"><div class="lines"><p data-ln>It argues with itself.</p><p data-ln>It picks the strongest case.</p><p data-ln>It commits to one answer.</p><p data-ln>It shows you the reasoning.</p><p data-ln>It refuses to fake certainty.</p></div></div></section><section class="sec" id="verdict"><div class="wrap"><p class="lbl" data-r>// Behind the verdict</p><h2 class="h mid bw l" data-bw="What keeps | it honest."></h2><p class="lede" data-r>The three seats do the arguing. These three parts decide what you actually get back.</p><div class="g3" style="margin-top:48px"><article class="card liquid-glass" data-r style="--d:0.00s"><div class="sq liquid-glass" style="margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h12v2H1zM5.245 8.07l2.83-2.827 14.14 14.142-2.828 2.828zM12.317 1l5.657 5.656-2.83 2.83-5.654-5.66zM3.825 9.485l5.657 5.657-2.828 2.828-5.657-5.657z"/></svg></div><h3>The Chairman</h3><p>Reads all three, picks the strongest reasoning and issues one verdict with the reasoning attached. It never sits on the panel it judges.</p></article><article class="card liquid-glass" data-r style="--d:0.10s"><div class="sq liquid-glass" style="margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.25 5.61C6.27 8.2 10 13 10 13v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6s3.72-4.8 5.74-7.39A.998.998 0 0 0 18.95 4H5.04c-.83 0-1.3.95-.79 1.61z"/></svg></div><h3>The fact gate</h3><p>A question with one right answer gets a single line and an honest nudge. It stays silent when there is nothing to add.</p></article><article class="card liquid-glass" data-r style="--d:0.20s"><div class="sq liquid-glass" style="margin-bottom:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg></div><h3>Verification</h3><p>Factual claims inside the verdict are checked against an outside source. Runs on the full version.</p></article></div></div></section><section class="sec"><div class="wrap"><p class="lbl" data-r>// What we hold to</p><h2 class="h mid bw l" data-bw="We debate before | we believe."></h2><div class="g3" style="margin-top:48px"><article class="card quote liquid-glass" data-r style="--d:0.00s"><p class="qt">&ldquo;It knows when to shut up.&rdquo;</p><div><p style="font-size:15px;line-height:1.55;color:var(--w90)">Ask something with one correct answer and you get one line, not a staged debate. You are not billed for theatre.</p><p class="qa">Council principle</p></div></article><article class="card quote liquid-glass" data-r style="--d:0.10s"><p class="qt">&ldquo;It refuses to fake certainty.&rdquo;</p><div><p style="font-size:15px;line-height:1.55;color:var(--w90)">The same confident tone for a settled fact and a coin flip is the problem Council exists to fix.</p><p class="qa">Council principle</p></div></article><article class="card quote liquid-glass" data-r style="--d:0.20s"><p class="qt">&ldquo;Every question has three sides.&rdquo;</p><div><p style="font-size:15px;line-height:1.55;color:var(--w90)">For it, against it, and how to make it better. The verdict comes with the split left in view.</p><p class="qa">Council principle</p></div></article></div><div class="more" data-r><a class="btn liquid-glass" href="how-it-works.html">Walk through a real question <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div></div></section><section class="sec ask" id="ask"><div class="wrap"><p class="lbl" data-r>// Test your council now</p><h2 class="h big bw" data-bw="Ask the council anything."></h2><p class="lede" data-r style="margin-left:auto;margin-right:auto">Three angles, weighed into one verdict. Your first question is free, no login.</p><div class="composer" data-r style="--d:.2s"><div class="bar liquid-glass-strong" id="bar"><label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label><textarea id="q" rows="1" placeholder="Should I take the job, or hold out for the other one?"></textarea><button id="go" type="button" aria-label="Ask the council"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button></div><div class="crow"><div class="l"><button class="chipb liquid-glass" id="modeBtn" type="button" data-mode="debate">Full debate</button><button class="chipb liquid-glass" id="pickBtn" type="button" aria-expanded="false" aria-controls="picker">Models</button></div><span class="meta" id="meta">3 models, about 30 seconds</span></div><div class="using"><div class="uhead"><p class="ul" id="usingLbl">Council picks the panel from your question</p><button class="resetb" id="resetBtn" type="button">Back to auto-pick</button></div><div class="urow" id="usingRow"></div><p class="unote">The free preview runs on open models and shows which one answered each seat. This panel runs on Plus.</p></div><div class="picker liquid-glass-strong" id="picker"><button class="pk-x liquid-glass" id="pkClose" type="button" aria-label="Close model list"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button><p class="pk-h" id="pkHead">Choose a model</p><div class="pk-g" id="pkGrid"></div></div><p class="small">Want a record of your debates? <a href="signup.html" style="text-decoration:underline">Sign up</a>.</p></div><div id="results" aria-live="polite"></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
+<header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><a class="signup dsk liquid-glass-strong" href="signup.html">Sign up</a><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html" class="on">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
+<div class="page"><main><section class="hero" id="top"><div class="badge liquid-glass bi" style="--d:.4s"><b>New</b>Your first question is free, no login</div><h1 class="h bw" data-bw="Not a chatbot. | A council."></h1><p class="sub bi" style="--d:.8s">Ask a hard question and three AI models argue it: one for, one against, one on how to make it better. A fourth weighs them into one verdict, with the disagreement left in view.</p><div class="ctas bi" style="--d:1.1s"><a class="btn liquid-glass-strong" href="#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="#how"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> See how it works</a></div><div class="stats bi" style="--d:1.3s"><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="8" r="1.8" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14.3" r="1.8" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14.3" r="1.8" fill="currentColor" stroke="none"/></svg><p class="n">3 + 1</p><p class="t">Three models argue, a fourth decides</p></div><div class="stat liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><p class="n">~30s</p><p class="t">Typical wait for a full verdict</p></div></div></section><div class="marq" id="marq"><p class="ml">Runs on the frontier models</p><div class="mq"><div class="mq-t"><div class="mq-s"><span>GPT</span><span>Claude</span><span>Gemini</span><span>Grok</span><span>DeepSeek</span><span>Mistral</span><span>Qwen</span><span>Llama</span><span>Kimi</span></div><div class="mq-s" aria-hidden="true"><span>GPT</span><span>Claude</span><span>Gemini</span><span>Grok</span><span>DeepSeek</span><span>Mistral</span><span>Qwen</span><span>Llama</span><span>Kimi</span></div></div></div></div><section class="sec capsec" id="roles" data-stop><div class="wrap"><div class="hdc"><p class="lbl" data-r>// Three roles</p><h2 class="h big bw" data-bw="Every question, | three sides."></h2></div><div class="g3 fxg"><article class="card cap fx liquid-glass"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg></div><div class="tags"><span class="liquid-glass">For it</span><span class="liquid-glass">Strongest case</span><span class="liquid-glass">Best version</span></div></div><h3 style="font-size:36px">The Advocate</h3><p>The case for it. Argues the strongest honest version of yes, so the best case gets made properly rather than assumed.</p></article><article class="card cap fx liquid-glass"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div><div class="tags"><span class="liquid-glass">Against it</span><span class="liquid-glass">Failure modes</span><span class="liquid-glass">Blind spots</span></div></div><h3 style="font-size:36px">The Critic</h3><p>The case against it. Finds what breaks before you do. This is the seat most single-model answers are missing.</p></article><article class="card cap fx liquid-glass"><div class="top"><div class="sq liquid-glass"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/></svg></div><div class="tags"><span class="liquid-glass">Next step</span><span class="liquid-glass">Improvements</span><span class="liquid-glass">Action</span></div></div><h3 style="font-size:36px">The Builder</h3><p>How to make it better. Turns the argument into a next step instead of leaving you with two opposed opinions.</p></article></div></div></section><section class="sec" id="how" data-stop><div class="wrap"><div class="hdc"><p class="lbl" data-r>// How it works</p><h2 class="h mid bw" data-bw="From question | to verdict."></h2></div><p class="lede" data-r>Four steps, in the same order, every time. The panel is picked for the kind of question you ask.</p><div class="steps fxg"><article class="card step fx liquid-glass"><p class="num">01</p><h3>The gate</h3><p>Council decides whether your question has one correct answer. Factual ones get a single line and an honest nudge, not a staged debate.</p></article><article class="card step fx liquid-glass"><p class="num">02</p><h3>Three roles</h3><p>Judgment questions convene a panel picked for the type of question: one argues for, one against, one works out how to make it better. They answer in parallel.</p></article><article class="card step fx liquid-glass"><p class="num">03</p><h3>The chairman</h3><p>A fourth model reads all three, picks the strongest reasoning and issues one verdict, with the disagreement left in view.</p></article><article class="card step fx liquid-glass"><p class="num">04</p><h3>Verification</h3><p>Factual claims in the verdict are checked against an outside source, so the parts that can be checked, are.</p></article></div></div></section><section class="linesec" id="lines" data-stop aria-label="What Council does"><div class="lines-pin"><div class="lines"><p data-ln>It argues with itself.</p><p data-ln>It picks the strongest case.</p><p data-ln>It commits to one answer.</p><p data-ln>It shows you the reasoning.</p><p data-ln>It refuses to fake certainty.</p></div></div></section><section class="sec" id="verdict" data-stop><div class="wrap"><div class="hdc"><p class="lbl" data-r>// Behind the verdict</p><h2 class="h mid bw" data-bw="What keeps | it honest."></h2></div><p class="lede" data-r>The three seats do the arguing. These three parts decide what you actually get back.</p><div class="g3 fxg" style="margin-top:48px"><article class="card fx liquid-glass"><div class="sq liquid-glass" style="margin-bottom:18px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1 21h12v2H1zM5.245 8.07l2.83-2.827 14.14 14.142-2.828 2.828zM12.317 1l5.657 5.656-2.83 2.83-5.654-5.66zM3.825 9.485l5.657 5.657-2.828 2.828-5.657-5.657z"/></svg></div><h3>The Chairman</h3><p>Reads all three, picks the strongest reasoning and issues one verdict with the reasoning attached. It never sits on the panel it judges.</p></article><article class="card fx liquid-glass"><div class="sq liquid-glass" style="margin-bottom:18px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.25 5.61C6.27 8.2 10 13 10 13v6c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-6s3.72-4.8 5.74-7.39A.998.998 0 0 0 18.95 4H5.04c-.83 0-1.3.95-.79 1.61z"/></svg></div><h3>The fact gate</h3><p>A question with one right answer gets a single line and an honest nudge. It stays silent when there is nothing to add.</p></article><article class="card fx liquid-glass"><div class="sq liquid-glass" style="margin-bottom:18px"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"/></svg></div><h3>Verification</h3><p>Factual claims inside the verdict are checked against an outside source. Runs on the full version.</p></article></div></div></section><section class="sec" id="principles" data-stop><div class="wrap"><div class="hdc"><p class="lbl" data-r>// What we hold to</p><h2 class="h mid bw" data-bw="We debate before | we believe."></h2></div><div class="g3 fxg" style="margin-top:48px"><article class="card quote fx liquid-glass"><p class="qa">Council principle</p><p class="qt">&ldquo;It knows when to shut up.&rdquo;</p><p style="font-size:15px;line-height:1.55;color:var(--w90)">Ask something with one correct answer and you get one line, not a staged debate. You are not billed for theatre.</p></article><article class="card quote fx liquid-glass"><p class="qa">Council principle</p><p class="qt">&ldquo;It refuses to fake certainty.&rdquo;</p><p style="font-size:15px;line-height:1.55;color:var(--w90)">The same confident tone for a settled fact and a coin flip is the problem Council exists to fix.</p></article><article class="card quote fx liquid-glass"><p class="qa">Council principle</p><p class="qt">&ldquo;Every question has three sides.&rdquo;</p><p style="font-size:15px;line-height:1.55;color:var(--w90)">For it, against it, and how to make it better. The verdict comes with the split left in view.</p></article></div><div class="more" data-r><a class="btn liquid-glass" href="how-it-works.html">Walk through a real question <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div></div></section><section class="sec ask" id="ask" data-stop><div class="wrap"><p class="lbl" data-r>// Test your council now</p><h2 class="h big bw" data-bw="Ask the council anything."></h2><p class="lede" data-r style="margin-left:auto;margin-right:auto">Three angles, weighed into one verdict. Your first question is free, no login.</p><div class="composer" data-r style="--d:.2s"><div class="bar liquid-glass-strong" id="bar"><label for="q" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Your question</label><textarea id="q" rows="1" placeholder="Should I take the job, or hold out for the other one?"></textarea><button id="go" type="button" aria-label="Ask the council"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button></div><div class="crow"><div class="l"><button class="chipb liquid-glass" id="modeBtn" type="button" data-mode="debate">Full debate</button><button class="chipb liquid-glass" id="pickBtn" type="button" aria-expanded="false" aria-controls="picker">Models</button></div><span class="meta" id="meta">3 models, about 30 seconds</span></div><div class="using"><div class="uhead"><p class="ul" id="usingLbl">Council picks the panel from your question</p><button class="resetb" id="resetBtn" type="button">Back to auto-pick</button></div><div class="urow" id="usingRow"></div><p class="unote">The free preview runs on open models and shows which one answered each seat. This panel runs on Plus.</p></div><div class="picker liquid-glass-strong" id="picker"><button class="pk-x liquid-glass" id="pkClose" type="button" aria-label="Close model list"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button><p class="pk-h" id="pkHead">Choose a model</p><div class="pk-g" id="pkGrid"></div></div><p class="small">Want a record of your debates? <a href="signup.html" style="text-decoration:underline">Sign up</a>.</p></div><div id="results" aria-live="polite"></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.7.3/dist/hls.min.js"></script>
 <script>
 (function(){
 "use strict";
@@ -577,6 +654,76 @@ ob.addEventListener('click',function(){setMenu(true);});
 cb.addEventListener('click',function(){setMenu(false);});
 menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open'))setMenu(false);});
+
+/* ================= smooth scrolling (Lenis) + one-scroll pause at each section ================= */
+var lenis=null;
+function absTop(el){return el.getBoundingClientRect().top+window.scrollY;}
+window.smoothTo=function(y){if(lenis)lenis.scrollTo(y,{duration:1.2});else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
+if(!reduce&&typeof window.Lenis==='function'){
+  var stops=[].slice.call(document.querySelectorAll('[data-stop]')),visited=[],P={on:false,phase:0,t0:0,last:0};
+  lenis=new window.Lenis({autoRaf:true,lerp:.09,smoothWheel:true,virtualScroll:function(d){
+    var e=d.event;if(!e||e.type!=='wheel'||e.ctrlKey)return true;          /* touch keeps native scrolling */
+    var now=performance.now(),gap=now-P.last;P.last=now;
+    if(P.on){
+      if(e.cancelable)e.preventDefault();
+      if(P.phase===0){if(gap>220&&now-P.t0>450){P.phase=1;P.p1=now;}}        /* first fresh scroll after arriving: swallowed */
+      else if(now-P.p1>550&&gap>260){P.on=false;P.phase=0;return true;}      /* the next scroll moves on */
+      return false;
+    }
+    if(d.deltaY<=0)return true;
+    var cur=lenis.animatedScroll,next=lenis.targetScroll+d.deltaY;
+    for(var i=0;i<stops.length;i++){
+      var st=stops[i],top=Math.round(absTop(st));
+      if(visited.indexOf(st)<0&&cur<top-4&&next>=top-4){
+        visited.push(st);if(e.cancelable)e.preventDefault();
+        P.on=true;P.phase=0;P.t0=now;
+        lenis.scrollTo(top,{duration:1.05,easing:function(t){return 1-Math.pow(1-t,3);}});
+        return false;
+      }
+    }
+    return true;
+  }});
+  window.__lenis=lenis;
+  lenis.on('scroll',function(){                                              /* scrolling back up re-arms the pause */
+    for(var i=visited.length-1;i>=0;i--){if(lenis.scroll<absTop(visited[i])-window.innerHeight*.3)visited.splice(i,1);}
+  });
+}
+/* in-page links glide instead of jumping */
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href*="#"]');if(!a)return;
+  var u=new URL(a.href,location.href);if(u.pathname!==location.pathname||!u.hash)return;
+  var t=document.querySelector(u.hash);if(!t)return;e.preventDefault();window.smoothTo(absTop(t));
+});
+
+/* ================= cards: slide in from out of frame, then glow on hover ================= */
+var cards=[].slice.call(document.querySelectorAll('.fx'));
+function aim(g){
+  var gr=g.getBoundingClientRect(),mid=gr.left+gr.width/2;
+  [].forEach.call(g.querySelectorAll('.fx'),function(c,i){
+    var r=c.getBoundingClientRect(),cx=r.left+r.width/2;
+    c.classList.remove('fl','fr','fb');
+    c.classList.add(Math.abs(cx-mid)<gr.width*.12?'fb':(cx<mid?'fl':'fr'));
+    c.style.setProperty('--d',(i*.12).toFixed(2)+'s');
+  });
+}
+if(reduce){cards.forEach(function(c){c.classList.add('in','settled');});}
+else{
+  var groups=[].slice.call(document.querySelectorAll('.fxg'));
+  groups.forEach(aim);
+  var gio=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting)return;gio.unobserve(e.target);
+    [].forEach.call(e.target.querySelectorAll('.fx'),function(c,i){
+      requestAnimationFrame(function(){c.classList.add('in');});
+      setTimeout(function(){c.classList.add('settled');},1250+i*120);
+    });
+  });},{threshold:.15});
+  groups.forEach(function(g){gio.observe(g);});
+}
+cards.forEach(function(c){
+  c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');});
+  c.addEventListener('pointerenter',function(){glow.classList.add('hot');});
+  c.addEventListener('pointerleave',function(){glow.classList.remove('hot');});
+});
 })();
 
 </script>
@@ -586,51 +733,82 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classL
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function clamp(v,a,b){return v<a?a:(v>b?b:v);}
 
-/* ================= one continuous planet =================
-   A single clip sits behind the whole home page, from the hero down to the ask box.
-   Scrolling pans and slowly zooms it, so each section shows a different part of the same planet. */
-var planet=document.getElementById('planet'),askSec=document.getElementById('ask');
-if(planet){
-  var pv=[planet.querySelector('.pa'),planet.querySelector('.pb')],scrim=planet.querySelector('.scrim');
-  var endY=1,pT=0,pC=0,pRun=false;
-  function pMeasure(){var r=askSec.getBoundingClientRect();endY=Math.max(1,r.bottom+window.scrollY-window.innerHeight);pTarget();}
-  function pTarget(){pT=clamp(window.scrollY/endY,0,1);if(!pRun){pRun=true;requestAnimationFrame(pRender);}}
-  function pRender(){
-    pC+=(pT-pC)*.085;if(Math.abs(pT-pC)<.0004)pC=pT;
-    var e=pC*pC*(3-2*pC);
-    var tr=reduce?'none':'translate3d('+((.5-e)*6).toFixed(3)+'vw,'+(-e*38).toFixed(3)+'vh,0) scale('+(1+e*.14).toFixed(4)+')';
-    pv[0].style.transform=pv[1].style.transform=tr;
-    scrim.style.opacity=(.12+e*.36).toFixed(3);
-    if(pC!==pT)requestAnimationFrame(pRender);else pRun=false;
-  }
-  window.addEventListener('scroll',pTarget,{passive:true});
-  window.addEventListener('resize',pMeasure);
-  if(window.ResizeObserver)new ResizeObserver(pMeasure).observe(document.body);
-  pMeasure();
-
-  function vplay(v){var p=v.play();if(p&&p.catch)p.catch(function(){});}
-  function vfade(v,to,ms){var from=parseFloat(v.style.opacity===''?getComputedStyle(v).opacity:v.style.opacity),t0=performance.now();
-    (function step(t){var k=Math.min((t-t0)/ms,1);v.style.opacity=String(from+(to-from)*k);if(k<1)requestAnimationFrame(step);})(t0);}
-  var cur=pv[0],nxt=pv[1],XF=1.2,handing=false;
-  cur.style.opacity='1';nxt.style.opacity='0';
-  function reveal(){planet.classList.add('on');}
-  if(cur.readyState>=2)reveal();else cur.addEventListener('loadeddata',reveal,{once:true});
-  if(!reduce){
-    vplay(cur);
-    function onTime(){
-      if(handing||this!==cur||!cur.duration)return;
-      if(cur.duration-cur.currentTime<=XF){
-        handing=true;nxt.currentTime=0;vplay(nxt);vfade(nxt,1,XF*1000);vfade(cur,0,XF*1000);
-        setTimeout(function(){cur.pause();var t=cur;cur=nxt;nxt=t;handing=false;},XF*1000+80);
-      }
-    }
-    pv.forEach(function(v){
-      v.addEventListener('timeupdate',onTime);
-      v.addEventListener('ended',function(){if(this===cur&&!handing){cur.currentTime=0;vplay(cur);}});
-    });
-    document.addEventListener('visibilitychange',function(){if(document.hidden){pv[0].pause();pv[1].pause();}else vplay(cur);});
-  }
+/* ================= video scenes =================
+   landing + ask: stream, loop seamlessly by cross-fading two copies of the clip.
+   roles/how + the five lines: the clip is tied to the scroll (forward going down, backward going up),
+   with a barely visible drift when you stop. Each scene fades in and out with its own sections. */
+var SC=[].slice.call(document.querySelectorAll('.scene'));
+function aTop(el){return el.getBoundingClientRect().top+window.scrollY;}
+function attach(v,url){
+  if(/\.m3u8/.test(url)){
+    if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=url;}
+    else if(window.Hls&&window.Hls.isSupported()){var h=new window.Hls({capLevelToPlayerSize:true,maxBufferLength:12});h.loadSource(url);h.attachMedia(v);v._hls=h;}
+  }else{v.src=url;}
+  v.preload='auto';
 }
+function vplay(v){var p=v.play();if(p&&p.catch)p.catch(function(){});return p;}
+function vfade(v,to,ms){var from=parseFloat(v.style.opacity===''?getComputedStyle(v).opacity:v.style.opacity),t0=performance.now();
+  (function step(t){var k=Math.min((t-t0)/ms,1);v.style.opacity=String(from+(to-from)*k);if(k<1)requestAnimationFrame(step);})(t0);}
+function loopScene(s){
+  var a=s.querySelector('.sa'),b=s.querySelector('.sb'),url=s.getAttribute('data-src'),XF=1.5,cur=a,nxt=b,handing=false,bOn=false;
+  a.style.opacity='1';b.style.opacity='0';attach(a,url);
+  a.addEventListener('playing',function(){if(bOn)return;bOn=true;setTimeout(function(){attach(b,url);},1500);},{once:true});
+  function onTime(){
+    if(handing||this!==cur||!isFinite(cur.duration)||!cur.duration)return;
+    if(cur.duration-cur.currentTime<=XF&&nxt.readyState>=2){
+      handing=true;try{nxt.currentTime=0;}catch(e){}vplay(nxt);vfade(nxt,1,XF*1000);vfade(cur,0,XF*1000);
+      setTimeout(function(){cur.pause();var t=cur;cur=nxt;nxt=t;handing=false;},XF*1000+80);
+    }
+  }
+  [a,b].forEach(function(v){
+    v.addEventListener('timeupdate',onTime);
+    v.addEventListener('ended',function(){if(this===cur&&!handing){cur.currentTime=0;vplay(cur);}});
+  });
+  s._play=function(){if(!reduce)vplay(cur);};
+  s._pause=function(){a.pause();b.pause();};
+}
+function scrubScene(s){
+  var v=s.querySelector('video');attach(v,s.getAttribute('data-src'));
+  v.addEventListener('loadedmetadata',function(){s._ready=true;});
+  var p=vplay(v);if(p&&p.then)p.then(function(){v.pause();}).catch(function(){});   /* lets iPhones paint frames */
+  s._cur=0;
+}
+var geo=[];
+function measure(){
+  var H=window.innerHeight;
+  geo=SC.map(function(s){
+    var f=s.getAttribute('data-from'),t=document.getElementById(s.getAttribute('data-to'));
+    var T=f==='top'?-1e9:aTop(document.getElementById(f)),B=aTop(t)+t.offsetHeight;
+    return {T:T,B:B,real:f==='top'?0:T};
+  });
+}
+measure();window.addEventListener('resize',measure);
+if(window.ResizeObserver)new ResizeObserver(measure).observe(document.body);
+var t0s=performance.now();
+function sceneTick(now){
+  var y=window.scrollY,H=window.innerHeight;
+  for(var i=0;i<SC.length;i++){
+    var s=SC[i],g=geo[i];if(!g)continue;
+    var vis=Math.max(0,Math.min(1,Math.min((y+H-g.T)/(H*.5),(g.B-y)/(H*.5))));
+    if(!s._init&&y+H*2.2>g.T&&y-H*1.5<g.B){s._init=true;(s.getAttribute('data-kind')==='loop'?loopScene:scrubScene)(s);}
+    s.style.opacity=(vis*parseFloat(s.getAttribute('data-max'))).toFixed(3);
+    var on=vis>.01;
+    if(s.getAttribute('data-kind')==='loop'){
+      if(on&&!s._on&&s._play){s._on=true;s._play();}else if(!on&&s._on){s._on=false;s._pause();}
+    }else if(s._ready&&on){
+      var v=s.querySelector('video'),d=v.duration||0;if(!d)continue;
+      var p=Math.max(0,Math.min(1,(y+H-g.real)/(g.B-g.real+H)));
+      var drift=reduce?0:Math.sin((now-t0s)/5200)*.18;
+      var tgt=Math.max(0,Math.min(d-.06,.12+p*(d-.3)+drift));
+      s._cur+=(tgt-s._cur)*.14;
+      if(!v.seeking&&Math.abs(v.currentTime-s._cur)>.03){try{v.currentTime=s._cur;}catch(e){}}
+      var rot=reduce?0:(p-.5)*6,sc=1.16+Math.abs(p-.5)*.08;
+      v.style.transform='translate(-50%,-50%) rotate('+rot.toFixed(2)+'deg) scale('+sc.toFixed(3)+')';
+    }
+  }
+  requestAnimationFrame(sceneTick);
+}
+requestAnimationFrame(sceneTick);
 
 /* ================= the five lines: tied to the scroll, both ways ================= */
 var ls=document.getElementById('lines');
@@ -639,7 +817,7 @@ if(ls&&!reduce){
   function lTarget(){var r=ls.getBoundingClientRect(),span=r.height-window.innerHeight;lT=clamp(-r.top/Math.max(1,span),-.2,1);
     if(!lRun){lRun=true;requestAnimationFrame(lRender);}}
   function lRender(){
-    lC+=(lT-lC)*.12;if(Math.abs(lT-lC)<.0005)lC=lT;
+    lC+=(lT-lC)*(window.__lenis?.22:.12);if(Math.abs(lT-lC)<.0005)lC=lT;
     var pos=lC*(N+1.4);                       /* each line lights over one step; all are lit by ~80% */
     for(var i=0;i<N;i++){
       var t=clamp(pos-i,0,1),e=t*t*(3-2*t);
@@ -696,7 +874,7 @@ document.addEventListener('click',function(e){
   if(e.target.closest('#pkClose')){setPicker(false);pickBtn.focus();return;}
   if(e.target.closest('#resetBtn')){manual=false;autoPick();renderUsing();return;}
   var p=e.target.closest('.pk');if(p){var i=+p.getAttribute('data-pk');if(active.indexOf(i)<0){active[slot]=i;manual=true;renderUsing();renderPicker();}return;}
-  if(e.target.closest('#againBtn')){var c=document.querySelector('.composer');window.scrollTo({top:c.getBoundingClientRect().top+window.scrollY-140,behavior:reduce?'auto':'smooth'});setTimeout(function(){qEl.focus({preventScroll:true});qEl.select();},reduce?0:600);return;}
+  if(e.target.closest('#againBtn')){var c=document.querySelector('.composer');window.smoothTo(c.getBoundingClientRect().top+window.scrollY-140);setTimeout(function(){qEl.focus({preventScroll:true});qEl.select();},reduce?0:600);return;}
   var mb=e.target.closest('#modeBtn');
   if(mb){var q=mb.getAttribute('data-mode')==='debate';mb.setAttribute('data-mode',q?'quick':'debate');mb.textContent=q?'Quick take':'Full debate';mb.classList.toggle('on',q);
     document.getElementById('meta').textContent=q?'1 model, about 10 seconds':'3 models, about 30 seconds';}
@@ -763,7 +941,7 @@ function convene(){
    +(quick?'<div class="seats"><span>Quick take</span></div>':'<div class="seats"><span style="--d:0s">The case for</span><span style="--d:1.2s">The case against</span><span style="--d:2.4s">How to improve it</span></div>')
    +'<p class="elapsed" id="elapsed">Usually about '+typical+' seconds</p></div><div class="out" id="out"></div>';
   /* the question goes to the top of the screen; the session line lands in the middle */
-  requestAnimationFrame(function(){var a=document.getElementById('asked');window.scrollTo({top:a.getBoundingClientRect().top+window.scrollY-96,behavior:reduce?'auto':'smooth'});});
+  requestAnimationFrame(function(){var a=document.getElementById('asked');window.smoothTo(a.getBoundingClientRect().top+window.scrollY-96);});
   var t0=Date.now(),el=document.getElementById('elapsed');
   var timer=setInterval(function(){el.textContent=Math.round((Date.now()-t0)/1000)+'s, usually about '+typical;},1000);
   var body={question:q,mode:quick?'quick':'debate',category:route.id,panel:manual?active.map(function(i){return AIS[i].n;}):null};
