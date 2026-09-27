@@ -23,7 +23,7 @@
 // "paid": the named frontier panel (auto-picked by question type) + fact-checking. Needs credit.
 // Set COUNCIL_MODE in Vercel → Settings → Environment Variables, or change the default here.
 const MODE = (process.env.COUNCIL_MODE || "free").toLowerCase();
-const SITE_URL = process.env.SITE_URL || "https://ai-council.vercel.app";
+const SITE_URL = process.env.SITE_URL || "https://ai-council-ashen.vercel.app";
 
 // Vercel stops the function at 60s (vercel.json). These keep us inside it.
 const SEATS_DONE_BY_MS = 38000;   // seats must finish by here so the chairman has time
