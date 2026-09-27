@@ -5,12 +5,36 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Models — Council</title>
 <meta name="description" content="Which AI model is better for what type of question, and how Council picks the right panel for yours.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+<meta name="theme-color" content="#000000">
+<meta name="author" content="Council">
+<link rel="canonical" href="https://ai-council-ashen.vercel.app/models.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Council">
+<meta property="og:locale" content="en_IN">
 <meta property="og:title" content="Models — Council">
 <meta property="og:description" content="Which AI model is better for what type of question, and how Council picks the right panel for yours.">
-<meta property="og:type" content="website">
+<meta property="og:url" content="https://ai-council-ashen.vercel.app/models.html">
+<meta property="og:image" content="https://ai-council-ashen.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Council: a second opinion for decisions with no right answer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Models — Council">
+<meta name="twitter:description" content="Which AI model is better for what type of question, and how Council picks the right panel for yours.">
+<meta name="twitter:image" content="https://ai-council-ashen.vercel.app/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&family=Inter+Tight:wght@600;700&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://ai-council-ashen.vercel.app/#org", "name": "Council", "url": "https://ai-council-ashen.vercel.app/", "logo": "https://ai-council-ashen.vercel.app/icon-512.png", "email": "hello@council.app", "description": "Council is an AI decision tool: three AI models argue a hard question (one for, one against, one on how to improve it) and a fourth model weighs them into one verdict, with the disagreement left in view.", "foundingLocation": {"@type": "Place", "name": "Delhi, India"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://ai-council-ashen.vercel.app/#site", "name": "Council", "url": "https://ai-council-ashen.vercel.app/", "publisher": {"@id": "https://ai-council-ashen.vercel.app/#org"}, "inLanguage": "en", "description": "A second opinion for decisions that have no right answer."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Models — Council", "description": "Which AI model is better for what type of question, and how Council picks the right panel for yours.", "url": "https://ai-council-ashen.vercel.app/models.html", "isPartOf": {"@id": "https://ai-council-ashen.vercel.app/#site"}, "inLanguage": "en"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai-council-ashen.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "Models", "item": "https://ai-council-ashen.vercel.app/models.html"}]}</script>
 <style>
 :root{--w90:rgba(255,255,255,.9);--w80:rgba(255,255,255,.8);--w60:rgba(255,255,255,.6);--w50:rgba(255,255,255,.5);
   --w30:rgba(255,255,255,.3);--w15:rgba(255,255,255,.15);--w10:rgba(255,255,255,.1);
@@ -30,12 +54,12 @@ img,svg,video,canvas{display:block}
 .h{font-family:var(--heading);font-style:italic;font-weight:400}
 
 /* ---------- liquid glass ---------- */
-.liquid-glass{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+.liquid-glass{background:rgba(255,255,255,.01);
   border:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.1);position:relative;overflow:hidden}
 .liquid-glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
   background:linear-gradient(180deg,rgba(255,255,255,.45) 0%,rgba(255,255,255,.15) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.15) 80%,rgba(255,255,255,.45) 100%);
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.liquid-glass-strong{background:rgba(255,255,255,.01);background-blend-mode:luminosity;backdrop-filter:blur(50px);-webkit-backdrop-filter:blur(50px);
+.liquid-glass-strong{background:rgba(255,255,255,.01);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border:none;box-shadow:4px 4px 4px rgba(0,0,0,.05),inset 0 1px 1px rgba(255,255,255,.15);position:relative;overflow:hidden}
 .liquid-glass-strong::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
   background:linear-gradient(180deg,rgba(255,255,255,.5) 0%,rgba(255,255,255,.2) 20%,rgba(255,255,255,0) 40%,rgba(255,255,255,0) 60%,rgba(255,255,255,.2) 80%,rgba(255,255,255,.5) 100%);
@@ -44,7 +68,7 @@ img,svg,video,canvas{display:block}
 /* ---------- the space layers ---------- */
 #stars{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .nebula{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.nebula i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen}
+.nebula i{position:absolute;border-radius:50%;opacity:.5;will-change:transform}
 .nebula i:nth-child(1){width:52vw;height:52vw;left:-14vw;top:6vh;background:radial-gradient(circle,rgba(46,170,118,.26),transparent 65%);animation:drift1 60s ease-in-out infinite}
 .nebula i:nth-child(2){width:44vw;height:44vw;right:-12vw;top:38vh;background:radial-gradient(circle,rgba(18,122,98,.24),transparent 65%);animation:drift2 75s ease-in-out infinite}
 .nebula i:nth-child(3){width:36vw;height:36vw;left:30vw;bottom:-14vh;background:radial-gradient(circle,rgba(150,232,190,.13),transparent 65%);animation:drift1 90s ease-in-out infinite reverse}
@@ -66,6 +90,7 @@ img,svg,video,canvas{display:block}
 /* ---------- blur-in ---------- */
 .bw{display:flex;flex-wrap:wrap;justify-content:center;row-gap:.1em}
 .bw.l{justify-content:flex-start}
+.bw .br{flex-basis:100%;height:0;margin:0 !important;padding:0}
 .bw span{display:inline-block;margin-right:.28em;filter:blur(10px);opacity:0;transform:translateY(50px);
   transition:filter .7s ease,opacity .7s ease,transform .7s ease;transition-delay:var(--d,0s)}
 .bw.in span{filter:blur(0);opacity:1;transform:none}
@@ -103,8 +128,8 @@ img,svg,video,canvas{display:block}
 /* ---------- shared pieces ---------- */
 .wrap{max-width:74rem;margin:0 auto;padding:0 20px}
 @media(min-width:768px){.wrap{padding:0 40px}}
-.sec{padding:96px 0}
-@media(min-width:768px){.sec{padding:128px 0}}
+.sec{padding:84px 0 36px}
+@media(min-width:768px){.sec{padding:96px 0 44px}}
 .lbl{font-size:14px;color:var(--w80);margin-bottom:20px}
 .big,.mid,.hero h1,.ptop h1,.su h1,.lines p,.pull{font-family:var(--display) !important;font-style:normal !important;font-weight:700 !important}
 .big{font-size:42px;line-height:1;letter-spacing:-.045em}
@@ -131,15 +156,15 @@ img,svg,video,canvas{display:block}
 .card h3{font-family:var(--heading);font-style:italic;font-weight:400;font-size:30px;letter-spacing:-1px;line-height:1}
 .card p{font-size:15px;line-height:1.55;color:var(--w90);margin-top:12px}
 .sq{width:44px;height:44px;border-radius:.75rem;display:flex;align-items:center;justify-content:center}
-.tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
-.tags span{border-radius:999px;padding:4px 12px;font-size:11px;color:var(--w90);white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}
+.tags span{border-radius:999px;padding:3px 9px;font-size:10.5px;color:var(--w90);white-space:nowrap}
 .cap{display:flex;flex-direction:column}
 .cap h3{margin-top:22px}
 .cap .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 .cap .grow{flex:1}
 .cap p{max-width:32ch}
 .more{margin-top:36px;display:flex;justify-content:center}
-.sub-h{margin-top:88px}
+.sub-h{margin-top:64px}
 
 /* ---------- home hero ---------- */
 .hero{position:relative;z-index:10;min-height:calc(100vh - 150px);min-height:calc(100svh - 150px);display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -165,7 +190,7 @@ img,svg,video,canvas{display:block}
 @media(min-width:768px){.trust .names span{font-size:28px}}
 
 /* ---------- home: three roles ---------- */
-.capsec{padding-top:40px}
+.capsec{padding-top:96px}
 .capsec .g3{margin-top:56px}
 
 /* ---------- process steps ---------- */
@@ -177,7 +202,7 @@ img,svg,video,canvas{display:block}
 .step h3{margin-top:12px}
 
 /* ---------- the five lines: pinned, scroll-linked ---------- */
-.linesec{position:relative;z-index:10;height:270vh}
+.linesec{position:relative;z-index:10;height:175vh}
 .lines-pin{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;padding:0 20px}
 .lines{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
 .lines p{font-size:28px;letter-spacing:-.035em;line-height:1.22;color:#fff;
@@ -275,11 +300,13 @@ summary{list-style:none;cursor:pointer;padding:18px 22px;font-size:16px;font-wei
 summary::-webkit-details-marker{display:none}
 summary svg{flex-shrink:0;transition:transform .3s;color:var(--w60)}
 details[open] summary svg{transform:rotate(45deg)}
+.legal{margin:0 auto;max-width:52rem}
+.legal h4{text-align:left}
 .db{padding:0 22px 20px;font-size:15px;line-height:1.7;color:var(--w80)}
 .db h4{font-size:15px;font-weight:600;color:#fff;margin:18px 0 6px}
 .db ul{padding-left:18px}.db li{margin:4px 0}.db a{text-decoration:underline}
 .eff{font-size:13px;color:var(--w60);margin-bottom:10px}
-.acc{display:flex;flex-direction:column;gap:10px}
+.acc{display:flex;flex-direction:column;gap:10px;margin-left:auto !important;margin-right:auto !important}
 
 /* ---------- how it works: timeline ---------- */
 .tl{display:flex;flex-direction:column;gap:18px;margin-top:56px}
@@ -397,6 +424,7 @@ details[open] summary svg{transform:rotate(45deg)}
 .final{font-family:var(--heading);font-style:italic;font-size:30px !important;line-height:1.15 !important;letter-spacing:-.5px;color:#fff !important}
 .conf{display:inline-block;font-size:12px;border-radius:999px;padding:3px 10px;margin-left:8px;background:rgba(120,230,175,.12);color:var(--mint)}
 .vcheck{margin-top:18px;padding-top:14px;font-size:13px;color:var(--w60);box-shadow:inset 0 1px 0 var(--w15)}
+
 .again{display:flex;justify-content:center;margin-top:22px}
 .err{text-align:center;padding:24px;color:var(--w90)}
 .fact{text-align:center;padding:10px 0}
@@ -462,13 +490,15 @@ details[open] summary svg{transform:rotate(45deg)}
 }
 
 /* ================= round 4 ================= */
+.foot-tip{text-align:center;font-size:13px;color:var(--w60);line-height:1.6;margin-top:34px;padding-top:22px;box-shadow:inset 0 1px 0 var(--w15)}
+.foot-tip a{text-decoration:underline;color:var(--w80)}
 /* centred section headers */
 .hdc{text-align:center}
 .hdc+.lede,.hdc~.lede{margin-left:auto;margin-right:auto;text-align:center}
 .hdc .lbl{text-align:center}
 
-/* every card: 20% more opaque */
-.card,.mc,.plan,.tstep,.member,.verdict,.asked,.note,.cfeat,.router,.stat,details,.ex,.tw,.rseat,.uchip,.pk,.fn{background-color:rgba(4,10,8,.22) !important}
+/* every card: 37% opaque (+20% in round 4, +15% now) */
+.card,.mc,.plan,.tstep,.member,.verdict,.asked,.note,.cfeat,.router,.stat,details,.ex,.tw,.rseat,.uchip,.pk,.fn{background-color:rgba(4,10,8,.37) !important}
 
 /* nav sign-up */
 .signup{height:44px;padding:0 24px;border-radius:999px;align-items:center;font-size:14px;font-weight:600;color:#fff;
@@ -477,7 +507,7 @@ details[open] summary svg{transform:rotate(45deg)}
 .signup.on{box-shadow:inset 0 0 0 1px rgba(191,243,214,.45)}
 
 /* moving banner under the hero */
-.marq{position:relative;z-index:10;padding:30px 0 28px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+.marq{position:relative;z-index:10;
   border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
 .marq .ml{text-align:center;font-size:12.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--w60)}
 .mq{margin-top:18px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
@@ -489,10 +519,8 @@ details[open] summary svg{transform:rotate(45deg)}
 @keyframes mq{to{transform:translateX(-50%)}}
 
 /* video scenes behind the home page */
-.scenes{position:fixed;inset:0;z-index:0;pointer-events:none}
-.scene{position:absolute;inset:0;overflow:hidden;opacity:0;will-change:opacity}
-.scene video{position:absolute;left:50%;top:50%;width:100%;height:100%;object-fit:cover;transform:translate(-50%,-50%);will-change:transform}
-.scene .sb{opacity:0}
+.scenes{position:fixed;inset:0;z-index:0;pointer-events:none;contain:layout style paint}
+.scene{position:absolute;inset:0;overflow:hidden;opacity:0;will-change:opacity;contain:layout style paint}
 .scene .dim{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,var(--c,.25)),rgba(0,0,0,var(--e,.6)))}
 
 /* cards that slide in from out of frame */
@@ -524,22 +552,62 @@ details[open] summary svg{transform:rotate(45deg)}
 
 @media(max-width:600px){.stats{flex-wrap:nowrap;gap:10px;width:100%;max-width:26rem}.stat{flex:1 1 0;padding:16px}.stat .n{font-size:32px;margin-top:10px}.stat .t{font-size:12px}}
 
+/* ================= round 5 ================= */
+/* 10. a slim banner: one line, lets the landing video show through */
+.marq{padding:14px 0;background:linear-gradient(to bottom,rgba(0,0,0,.18),rgba(0,0,0,.42));border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+.marq .row{display:flex;align-items:center;gap:28px;max-width:80rem;margin:0 auto;padding:0 20px}
+.marq .ml{flex:0 0 auto;text-align:left;font-size:11.5px;letter-spacing:.18em;line-height:1.4;max-width:9.5rem}
+.mq{flex:1;min-width:0;margin-top:0}
+.mq-s span{font-size:20px !important}
+.mq-s{gap:64px !important;padding-right:64px !important}
+@media(max-width:640px){.marq .row{flex-direction:column;gap:8px}.marq .ml{text-align:center;max-width:none}.mq{width:100%}.mq-s span{font-size:18px !important}}
+.hero{min-height:calc(100vh - 78px);min-height:calc(100svh - 78px)}
+@media(max-width:640px){.hero{min-height:calc(100svh - 96px)}}
+
+/* video backgrounds: two copies cross-fade at the loop point, so nothing ever ends abruptly */
+.vbg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.vbg video{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;opacity:0;will-change:opacity;backface-visibility:hidden}
+.sec-video>.vbg{z-index:0}
+.scene .vbg{transform-origin:50% 50%;will-change:transform}
+/* keep text crisp over moving footage */
+.hero .sub,.hero .badge,.lede,.lbl,.lines p,.big,.mid,.hero h1,.status{text-shadow:0 1px 22px rgba(0,0,0,.55)}
+
+/* 9. icon chase: one icon tile at a time lights up with a glowing outline, then passes it on */
+.icon-chase .sq{position:relative;transition:box-shadow .9s ease,background-color .9s ease}
+.icon-chase .sq svg{transition:filter .9s ease,color .9s ease}
+.icon-chase .sq.lit{transition:box-shadow .35s ease,background-color .35s ease;background-color:rgba(200,255,225,.07);
+  box-shadow:0 0 0 1.5px rgba(232,255,242,.95),0 0 14px 2px rgba(160,248,200,.55),0 0 30px 6px rgba(120,230,175,.22)}
+.icon-chase .sq.lit svg{transition:filter .35s ease;filter:drop-shadow(0 0 6px rgba(200,255,225,.9));color:#fff}
+
+/* 18. start here */
+.starthere{display:flex;gap:12px;align-items:flex-start;max-width:44rem;margin:0 auto 44px;padding:14px 18px;border-radius:1rem;
+  background:rgba(4,10,8,.45);box-shadow:inset 0 0 0 1px rgba(191,243,214,.22);font-size:14.5px;line-height:1.55;color:var(--w90);text-align:left}
+.starthere b{flex:0 0 auto;font-weight:600;color:#06140d;background:var(--mint);border-radius:999px;padding:2px 10px;font-size:12px;letter-spacing:.02em;margin-top:1px}
+
+.foot{background-color:rgba(0,0,0,.5) !important}
+section[id]{scroll-margin-top:0}
+@media(max-width:520px){.starthere{flex-direction:column;gap:8px}}
+
 </style>
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas><div class="nebula" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div id="glow" aria-hidden="true"></div>
 <header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html" class="on" aria-current="page">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><a class="signup dsk liquid-glass-strong" href="signup.html">Sign up</a><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="models.html" class="on" aria-current="page">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
-<div class="page"><main><section class="sec-video phero"><video class="fv" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_093722_ccfc7ebf-182f-419f-8a62-2dc02db7dd9d.mp4" autoplay muted playsinline preload="auto" data-max=".75" aria-hidden="true"></video><div class="shade"></div><div class="inner wrap"><p class="lbl bi">// The lineup</p><h1 class="h big bw" data-bw="Which tool is better | for what question?"></h1><p class="lede bi" style="--d:.5s">Every model has a shape. Some reason hard, some write well, some know what happened this morning. You do not have to keep track: Council reads your question and picks the panel for you.</p></div></section><section class="sec" data-stop><div class="wrap"><div class="cfeat liquid-glass-strong" data-r><div><p class="cn">Council</p><p class="cv">Picks the panel for you</p></div><div><p class="cb">Council is not another model. It reads your question, seats the three models best suited to argue it, and asks a fourth to judge. You get the strengths of the whole lineup without having to know them.</p><div class="ctas" style="justify-content:flex-start;margin-top:18px"><a class="btn liquid-glass" href="#auto">See how it picks <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div></div></div><div class="mg"><article class="mc liquid-glass" data-r style="--d:0.00s"><p class="mn">GPT-6 Astra</p><p class="mv">OpenAI</p><p class="mb">Multi-step tasks it can carry out itself.</p><p class="ms">Council seats it for: Business, Tech. Chairs: Career</p></article><article class="mc liquid-glass" data-r style="--d:0.05s"><p class="mn">GPT-5.6 Sol</p><p class="mv">OpenAI</p><p class="mb">Everyday judgment calls and general reasoning.</p><p class="ms">Council seats it for: News, Money, Career, Business, Writing, General. Chairs: Tech, Research</p></article><article class="mc liquid-glass" data-r style="--d:0.10s"><p class="mn">Claude Opus 5.5</p><p class="mv">Anthropic</p><p class="mb">Careful writing and long-document analysis.</p><p class="ms">Council seats it for: Career, Business, Tech, Research, Writing, General. Chairs: News, Money</p></article><article class="mc liquid-glass" data-r style="--d:0.15s"><p class="mn">Gemini 3 Pro</p><p class="mv">Google</p><p class="mb">Research across huge context and images.</p><p class="ms">Council seats it for: News, Money, Career, Research, General. Chairs: Business, Writing</p></article><article class="mc liquid-glass" data-r style="--d:0.20s"><p class="mn">DeepSeek V4 Pro</p><p class="mv">DeepSeek</p><p class="mb">Heavy reasoning when budget matters.</p><p class="ms">Council seats it for: Money. Chairs: General</p></article><article class="mc liquid-glass" data-r style="--d:0.25s"><p class="mn">Grok 4.3</p><p class="mv">xAI</p><p class="mb">Anything that happened this week.</p><p class="ms">Council seats it for: News</p></article><article class="mc liquid-glass" data-r style="--d:0.30s"><p class="mn">Mistral Large 3</p><p class="mv">Mistral</p><p class="mb">European languages and image questions.</p><p class="ms">Council seats it for: Writing</p></article><article class="mc liquid-glass" data-r style="--d:0.35s"><p class="mn">Qwen3.8-Max</p><p class="mv">Alibaba</p><p class="mb">Multilingual coding and web research.</p><p class="ms">Council seats it for: Tech</p></article><article class="mc liquid-glass" data-r style="--d:0.40s"><p class="mn">Llama 4 Maverick</p><p class="mv">Meta</p><p class="mb">When it must run on your own hardware.</p><p class="ms">Seated when you choose your own panel.</p></article><article class="mc liquid-glass" data-r style="--d:0.45s"><p class="mn">Kimi K2</p><p class="mv">Moonshot</p><p class="mb">Very long files read end to end.</p><p class="ms">Council seats it for: Research</p></article></div></div></section><section class="sec" data-stop id="auto"><div class="wrap"><div class="hdc"><p class="lbl" data-r>// Auto-pick</p><h2 class="h mid bw" data-bw="Council picks the | right panel for you."></h2></div><p class="lede" data-r>Before anyone argues, Council sorts your question into one of eight types. Each type has a default panel of three and a chairman from outside it. Type a question to see which one yours gets.</p><div class="router liquid-glass-strong" data-r><div class="rbar liquid-glass"><label for="rq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Type a question</label><input id="rq" type="text" autocomplete="off" placeholder="Type a question to see the panel it gets"></div><div class="rex" id="rex"><button class="liquid-glass" type="button" data-ex="0">Should I sell my shares after this week’s news?</button><button class="liquid-glass" type="button" data-ex="1">Is it smarter to rent or buy a flat in Delhi?</button><button class="liquid-glass" type="button" data-ex="2">Should I leave my job to work on my startup full time?</button><button class="liquid-glass" type="button" data-ex="3">Should I launch my app now or wait until it is polished?</button><button class="liquid-glass" type="button" data-ex="4">Should I build my backend in Python or Node?</button><button class="liquid-glass" type="button" data-ex="5">Does the evidence support a four-day work week?</button><button class="liquid-glass" type="button" data-ex="6">Help me choose a name for my bakery: Crumb or Oven Story?</button><button class="liquid-glass" type="button" data-ex="7">Is it worth learning the piano at 30?</button></div><div class="rout" aria-live="polite"><p class="rtype" id="rtype"></p><p class="rwhy" id="rwhy"></p><div class="rseats" id="rseats"></div></div></div><div class="tw liquid-glass" data-r style="margin-top:32px"><table style="min-width:980px"><thead><tr><th>Question type</th><th>Picked when you ask about</th><th>The case for</th><th>The case against</th><th>How to improve it</th><th>Chairman</th></tr></thead><tbody><tr><td>Current events</td><td class="wrapc">today, this week, latest, news</td><td class="r3">Grok 4.3</td><td class="r3">Gemini 3 Pro</td><td class="r3">GPT-5.6 Sol</td><td class="r2">Claude Opus 5.5</td></tr><tr><td>Money and investing</td><td class="wrapc">investing, loans, rent or buy, tax</td><td class="r3">GPT-5.6 Sol</td><td class="r3">DeepSeek V4 Pro</td><td class="r3">Gemini 3 Pro</td><td class="r2">Claude Opus 5.5</td></tr><tr><td>Career and life decisions</td><td class="wrapc">jobs, degrees, moving, relationships</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Claude Opus 5.5</td><td class="r3">Gemini 3 Pro</td><td class="r2">GPT-6 Astra</td></tr><tr><td>Business and startups</td><td class="wrapc">startups, launches, pricing, customers</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Claude Opus 5.5</td><td class="r3">GPT-6 Astra</td><td class="r2">Gemini 3 Pro</td></tr><tr><td>Code and technical choices</td><td class="wrapc">code, frameworks, databases, hardware</td><td class="r3">Qwen3.8-Max</td><td class="r3">Claude Opus 5.5</td><td class="r3">GPT-6 Astra</td><td class="r2">GPT-5.6 Sol</td></tr><tr><td>Research and long reading</td><td class="wrapc">papers, evidence, reports, sources</td><td class="r3">Gemini 3 Pro</td><td class="r3">Claude Opus 5.5</td><td class="r3">Kimi K2</td><td class="r2">GPT-5.6 Sol</td></tr><tr><td>Writing and creative work</td><td class="wrapc">names, essays, emails, slogans</td><td class="r3">Claude Opus 5.5</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Mistral Large 3</td><td class="r2">Gemini 3 Pro</td></tr><tr><td>General judgment</td><td class="wrapc">anything else</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Claude Opus 5.5</td><td class="r3">Gemini 3 Pro</td><td class="r2">DeepSeek V4 Pro</td></tr></tbody></table></div><p class="fine" data-r>On Plus you can swap any seat for another model. The free preview runs on open models while billing is set up, and shows which one answered each seat.</p></div></section><section class="sec" data-stop><div class="wrap"><div class="hdc"><p class="lbl" data-r>// Side by side</p><h2 class="h mid bw" data-bw="Strengths, compared."></h2></div><p class="lede" data-r>The five most people actually choose between.</p><div class="tw liquid-glass" data-r style="margin-top:32px"><table><thead><tr><th>Model</th><th>Best at</th><th>Coding</th><th>Writing</th><th>Reasoning</th><th>Live web</th><th>Cost</th></tr></thead><tbody><tr><td>GPT-6 Astra</td><td class="r1">Agentic, multi-step work</td><td class="r3">Excellent</td><td class="r2">Very good</td><td class="r3">Excellent</td><td class="r3">Native</td><td class="r1">Premium</td></tr><tr><td>Claude Opus 5.5</td><td class="r1">Writing, long documents</td><td class="r3">Excellent</td><td class="r3">Excellent</td><td class="r2">Very good</td><td class="r3">Native</td><td class="r1">High</td></tr><tr><td>GPT-5.6 Sol</td><td class="r1">General reasoning</td><td class="r3">Excellent</td><td class="r2">Very good</td><td class="r3">Excellent</td><td class="r3">Native</td><td class="r1">High</td></tr><tr><td>Gemini 3 Pro</td><td class="r1">Research, huge context</td><td class="r2">Very good</td><td class="r2">Very good</td><td class="r3">Excellent</td><td class="r3">Native</td><td class="r2">Mid</td></tr><tr><td>Grok 4.3</td><td class="r1">Current events</td><td class="r1">Good</td><td class="r1">Good</td><td class="r2">Very good</td><td class="r3">Native (X)</td><td class="r3">Low</td></tr></tbody></table></div></div></section><section class="sec" data-stop><div class="wrap"><div class="hdc"><p class="lbl" data-r>// One model or a panel</p><h2 class="h mid bw" data-bw="Council against | one model."></h2></div><p class="lede" data-r>Council is slower and costs more. If the question is easy, use one model.</p><div class="tw liquid-glass" data-r style="margin-top:32px"><table style="min-width:560px"><thead><tr><th></th><th>One model</th><th>Council</th></tr></thead><tbody><tr><td>Answers</td><td class="r1">One</td><td class="r3">Three, then one verdict</td></tr><tr><td>The case against</td><td class="r1">Rarely</td><td class="r3">Always, it is a seat</td></tr><tr><td>Disagreement</td><td class="r1">Hidden</td><td class="r3">Shown under the verdict</td></tr><tr><td>Confidence</td><td class="r1">Same tone for everything</td><td class="r3">High, medium or low</td></tr><tr><td>Which model</td><td class="r1">You choose</td><td class="r3">Picked for your question</td></tr><tr><td>Speed and cost</td><td class="r3">Fast, cheap</td><td class="r1">Slower, dearer</td></tr></tbody></table></div><div class="split" style="margin-top:56px"><div class="usecol" data-r><h3>Use one model when</h3><ul><li>The question has one right answer.</li><li>You need a reply in two seconds.</li><li>You are drafting, coding or summarising something you already understand.</li></ul></div><div class="usecol c" data-r style="--d:.12s"><h3>Use Council when</h3><ul><li>Being wrong would cost you money, time or a relationship.</li><li>Reasonable people would disagree.</li><li>You have already asked one AI and want to know how confident to be.</li></ul></div></div><p class="fine" data-r style="margin-top:40px">Strengths are drawn from public comparison charts, not our own testing. We do not build models. We rent them, and put them into a structured argument. What we built is the argument.</p></div></section><section class="sec" data-stop><div class="wrap" style="text-align:center"><h2 class="h mid bw" data-bw="See which three | answer your question."></h2><div class="ctas" data-r><a class="btn liquid-glass-strong" href="index.html#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="how-it-works.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> How it works</a></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
+<div class="page"><main><section class="sec-video phero"><div class="vbg" data-auto data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_093722_ccfc7ebf-182f-419f-8a62-2dc02db7dd9d.mp4" data-max=".8" aria-hidden="true"><video muted playsinline preload="none"></video><video muted playsinline preload="none"></video></div><div class="shade"></div><div class="inner wrap"><p class="lbl bi">// The lineup</p><h1 class="h big bw"><span style="--d:0.00s">Which</span> <span style="--d:0.08s">tool</span> <span style="--d:0.16s">is</span> <span style="--d:0.24s">better</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.32s">for</span> <span style="--d:0.40s">what</span> <span style="--d:0.48s">question?</span></h1><p class="lede bi" style="--d:.5s">Every model has a shape. Some reason hard, some write well, some know what happened this morning. You do not have to keep track: Council reads your question and picks the panel for you.</p></div></section><section class="sec"><div class="wrap"><div class="cfeat liquid-glass-strong" data-r><div><p class="cn">Council</p><p class="cv">Picks the panel for you</p></div><div><p class="cb">Council is not another model. It reads your question, seats the three models best suited to argue it, and asks a fourth to judge. You get the strengths of the whole lineup without having to know them.</p><div class="ctas" style="justify-content:flex-start;margin-top:18px"><a class="btn liquid-glass" href="#auto">See how it picks <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></div></div></div><div class="mg"><article class="mc liquid-glass" data-r style="--d:0.00s"><p class="mn">GPT-6 Astra</p><p class="mv">OpenAI</p><p class="mb">Multi-step tasks it can carry out itself.</p><p class="ms">Council seats it for: Business, Tech. Chairs: Career</p></article><article class="mc liquid-glass" data-r style="--d:0.05s"><p class="mn">GPT-5.6 Sol</p><p class="mv">OpenAI</p><p class="mb">Everyday judgment calls and general reasoning.</p><p class="ms">Council seats it for: News, Money, Career, Business, Writing, General. Chairs: Tech, Research</p></article><article class="mc liquid-glass" data-r style="--d:0.10s"><p class="mn">Claude Opus 5.5</p><p class="mv">Anthropic</p><p class="mb">Careful writing and long-document analysis.</p><p class="ms">Council seats it for: Career, Business, Tech, Research, Writing, General. Chairs: News, Money</p></article><article class="mc liquid-glass" data-r style="--d:0.15s"><p class="mn">Gemini 3 Pro</p><p class="mv">Google</p><p class="mb">Research across huge context and images.</p><p class="ms">Council seats it for: News, Money, Career, Research, General. Chairs: Business, Writing</p></article><article class="mc liquid-glass" data-r style="--d:0.20s"><p class="mn">DeepSeek V4 Pro</p><p class="mv">DeepSeek</p><p class="mb">Heavy reasoning when budget matters.</p><p class="ms">Council seats it for: Money. Chairs: General</p></article><article class="mc liquid-glass" data-r style="--d:0.25s"><p class="mn">Grok 4.3</p><p class="mv">xAI</p><p class="mb">Anything that happened this week.</p><p class="ms">Council seats it for: News</p></article><article class="mc liquid-glass" data-r style="--d:0.30s"><p class="mn">Mistral Large 3</p><p class="mv">Mistral</p><p class="mb">European languages and image questions.</p><p class="ms">Council seats it for: Writing</p></article><article class="mc liquid-glass" data-r style="--d:0.35s"><p class="mn">Qwen3.8-Max</p><p class="mv">Alibaba</p><p class="mb">Multilingual coding and web research.</p><p class="ms">Council seats it for: Tech</p></article><article class="mc liquid-glass" data-r style="--d:0.40s"><p class="mn">Llama 4 Maverick</p><p class="mv">Meta</p><p class="mb">When it must run on your own hardware.</p><p class="ms">Seated when you choose your own panel.</p></article><article class="mc liquid-glass" data-r style="--d:0.45s"><p class="mn">Kimi K2</p><p class="mv">Moonshot</p><p class="mb">Very long files read end to end.</p><p class="ms">Council seats it for: Research</p></article></div></div></section><section class="sec" id="auto"><div class="wrap"><div class="hdc"><p class="lbl" data-r>// Auto-pick</p><h2 class="h mid bw"><span style="--d:0.00s">Council</span> <span style="--d:0.08s">picks</span> <span style="--d:0.16s">the</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.24s">right</span> <span style="--d:0.32s">panel</span> <span style="--d:0.40s">for</span> <span style="--d:0.48s">you.</span></h2></div><p class="lede" data-r>Before anyone argues, Council sorts your question into one of eight types. Each type has a default panel of three and a chairman from outside it. Type a question to see which one yours gets.</p><div class="router liquid-glass-strong" data-r><div class="rbar liquid-glass"><label for="rq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Type a question</label><input id="rq" type="text" autocomplete="off" placeholder="Type a question to see the panel it gets"></div><div class="rex" id="rex"><button class="liquid-glass" type="button" data-ex="0">Should I sell my shares after this week’s news?</button><button class="liquid-glass" type="button" data-ex="1">Is it smarter to rent or buy a flat in Delhi?</button><button class="liquid-glass" type="button" data-ex="2">Should I leave my job to work on my startup full time?</button><button class="liquid-glass" type="button" data-ex="3">Should I launch my app now or wait until it is polished?</button><button class="liquid-glass" type="button" data-ex="4">Should I build my backend in Python or Node?</button><button class="liquid-glass" type="button" data-ex="5">Does the evidence support a four-day work week?</button><button class="liquid-glass" type="button" data-ex="6">Help me choose a name for my bakery: Crumb or Oven Story?</button><button class="liquid-glass" type="button" data-ex="7">Is it worth learning the piano at 30?</button></div><div class="rout" aria-live="polite"><p class="rtype" id="rtype"></p><p class="rwhy" id="rwhy"></p><div class="rseats" id="rseats"></div></div></div><div class="tw liquid-glass" data-r style="margin-top:32px"><table style="min-width:980px"><thead><tr><th>Question type</th><th>Picked when you ask about</th><th>The case for</th><th>The case against</th><th>How to improve it</th><th>Chairman</th></tr></thead><tbody><tr><td>Current events</td><td class="wrapc">today, this week, latest, news</td><td class="r3">Grok 4.3</td><td class="r3">Gemini 3 Pro</td><td class="r3">GPT-5.6 Sol</td><td class="r2">Claude Opus 5.5</td></tr><tr><td>Money and investing</td><td class="wrapc">investing, loans, rent or buy, tax</td><td class="r3">GPT-5.6 Sol</td><td class="r3">DeepSeek V4 Pro</td><td class="r3">Gemini 3 Pro</td><td class="r2">Claude Opus 5.5</td></tr><tr><td>Career and life decisions</td><td class="wrapc">jobs, degrees, moving, relationships</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Claude Opus 5.5</td><td class="r3">Gemini 3 Pro</td><td class="r2">GPT-6 Astra</td></tr><tr><td>Business and startups</td><td class="wrapc">startups, launches, pricing, customers</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Claude Opus 5.5</td><td class="r3">GPT-6 Astra</td><td class="r2">Gemini 3 Pro</td></tr><tr><td>Code and technical choices</td><td class="wrapc">code, frameworks, databases, hardware</td><td class="r3">Qwen3.8-Max</td><td class="r3">Claude Opus 5.5</td><td class="r3">GPT-6 Astra</td><td class="r2">GPT-5.6 Sol</td></tr><tr><td>Research and long reading</td><td class="wrapc">papers, evidence, reports, sources</td><td class="r3">Gemini 3 Pro</td><td class="r3">Claude Opus 5.5</td><td class="r3">Kimi K2</td><td class="r2">GPT-5.6 Sol</td></tr><tr><td>Writing and creative work</td><td class="wrapc">names, essays, emails, slogans</td><td class="r3">Claude Opus 5.5</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Mistral Large 3</td><td class="r2">Gemini 3 Pro</td></tr><tr><td>General judgment</td><td class="wrapc">anything else</td><td class="r3">GPT-5.6 Sol</td><td class="r3">Claude Opus 5.5</td><td class="r3">Gemini 3 Pro</td><td class="r2">DeepSeek V4 Pro</td></tr></tbody></table></div><p class="fine" data-r>On Plus you can swap any seat for another model. The free preview runs on open models while billing is set up, and shows which one answered each seat.</p></div></section><section class="sec"><div class="wrap"><div class="hdc"><p class="lbl" data-r>// Side by side</p><h2 class="h mid bw"><span style="--d:0.00s">Strengths,</span> <span style="--d:0.08s">compared.</span></h2></div><p class="lede" data-r>The five most people actually choose between.</p><div class="tw liquid-glass" data-r style="margin-top:32px"><table><thead><tr><th>Model</th><th>Best at</th><th>Coding</th><th>Writing</th><th>Reasoning</th><th>Live web</th><th>Cost</th></tr></thead><tbody><tr><td>GPT-6 Astra</td><td class="r1">Agentic, multi-step work</td><td class="r3">Excellent</td><td class="r2">Very good</td><td class="r3">Excellent</td><td class="r3">Native</td><td class="r1">Premium</td></tr><tr><td>Claude Opus 5.5</td><td class="r1">Writing, long documents</td><td class="r3">Excellent</td><td class="r3">Excellent</td><td class="r2">Very good</td><td class="r3">Native</td><td class="r1">High</td></tr><tr><td>GPT-5.6 Sol</td><td class="r1">General reasoning</td><td class="r3">Excellent</td><td class="r2">Very good</td><td class="r3">Excellent</td><td class="r3">Native</td><td class="r1">High</td></tr><tr><td>Gemini 3 Pro</td><td class="r1">Research, huge context</td><td class="r2">Very good</td><td class="r2">Very good</td><td class="r3">Excellent</td><td class="r3">Native</td><td class="r2">Mid</td></tr><tr><td>Grok 4.3</td><td class="r1">Current events</td><td class="r1">Good</td><td class="r1">Good</td><td class="r2">Very good</td><td class="r3">Native (X)</td><td class="r3">Low</td></tr></tbody></table></div></div></section><section class="sec"><div class="wrap"><div class="hdc"><p class="lbl" data-r>// One model or a panel</p><h2 class="h mid bw"><span style="--d:0.00s">Council</span> <span style="--d:0.08s">against</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.16s">one</span> <span style="--d:0.24s">model.</span></h2></div><p class="lede" data-r>Council is slower and costs more. If the question is easy, use one model.</p><div class="tw liquid-glass" data-r style="margin-top:32px"><table style="min-width:560px"><thead><tr><th></th><th>One model</th><th>Council</th></tr></thead><tbody><tr><td>Answers</td><td class="r1">One</td><td class="r3">Three, then one verdict</td></tr><tr><td>The case against</td><td class="r1">Rarely</td><td class="r3">Always, it is a seat</td></tr><tr><td>Disagreement</td><td class="r1">Hidden</td><td class="r3">Shown under the verdict</td></tr><tr><td>Confidence</td><td class="r1">Same tone for everything</td><td class="r3">High, medium or low</td></tr><tr><td>Which model</td><td class="r1">You choose</td><td class="r3">Picked for your question</td></tr><tr><td>Speed and cost</td><td class="r3">Fast, cheap</td><td class="r1">Slower, dearer</td></tr></tbody></table></div><div class="split" style="margin-top:56px"><div class="usecol" data-r><h3>Use one model when</h3><ul><li>The question has one right answer.</li><li>You need a reply in two seconds.</li><li>You are drafting, coding or summarising something you already understand.</li></ul></div><div class="usecol c" data-r style="--d:.12s"><h3>Use Council when</h3><ul><li>Being wrong would cost you money, time or a relationship.</li><li>Reasonable people would disagree.</li><li>You have already asked one AI and want to know how confident to be.</li></ul></div></div><p class="fine" data-r style="margin-top:40px">Strengths are drawn from public comparison charts, not our own testing. We do not build models. We rent them, and put them into a structured argument. What we built is the argument.</p></div></section><section class="sec"><div class="wrap" style="text-align:center"><h2 class="h mid bw"><span style="--d:0.00s">See</span> <span style="--d:0.08s">which</span> <span style="--d:0.16s">three</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.24s">answer</span> <span style="--d:0.32s">your</span> <span style="--d:0.40s">question.</span></h2><div class="ctas" data-r><a class="btn liquid-glass-strong" href="index.html#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="how-it-works.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> How it works</a></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><p class="foot-tip">New here? Read <a href="how-it-works.html">How it works</a> and <a href="why-council.html">Why Council</a> first. Knowing how the panel argues helps you ask sharper questions and get more useful verdicts.</p><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
 <script>
 (function(){
 "use strict";
 var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var fine=window.matchMedia('(pointer:fine)').matches;
+var small=Math.min(window.innerWidth,screen.width||9999)<768;
+var conn=navigator.connection||navigator.webkitConnection||{};
+var lite=reduce||!!conn.saveData||/^(slow-2g|2g)$/.test(conn.effectiveType||'');
+window.__lite=lite;
 
 /* ================= starfield ================= */
 var cv=document.getElementById('stars'),cx=cv.getContext('2d');
-var DPR=Math.min(window.devicePixelRatio||1,2),W=0,H=0,S=[],meteors=[],nextMeteor=0;
+var DPR=Math.min(window.devicePixelRatio||1,small?1.5:2),W=0,H=0,S=[],meteors=[],nextMeteor=0;
 var mx=-9999,my=-9999,px=0,py=0,tpx=0,tpy=0;
 function sprite(rgb){
   var s=64,c=document.createElement('canvas');c.width=c.height=s;
@@ -552,7 +620,7 @@ var SPR=[sprite('255,255,255'),sprite('196,242,218'),sprite('255,226,200')];
 function build(){
   W=window.innerWidth;H=window.innerHeight;
   cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0);
-  var n=Math.min(1100,Math.round(W*H/1500));S=[];
+  var n=Math.min(small?380:850,Math.round(W*H/(small?1500:1900)));S=[];
   for(var i=0;i<n;i++){
     var z=Math.pow(Math.random(),1.8)*0.9+0.1;
     S.push({x:Math.random()*W,y:Math.random()*H,z:z,r:.3+z*1.9+(Math.random()<.04?1.6:0),
@@ -571,10 +639,8 @@ function frame(now){
       var ddx=x-mx,ddy=y-my,d2=ddx*ddx+ddy*ddy;
       if(d2<14400){var d=Math.sqrt(d2)||1,f=(1-d/120)*.9;s.dx+=ddx/d*f;s.dy+=ddy/d*f;}
     }
-    s.dx*=.94;s.dy*=.94;
-    s.tw+=.012*s.ts;
-    var a=(.35+s.z*.65)*(.72+Math.sin(s.tw)*.28);
-    var rr=s.r*2.4;
+    s.dx*=.94;s.dy*=.94;s.tw+=.012*s.ts;
+    var a=(.35+s.z*.65)*(.72+Math.sin(s.tw)*.28),rr=s.r*2.4;
     cx.globalAlpha=a;cx.drawImage(SPR[s.c],x-rr,y-rr,rr*2,rr*2);
   }
   cx.globalAlpha=1;
@@ -599,7 +665,7 @@ function frame0(){
   cx.globalAlpha=1;
 }
 build();
-window.addEventListener('resize',function(){build();if(reduce)frame0();});
+var rsz=0;window.addEventListener('resize',function(){clearTimeout(rsz);rsz=setTimeout(function(){build();if(reduce)frame0();},150);});
 if(reduce)frame0();else requestAnimationFrame(frame);
 
 /* ================= cursor light ================= */
@@ -610,117 +676,203 @@ window.addEventListener('mousemove',function(e){
 },{passive:true});
 document.addEventListener('mouseleave',function(){mx=my=-9999;});
 
-/* ================= fading video (sub-page heroes) ================= */
-function fading(v){
-  var raf=0,out=false,max=parseFloat(v.getAttribute('data-max')||'1');
-  function fadeTo(to,ms){
-    cancelAnimationFrame(raf);var from=parseFloat(v.style.opacity||'0'),t0=performance.now();
-    (function step(t){var k=Math.min((t-t0)/ms,1);v.style.opacity=String(from+(to-from)*k);if(k<1)raf=requestAnimationFrame(step);})(t0);
+/* ================= video engine =================
+   Every background video on the site goes through here.
+   - Plays normally (no frame-seeking, which is what made videos stutter).
+   - Loops by cross-fading into a second copy of the same clip, so it never ends abruptly.
+   - Streams (.m3u8) load hls.js only on browsers that need it, and ask for the highest quality
+     the screen and connection can take (up to 4K on large screens).
+   - A watchdog restarts any video that stalls or refuses to start. */
+var HLS_SRC='https://cdn.jsdelivr.net/npm/hls.js@1.7.3/dist/hls.min.js',hlsQ=null;
+var BIG=!small&&!lite&&window.innerWidth>=1280;
+function needHls(cb){
+  if(window.Hls)return cb(false);
+  if(!hlsQ){
+    hlsQ=[];var sc=document.createElement('script');sc.src=HLS_SRC;sc.async=true;
+    sc.onload=function(){var q=hlsQ;hlsQ=null;q.forEach(function(f){f(false);});};
+    sc.onerror=function(){var q=hlsQ;hlsQ=null;q.forEach(function(f){f(true);});};
+    document.head.appendChild(sc);
   }
-  function play(){var p=v.play();if(p&&p.catch)p.catch(function(){});}
-  if(reduce){v.pause();v.addEventListener('loadeddata',function(){v.style.opacity=String(max*.85);});return;}
-  v.addEventListener('loadeddata',function(){fadeTo(max,500);});
-  if(v.readyState>=2)fadeTo(max,500);
-  v.addEventListener('timeupdate',function(){
-    if(!out&&v.duration&&v.duration-v.currentTime<=.55){out=true;fadeTo(0,550);}
-  });
-  v.addEventListener('ended',function(){v.currentTime=0;out=false;play();fadeTo(max,500);});
-  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)play();else v.pause();});}).observe(v);
+  hlsQ.push(cb);
 }
-document.querySelectorAll('video.fv').forEach(fading);
-
-/* ================= blur text, word by word ================= */
-document.querySelectorAll('[data-bw]').forEach(function(el){
-  var words=el.getAttribute('data-bw').split(' '),h='',i=0;
-  words.forEach(function(w){
-    if(w==='|'){h+='<span style="flex-basis:100%;height:0;margin:0;filter:none;opacity:1;transform:none" aria-hidden="true"></span>';return;}
-    h+='<span style="--d:'+(i*0.1).toFixed(2)+'s">'+w+'</span>';i++;
+function muxMp4(url){var m=url.match(/stream\.mux\.com\/([^./?]+)/);return m?['https://stream.mux.com/'+m[1]+'/highest.mp4','https://stream.mux.com/'+m[1]+'/high.mp4']:[];}
+function attach(v,url){
+  v.muted=true;v.defaultMuted=true;v.playsInline=true;v.setAttribute('playsinline','');v.setAttribute('muted','');v.preload='auto';
+  if(!/\.m3u8(\?|$)/.test(url)){v.src=url;return;}
+  if(v.canPlayType('application/vnd.apple.mpegurl')){v.src=url;return;}
+  needHls(function(failed){
+    var Hls=window.Hls;
+    if(failed||!Hls||!Hls.isSupported()){fallback();return;}
+    var h=new Hls({capLevelToPlayerSize:!BIG,abrEwmaDefaultEstimate:BIG?15e6:4e6,maxBufferLength:BIG?24:12,backBufferLength:8,startLevel:-1});
+    var fatal=0;v._hls=h;
+    h.on(Hls.Events.MANIFEST_PARSED,function(){if(BIG)h.autoLevelCapping=-1;});
+    h.on(Hls.Events.ERROR,function(ev,d){
+      if(!d||!d.fatal)return;
+      if(++fatal>4){try{h.destroy();}catch(e){}v._hls=null;fallback();return;}
+      if(d.type===Hls.ErrorTypes.NETWORK_ERROR)h.startLoad();
+      else if(d.type===Hls.ErrorTypes.MEDIA_ERROR)h.recoverMediaError();
+      else{try{h.destroy();}catch(e){}v._hls=null;fallback();}
+    });
+    h.loadSource(url);h.attachMedia(v);
   });
-  el.innerHTML=h;el.setAttribute('aria-label',words.filter(function(w){return w!=='|';}).join(' '));
+  function fallback(){
+    var list=muxMp4(url),i=0;if(!list.length)return;
+    v.addEventListener('error',function(){if(i<list.length)v.src=list[i++];});
+    v.src=list[i++];
+  }
+}
+function vplay(v){try{var p=v.play();if(p&&p.catch)p.catch(function(){});}catch(e){}}
+function fade(v,to,ms){
+  cancelAnimationFrame(v._fr);var from=parseFloat(v.style.opacity||'0'),t0=performance.now();
+  (function step(t){var k=Math.min((t-t0)/ms,1),e=k*k*(3-2*k);v.style.opacity=String(from+(to-from)*e);if(k<1)v._fr=requestAnimationFrame(step);})(t0);
+}
+var LOOPS=[];
+function XLoop(box){
+  var self=this,vs=box.querySelectorAll('video'),url=box.getAttribute('data-src');
+  this.box=box;this.a=vs[0];this.b=vs[1]||null;this.cur=this.a;this.nxt=this.b;
+  this.want=false;this.handing=false;this.lastT=-1;this.still=0;
+  var XF=1.6,max=parseFloat(box.getAttribute('data-max')||'1'),shown=false,bOn=false;
+  this.max=max;
+  attach(this.a,url);
+  this.a.addEventListener('playing',function(){
+    if(!shown){shown=true;fade(self.a,max,900);}
+    if(self.b&&!bOn){bOn=true;setTimeout(function(){attach(self.b,url);},1200);}
+  });
+  function ready(){if(self.want&&self.cur===this&&this.paused)vplay(this);}
+  function onTime(){
+    var c=self.cur,n=self.nxt;
+    if(self.handing||this!==c||!n||!isFinite(c.duration)||!c.duration)return;
+    if(c.duration-c.currentTime<=XF&&n.readyState>=2){
+      /* the next copy fades in ON TOP of the current one, which stays fully visible underneath: no dip, no cut */
+      self.handing=true;try{n.currentTime=0;}catch(e){}
+      c.style.zIndex='1';n.style.zIndex='2';
+      vplay(n);fade(n,max,XF*1000);
+      setTimeout(function(){c.pause();c.style.opacity='0';try{c.currentTime=0;}catch(e){}self.cur=n;self.nxt=c;self.handing=false;},XF*1000+120);
+    }
+  }
+  function onEnd(){                                  /* second copy not ready yet: soft restart, never a hard cut */
+    var c=this;if(c!==self.cur||self.handing)return;
+    fade(c,0,300);setTimeout(function(){try{c.currentTime=0;}catch(e){}vplay(c);fade(c,max,700);},320);
+  }
+  [this.a,this.b].forEach(function(v){if(!v)return;v.addEventListener('canplay',ready);v.addEventListener('timeupdate',onTime);v.addEventListener('ended',onEnd);});
+  LOOPS.push(this);
+}
+XLoop.prototype.play=function(){this.want=true;vplay(this.cur);};
+XLoop.prototype.pause=function(){this.want=false;this.a.pause();if(this.b)this.b.pause();};
+function makeLoop(box){if(!box._loop)box._loop=new XLoop(box);return box._loop;}
+window.makeLoop=makeLoop;
+/* watchdog: anything that should be playing but is paused or frozen gets restarted */
+setInterval(function(){
+  if(document.hidden)return;
+  LOOPS.forEach(function(l){
+    if(!l.want||l.handing)return;
+    var c=l.cur;
+    if(c.paused){vplay(c);return;}
+    if(c.currentTime===l.lastT){
+      if(++l.still>=3){l.still=0;if(c._hls){try{c._hls.startLoad();}catch(e){}}try{c.currentTime=Math.max(0,c.currentTime-.05);}catch(e){}vplay(c);}
+    }else l.still=0;
+    l.lastT=c.currentTime;
+  });
+},1000);
+document.addEventListener('visibilitychange',function(){
+  LOOPS.forEach(function(l){if(document.hidden){l.cur.pause();}else if(l.want)vplay(l.cur);});
 });
+/* sub-page backgrounds: play only while on screen */
+if(!lite){
+  var vio=new IntersectionObserver(function(es){es.forEach(function(e){var l=makeLoop(e.target);if(e.isIntersecting)l.play();else l.pause();});},{rootMargin:'150px 0px'});
+  document.querySelectorAll('.vbg[data-auto]').forEach(function(b){vio.observe(b);});
+}
+
+/* ================= headings: words blur in (text is already in the HTML for search engines) ================= */
 var bio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');bio.unobserve(e.target);}});},{threshold:.1});
-document.querySelectorAll('.bw').forEach(function(el){bio.observe(el);});
+document.querySelectorAll('.bw').forEach(function(el){if(reduce)el.classList.add('in');else bio.observe(el);});
 
 /* ================= scroll reveals ================= */
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -80px 0px'});
-document.querySelectorAll('[data-r]').forEach(function(el){io.observe(el);});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -60px 0px'});
+document.querySelectorAll('[data-r]').forEach(function(el){if(reduce)el.classList.add('in');else io.observe(el);});
 
 /* ================= menu ================= */
 var menu=document.getElementById('menu'),ob=document.getElementById('menuOpen'),cb=document.getElementById('menuClose');
-function setMenu(o){menu.classList.toggle('open',o);ob.setAttribute('aria-expanded',o?'true':'false');document.body.style.overflow=o?'hidden':'';(o?cb:ob).focus();}
+function setMenu(o){menu.classList.toggle('open',o);ob.setAttribute('aria-expanded',o?'true':'false');document.body.style.overflow=o?'hidden':'';if(lenis){o?lenis.stop():lenis.start();}(o?cb:ob).focus();}
 ob.addEventListener('click',function(){setMenu(true);});
 cb.addEventListener('click',function(){setMenu(false);});
 menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open'))setMenu(false);});
 
-/* ================= smooth scrolling (Lenis) + one-scroll pause at each section ================= */
+/* ================= smooth scrolling (Lenis) ================= */
 var lenis=null;
 function absTop(el){return el.getBoundingClientRect().top+window.scrollY;}
-window.smoothTo=function(y){if(lenis)lenis.scrollTo(y,{duration:1.2});else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
+window.smoothTo=function(y){if(lenis)lenis.scrollTo(y,{duration:1.1});else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
 if(!reduce&&typeof window.Lenis==='function'){
-  var stops=[].slice.call(document.querySelectorAll('[data-stop]')),visited=[],P={on:false,phase:0,t0:0,last:0};
-  lenis=new window.Lenis({autoRaf:true,lerp:.09,smoothWheel:true,virtualScroll:function(d){
-    var e=d.event;if(!e||e.type!=='wheel'||e.ctrlKey)return true;          /* touch keeps native scrolling */
-    var now=performance.now(),gap=now-P.last;P.last=now;
-    if(P.on){
-      if(e.cancelable)e.preventDefault();
-      if(P.phase===0){if(gap>220&&now-P.t0>450){P.phase=1;P.p1=now;}}        /* first fresh scroll after arriving: swallowed */
-      else if(now-P.p1>550&&gap>260){P.on=false;P.phase=0;return true;}      /* the next scroll moves on */
-      return false;
-    }
-    if(d.deltaY<=0)return true;
-    var cur=lenis.animatedScroll,next=lenis.targetScroll+d.deltaY;
-    for(var i=0;i<stops.length;i++){
-      var st=stops[i],top=Math.round(absTop(st));
-      if(visited.indexOf(st)<0&&cur<top-4&&next>=top-4){
-        visited.push(st);if(e.cancelable)e.preventDefault();
-        P.on=true;P.phase=0;P.t0=now;
-        lenis.scrollTo(top,{duration:1.05,easing:function(t){return 1-Math.pow(1-t,3);}});
-        return false;
-      }
-    }
-    return true;
-  }});
+  lenis=new window.Lenis({autoRaf:true,lerp:.1,wheelMultiplier:1.1,smoothWheel:true});
   window.__lenis=lenis;
-  lenis.on('scroll',function(){                                              /* scrolling back up re-arms the pause */
-    for(var i=visited.length-1;i>=0;i--){if(lenis.scroll<absTop(visited[i])-window.innerHeight*.3)visited.splice(i,1);}
-  });
 }
-/* in-page links glide instead of jumping */
 document.addEventListener('click',function(e){
   var a=e.target.closest&&e.target.closest('a[href*="#"]');if(!a)return;
   var u=new URL(a.href,location.href);if(u.pathname!==location.pathname||!u.hash)return;
   var t=document.querySelector(u.hash);if(!t)return;e.preventDefault();window.smoothTo(absTop(t));
 });
 
-/* ================= cards: slide in from out of frame, then glow on hover ================= */
+/* ================= cards: slide in from out of frame, and back out on the way up ================= */
 var cards=[].slice.call(document.querySelectorAll('.fx'));
 function aim(g){
   var gr=g.getBoundingClientRect(),mid=gr.left+gr.width/2;
   [].forEach.call(g.querySelectorAll('.fx'),function(c,i){
-    var r=c.getBoundingClientRect(),cx=r.left+r.width/2;
+    var r=c.getBoundingClientRect(),cx2=r.left+r.width/2;
     c.classList.remove('fl','fr','fb');
-    c.classList.add(Math.abs(cx-mid)<gr.width*.12?'fb':(cx<mid?'fl':'fr'));
-    c.style.setProperty('--d',(i*.12).toFixed(2)+'s');
+    c.classList.add(Math.abs(cx2-mid)<gr.width*.12?'fb':(cx2<mid?'fl':'fr'));
+    c.style.setProperty('--d',(i*.1).toFixed(2)+'s');
+  });
+}
+function showG(g){
+  if(g._shown)return;g._shown=true;
+  [].forEach.call(g.querySelectorAll('.fx'),function(c,i){
+    clearTimeout(c._t);c.classList.add('in');
+    c._t=setTimeout(function(){c.classList.add('settled');},1100+i*100);
+  });
+}
+function hideG(g){
+  if(!g._shown)return;g._shown=false;
+  var list=[].slice.call(g.querySelectorAll('.fx')).reverse();
+  list.forEach(function(c,i){
+    clearTimeout(c._t);c.classList.remove('settled');
+    c.style.setProperty('--d',(i*.08).toFixed(2)+'s');
+    c.classList.remove('in');
+    c._t=setTimeout(function(){c.style.setProperty('--d',((list.length-1-i)*.1).toFixed(2)+'s');},1300);
   });
 }
 if(reduce){cards.forEach(function(c){c.classList.add('in','settled');});}
 else{
   var groups=[].slice.call(document.querySelectorAll('.fxg'));
   groups.forEach(aim);
+  window.addEventListener('resize',function(){groups.forEach(function(g){if(!g._shown)aim(g);});});
   var gio=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(!e.isIntersecting)return;gio.unobserve(e.target);
-    [].forEach.call(e.target.querySelectorAll('.fx'),function(c,i){
-      requestAnimationFrame(function(){c.classList.add('in');});
-      setTimeout(function(){c.classList.add('settled');},1250+i*120);
-    });
-  });},{threshold:.15});
+    var g=e.target,r=e.intersectionRatio,below=e.boundingClientRect.top>0;
+    if(e.isIntersecting&&r>=.18)showG(g);
+    else if(r<.1&&below)hideG(g);                 /* scrolling up: the cards leave before the section does */
+  });},{threshold:[0,.05,.1,.18,.3]});
   groups.forEach(function(g){gio.observe(g);});
 }
 cards.forEach(function(c){
   c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');});
   c.addEventListener('pointerenter',function(){glow.classList.add('hot');});
   c.addEventListener('pointerleave',function(){glow.classList.remove('hot');});
+});
+
+/* ================= icon chase: a light passed from icon to icon ================= */
+[].forEach.call(document.querySelectorAll('.icon-chase'),function(g){
+  var sq=[].slice.call(g.querySelectorAll('.sq'));if(sq.length<2||reduce)return;
+  var i=-1,vis=false,tm=0;
+  function step(){
+    sq.forEach(function(s){s.classList.remove('lit');});
+    i=(i+1)%(sq.length+1);                          /* one beat of rest after the last icon */
+    if(i<sq.length)sq[i].classList.add('lit');
+    tm=setTimeout(function(){if(vis)step();},i<sq.length?1150:900);
+  }
+  new IntersectionObserver(function(es){es.forEach(function(e){
+    var was=vis;vis=e.isIntersecting;if(vis&&!was){clearTimeout(tm);tm=setTimeout(step,500);}
+    if(!vis){clearTimeout(tm);sq.forEach(function(s){s.classList.remove('lit');});}
+  });},{threshold:.2}).observe(g);
 });
 })();
 
