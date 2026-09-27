@@ -805,7 +805,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classL
 /* ================= smooth scrolling (Lenis) ================= */
 var lenis=null;
 function absTop(el){return el.getBoundingClientRect().top+window.scrollY;}
-window.smoothTo=function(y){if(lenis)lenis.scrollTo(y,{duration:1.1});else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
+window.smoothTo=function(y){if(lenis){lenis.resize();lenis.scrollTo(y,{duration:1.1});}else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
 if(!reduce&&typeof window.Lenis==='function'){
   lenis=new window.Lenis({autoRaf:true,lerp:.1,wheelMultiplier:1.1,smoothWheel:true});
   window.__lenis=lenis;
