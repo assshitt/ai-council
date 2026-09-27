@@ -1,0 +1,23 @@
+# Council
+
+> Council is an AI decision tool for questions that have no single right answer. You ask a hard question; three AI models argue it from fixed seats (the case for, the case against, and how to improve it), answering independently and in parallel; a fourth model, the chairman, weighs them into one verdict with a confidence level and the disagreement left in view. Questions with one correct answer skip the debate and get a single line.
+
+Built in Delhi, India. Free to try with no login at https://ai-council-ashen.vercel.app/#ask
+
+## How it works
+- [How it works](https://ai-council-ashen.vercel.app/how-it-works.html): one real question followed through the four steps (the fact gate, three roles, the chairman, verification), what a verdict contains, and why it is built this way.
+- The fact gate: if a question has one correct answer (a date, a definition, a capital), Council answers in one sentence instead of staging a debate.
+- Three roles: The Advocate argues the strongest honest case for; The Critic argues the strongest case against (failure modes, hidden costs, blind spots); The Builder proposes how to improve the idea or test it cheaply. Each ends with a single line: "Best when", "Dealbreaker if", "First move".
+- The chairman: a separate model, chosen from outside the panel whenever possible, picks the strongest case, names where the members disagree, and commits to an answer with high, medium or low confidence.
+- Verification: on the full version, factual claims in the verdict are checked against an outside source.
+
+## Pages
+- [Models](https://ai-council-ashen.vercel.app/models.html): which AI model suits which kind of question, and how Council automatically picks a panel of three plus a chairman for eight question types (current events, money, career and life, business, code, research, writing, general).
+- [Why Council](https://ai-council-ashen.vercel.app/why-council.html): why asking one AI model to double-check itself is not a real second opinion, and what a panel of differently trained models adds.
+- [Pricing](https://ai-council-ashen.vercel.app/pricing.html): Free (10 council questions a month), Plus (200 a month, verification, choose your own models), Pro (unlimited fair use). Every plan includes every model. Billing is not live yet.
+- [About](https://ai-council-ashen.vercel.app/about.html): who builds Council and where it is going (memory of past decisions, then outcome follow-ups).
+
+## Good to know
+- Council is a structured second opinion, not professional legal, medical or financial advice.
+- Council does not train models; it calls models from several providers and structures the argument between them.
+- Contact: hello@council.app
