@@ -589,6 +589,26 @@ details[open] summary svg{transform:rotate(45deg)}
 section[id]{scroll-margin-top:0}
 @media(max-width:520px){.starthere{flex-direction:column;gap:8px}}
 
+/* ================= round 6 ================= */
+/* 5. the header is its own solid bar: content scrolls underneath it, never through it */
+.nav{top:0 !important;height:72px;padding-top:0;padding-bottom:0;background:#030605;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+.nav .mk,.nav .links,.nav .signup,.nav .burger{flex-shrink:0}
+
+/* 3 + 7. four backgrounds, never mixed: each one is pinned behind its own group of sections
+   and scrolls away with a clean edge when the group ends */
+.stage{position:relative;overflow:clip}
+.stage-bg{position:sticky;top:0;height:100vh;height:100lvh;margin-bottom:-100vh;margin-bottom:-100lvh;overflow:hidden;z-index:0;pointer-events:none}
+.stage-bg .vbg{transform-origin:50% 50%;will-change:transform}
+.stage-bg .dim{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,var(--c,.25)),rgba(0,0,0,var(--e,.6)))}
+.stage>section,.stage>.marq{position:relative;z-index:10}
+
+/* 6. every model name in the same simple bold sans as the headings */
+.uchip .un,.pk .pn,.mc .mn,.rseat .sm,.ex3 .ex .eq,td:first-child{font-family:var(--display) !important;font-style:normal !important;font-weight:700 !important;letter-spacing:-.02em !important}
+.uchip .un{font-size:18px}.pk .pn{font-size:16px}.mc .mn{font-size:21px;line-height:1.1}.rseat .sm{font-size:18px}.ex3 .ex .eq{font-size:18px}
+td:first-child{font-size:15.5px}
+.mq-s span{font-weight:700 !important}
+
 </style>
 </head>
 <body>
@@ -803,7 +823,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classL
 /* ================= smooth scrolling (Lenis) ================= */
 var lenis=null;
 function absTop(el){return el.getBoundingClientRect().top+window.scrollY;}
-window.smoothTo=function(y){if(lenis){lenis.resize();lenis.scrollTo(y,{duration:1.1});}else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
+window.smoothTo=function(y){if(lenis)lenis.scrollTo(y,{duration:1.1});else window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});};
 if(!reduce&&typeof window.Lenis==='function'){
   lenis=new window.Lenis({autoRaf:true,lerp:.1,wheelMultiplier:1.1,smoothWheel:true});
   window.__lenis=lenis;
@@ -811,7 +831,7 @@ if(!reduce&&typeof window.Lenis==='function'){
 document.addEventListener('click',function(e){
   var a=e.target.closest&&e.target.closest('a[href*="#"]');if(!a)return;
   var u=new URL(a.href,location.href);if(u.pathname!==location.pathname||!u.hash)return;
-  var t=document.querySelector(u.hash);if(!t)return;e.preventDefault();window.smoothTo(absTop(t));
+  var t=document.querySelector(u.hash);if(!t)return;e.preventDefault();var nb=document.querySelector('.nav');window.smoothTo(absTop(t)-(nb?nb.offsetHeight:0));
 });
 
 /* ================= cards: slide in from out of frame, and back out on the way up ================= */
