@@ -1,23 +1,36 @@
 # Council
 
-> Council is an AI decision tool for questions that have no single right answer. You ask a hard question; three AI models argue it from fixed seats (the case for, the case against, and how to improve it), answering independently and in parallel; a fourth model, the chairman, weighs them into one verdict with a confidence level and the disagreement left in view. Questions with one correct answer skip the debate and get a single line.
+> Council is an AI decision tool for questions that have no single right answer. You ask a hard question; three AI models from different labs argue it from fixed seats (the case for, the case against, and how to improve it), answering independently and in parallel; a fourth model from another lab, the chairman, weighs them into one verdict with a confidence level and the disagreement left in view. Questions with one correct answer skip the debate and get a single line.
 
 Built in Delhi, India. Free to try with no login at https://ai-council-ashen.vercel.app/#ask
 
+## Which models run Council
+- The case for: GPT (OpenAI), via OpenAI's API.
+- The case against: Claude (Anthropic), via Anthropic's API.
+- How to improve it: Gemini Flash (Google), via Google AI Studio.
+- Chairman: Qwen (Alibaba), via Groq, always on a different model from the three it judges.
+- GPT and Claude are paid models used up to a daily budget. After that, or if a model is busy, free open models step in (for example gpt-oss from OpenAI and Llama from Meta, via Groq). Every verdict ends with a "model receipt" listing the exact model ID each provider reported, so the claims on the site can be checked.
+
 ## How it works
-- [How it works](https://ai-council-ashen.vercel.app/how-it-works.html): one real question followed through the four steps (the fact gate, three roles, the chairman, verification), what a verdict contains, and why it is built this way.
-- The fact gate: if a question has one correct answer (a date, a definition, a capital), Council answers in one sentence instead of staging a debate.
-- Three roles: The Advocate argues the strongest honest case for; The Critic argues the strongest case against (failure modes, hidden costs, blind spots); The Builder proposes how to improve the idea or test it cheaply. Each ends with a single line: "Best when", "Dealbreaker if", "First move".
-- The chairman: a separate model, chosen from outside the panel whenever possible, picks the strongest case, names where the members disagree, and commits to an answer with high, medium or low confidence.
-- Verification: on the full version, factual claims in the verdict are checked against an outside source.
+- [How it works](https://ai-council-ashen.vercel.app/how-it-works.html): one real question followed through the steps (the fact gate, three roles, the chairman), what a verdict contains, and why it is built this way.
+- The fact gate: if a question has one correct answer, Council answers in one sentence instead of staging a debate.
+- Three roles: The Advocate argues the strongest honest case for; The Critic argues the strongest case against; The Builder proposes how to improve the idea or test it cheaply.
+- The chairman: runs on a different model from the three it judges, picks the strongest case, names where the members disagree, and commits to an answer with high, medium or low confidence.
+- Planned, not live yet: fact-checking verdicts against outside sources, choosing your own panel, and panels picked by question type (Plus).
 
 ## Pages
-- [Models](https://ai-council-ashen.vercel.app/models.html): which AI model suits which kind of question, and how Council automatically picks a panel of three plus a chairman for eight question types (current events, money, career and life, business, code, research, writing, general).
-- [Why Council](https://ai-council-ashen.vercel.app/why-council.html): why asking one AI model to double-check itself is not a real second opinion, and what a panel of differently trained models adds.
-- [Pricing](https://ai-council-ashen.vercel.app/pricing.html): Free (10 council questions a month), Plus (200 a month, verification, choose your own models), Pro (unlimited fair use). Every plan includes every model. Billing is not live yet.
-- [About](https://ai-council-ashen.vercel.app/about.html): who builds Council and where it is going (memory of past decisions, then outcome follow-ups).
+- [Models](https://ai-council-ashen.vercel.app/models.html): the free panel in detail, a guide to well-known frontier models (Council's free preview does not run these), and the panels planned for Plus.
+- [Why Council](https://ai-council-ashen.vercel.app/why-council.html): why asking one AI model to double-check itself is not a real second opinion.
+- [Pricing](https://ai-council-ashen.vercel.app/pricing.html): planned plans in rupees: Free, Plus (₹1,799/month), Pro (₹2,999/month), Ultra (₹9,999/month) and Team. Billing is not live yet; features are marked Live or Coming soon. The free council works now.
+- [MCP server](https://ai-council-ashen.vercel.app/mcp.html): use Council from Claude Desktop, Claude Code, Cursor, Windsurf or any MCP client. Endpoint: https://ai-council-ashen.vercel.app/api/mcp (Streamable HTTP). Tools: council_query, council_models. Free beta during the preview.
+- [About](https://ai-council-ashen.vercel.app/about.html): who builds Council and where it is going.
 
 ## Good to know
 - Council is a structured second opinion, not professional legal, medical or financial advice.
-- Council does not train models; it calls models from several providers and structures the argument between them.
+- Council does not train models; it calls models from several labs through their providers' APIs.
 - Contact: hello@council.app
+
+## How answers work
+- Every council verdict starts with a short, plain answer, then the detail, where the models disagree, and a model receipt.
+- Follow-up questions keep the same conversation, and the council may ask back the one or two facts that would change its verdict.
+- On politicians, parties and elections, Council does not pick a side: it lays out what supporters and critics say, and how to judge it yourself.
