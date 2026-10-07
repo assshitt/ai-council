@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Barlow:wght@300;400;500;600&family=Inter+Tight:wght@600;700&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://ai-council-ashen.vercel.app/#org", "name": "Council", "url": "https://ai-council-ashen.vercel.app/", "logo": "https://ai-council-ashen.vercel.app/icon-512.png", "email": "hello@council.app", "description": "Council is an AI decision tool: three AI models argue a hard question (one for, one against, one on how to improve it) and a fourth model weighs them into one verdict, with the disagreement left in view.", "foundingLocation": {"@type": "Place", "name": "Delhi, India"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://ai-council-ashen.vercel.app/#org", "name": "Council", "url": "https://ai-council-ashen.vercel.app/", "logo": "https://ai-council-ashen.vercel.app/icon-512.png", "email": "hello@council.app", "description": "Council is an AI decision tool: three AI models from different labs argue a hard question (one for, one against, one on how to improve it) and a fourth model weighs them into one verdict, with the disagreement left in view. The main panel is GPT (OpenAI), Claude (Anthropic) and Gemini (Google), chaired by Qwen (Alibaba), with free open models such as gpt-oss and Llama as backups.", "foundingLocation": {"@type": "Place", "name": "Delhi, India"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://ai-council-ashen.vercel.app/#site", "name": "Council", "url": "https://ai-council-ashen.vercel.app/", "publisher": {"@id": "https://ai-council-ashen.vercel.app/#org"}, "inLanguage": "en", "description": "A second opinion for decisions that have no right answer."}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Why Council", "description": "Why a panel of AI models beats double-checking with the same one, and where the idea comes from.", "url": "https://ai-council-ashen.vercel.app/why-council.html", "isPartOf": {"@id": "https://ai-council-ashen.vercel.app/#site"}, "inLanguage": "en"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ai-council-ashen.vercel.app/"}, {"@type": "ListItem", "position": 2, "name": "Why Council", "item": "https://ai-council-ashen.vercel.app/why-council.html"}]}</script>
@@ -608,12 +608,221 @@ section[id]{scroll-margin-top:0}
 td:first-child{font-size:15.5px}
 .mq-s span{font-weight:700 !important}
 
+/* ================= round 7: honest model display ================= */
+.uchip{cursor:default}
+.uchip .ul2{font-size:11.5px;color:var(--w50);margin-top:2px}
+.urow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:760px){.urow{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.uchip{min-width:0}
+.receipt{margin-top:16px;padding-top:14px;box-shadow:inset 0 1px 0 var(--w15)}
+.receipt ul{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.receipt li{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:4px 12px;font-size:13px;color:var(--w80);align-items:baseline}
+.receipt .rr{color:var(--w60)}
+.receipt code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;color:#fff;overflow-wrap:anywhere}
+.receipt .rp{grid-column:2;font-size:12px;color:var(--w50)}
+.receipt .rn{font-size:11.5px;color:var(--w50);margin-top:10px}
+@media(max-width:520px){.receipt li{grid-template-columns:1fr}.receipt .rp{grid-column:1}}
+
+.uchip .bk{font-style:normal;font-size:10.5px;color:var(--mint);margin-left:6px;letter-spacing:.02em}
+
+/* ================= round 9 ================= */
+/* home: sample debates */
+.qtabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:34px 0 30px}
+.qtab{padding:11px 18px;border-radius:999px;font-size:14.5px;font-weight:500;color:var(--w80);transition:color .25s,background-color .25s,box-shadow .25s}
+.qtab:hover{color:#fff}
+.qtab.on{color:#fff;background-color:rgba(191,243,214,.12) !important;box-shadow:inset 0 0 0 1px rgba(191,243,214,.55)}
+.dcard .dseat{display:flex;align-items:center;gap:8px;font-size:14px}
+.dcard .dseat .dot{width:8px;height:8px;border-radius:999px;flex:0 0 8px}
+.dcard .dseat b{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:-.01em}
+.dcard .dseat em{font-style:normal;color:var(--w60);font-size:13px;margin-left:auto}
+.dcard .dtext{margin-top:14px !important;font-size:15px;line-height:1.6}
+.dverdict{margin-top:18px;padding:22px 24px;border-radius:1.25rem;transition:opacity .4s ease,filter .4s ease}
+.dverdict.swap{opacity:.25;filter:blur(3px)}
+.dverdict .dfinal{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.35;letter-spacing:-.01em;margin-top:10px}
+.dverdict .dsplit{font-size:14.5px;color:var(--w80);margin-top:10px}
+.dverdict .dsplit b{color:#fff;font-weight:600}
+.cmplink{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:28px;padding:22px 26px;border-radius:1.25rem;transition:background-color .3s,transform .3s}
+.cmplink:hover{background-color:rgba(191,243,214,.08) !important;transform:translateY(-2px)}
+.cmplink .ct{font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.02em}
+.cmplink .cs{font-size:14.5px;color:var(--w80);margin-top:6px;max-width:44rem}
+.cmplink .ca{flex:0 0 48px;width:48px;height:48px;border-radius:999px;display:flex;align-items:center;justify-content:center;background:#fff;color:#000;transition:transform .3s}
+.cmplink:hover .ca{transform:translateX(4px)}
+
+/* models: compare tool */
+.cmpw{border-radius:1.5rem;padding:24px;margin-top:36px}
+@media(min-width:768px){.cmpw{padding:32px}}
+.cmpsel{display:grid;grid-template-columns:1fr;gap:12px;align-items:end}
+@media(min-width:700px){.cmpsel{grid-template-columns:1fr auto 1fr}}
+.cmpsel label span{display:block;font-size:12.5px;color:var(--w60);margin:0 0 6px 4px}
+.cmpsel select{width:100%;appearance:none;-webkit-appearance:none;background:rgba(0,0,0,.45) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' fill='none' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 16px center;
+  color:#fff;font:inherit;font-weight:500;font-size:15px;padding:12px 40px 12px 16px;border-radius:.9rem;border:1px solid rgba(255,255,255,.18)}
+.cmpsel select:focus{outline:2px solid var(--mint);outline-offset:2px}
+.cmpsel .vs{font-family:var(--display);font-weight:700;color:var(--mint);text-align:center;padding-bottom:12px}
+.wins{display:flex;justify-content:center;gap:48px;margin:24px 0 18px}
+.wins div{text-align:center}.wins b{display:block;font-family:var(--display);font-size:34px;font-weight:700;color:var(--mint)}
+.wins div:last-child b{color:#8fb8ff}.wins span{font-size:12px;color:var(--w60);letter-spacing:.08em;text-transform:uppercase}
+.crow2{display:grid;grid-template-columns:7rem 1fr 1fr;gap:10px 16px;align-items:center;padding:8px 0}
+@media(max-width:560px){.crow2{grid-template-columns:5.5rem 1fr 1fr;gap:8px}}
+.crow2 .cl{font-size:14px;font-weight:500}
+.cbar{position:relative;height:26px;border-radius:999px;background:rgba(255,255,255,.07);overflow:hidden}
+.cbar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.cbar.a i{background:linear-gradient(90deg,rgba(143,217,176,.35),rgba(143,217,176,.6))}
+.cbar.b i{background:linear-gradient(90deg,rgba(143,184,255,.35),rgba(143,184,255,.6))}
+.cbar.a.win i{background:linear-gradient(90deg,rgba(143,217,176,.55),#8fd9b0)}.cbar.b.win i{background:linear-gradient(90deg,rgba(143,184,255,.55),#8fb8ff)}
+.cbar b{position:relative;z-index:1;font-size:12.5px;font-weight:600;line-height:26px;padding-left:12px}
+.cmpfacts{margin-top:18px;padding-top:14px;box-shadow:inset 0 1px 0 var(--w15)}
+.cf{display:grid;grid-template-columns:9rem 1fr 1fr;gap:12px;padding:7px 0;font-size:14px;color:var(--w80)}
+@media(max-width:560px){.cf{grid-template-columns:6.5rem 1fr 1fr;font-size:13px}}
+.cf b{font-weight:500;color:#fff}.cf.hd b{font-family:var(--display);font-weight:700}
+tr.inc td{background:rgba(191,243,214,.06) !important}
+.srcs{margin-top:16px}.srcs ul{padding-left:18px}.srcs li{margin:6px 0}
+
+/* pricing */
+.ptoggle{display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:rgba(0,0,0,.45);box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);margin:24px auto 0}
+.ptop .head+.ptoggle{display:flex;width:max-content}
+.ptoggle button{padding:9px 18px;border-radius:999px;font-size:14px;font-weight:500;color:var(--w80)}
+.ptoggle button.on{background:#fff;color:#000}
+.ptoggle em{font-style:normal;font-size:11.5px;margin-left:6px;padding:2px 8px;border-radius:999px;background:rgba(191,243,214,.18);color:var(--mint)}
+.ptoggle button.on em{background:#06140d;color:var(--mint)}
+.pre-note{max-width:52rem;margin:18px auto 26px;text-align:center;font-size:14px;line-height:1.6;color:var(--w80)}
+.pre-note b{color:#fff}
+.soontag{font-style:normal;font-size:12px;padding:1px 8px;border-radius:999px;background:rgba(242,196,109,.15);color:#f2c46d}
+.plans4{display:grid;grid-template-columns:1fr;gap:16px;align-items:stretch}
+@media(min-width:700px){.plans4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1180px){.plans4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.plan2{position:relative;border-radius:1.5rem;padding:24px;display:flex;flex-direction:column}
+.plan2.star{box-shadow:inset 0 0 0 1px rgba(191,243,214,.5),0 0 40px rgba(110,230,170,.12)}
+.plan2 .ptag{position:absolute;top:16px;right:16px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--mint);color:#06140d}
+.plan2 .ptag.gold{background:#f2c46d}
+.plan2 .pn{font-family:var(--display);font-weight:700;font-size:24px;letter-spacing:-.02em}
+.plan2 .pd{font-size:14px;line-height:1.5;color:var(--w80);margin-top:8px;min-height:3em}
+.plan2 .pp{margin-top:16px;display:flex;align-items:baseline;gap:4px}
+.plan2 .amt{font-family:var(--display);font-weight:700;font-size:40px;letter-spacing:-.03em}
+.plan2 .per{font-size:14px;color:var(--w60)}
+.plan2 .bill{font-size:12.5px;color:var(--w60);margin-top:2px;min-height:1.2em}
+.plan2 .btn{justify-content:center;margin:18px 0 6px}
+.plan2 ul{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.plan2 li{font-size:13.5px;line-height:1.45;color:var(--w90);display:flex;flex-direction:column;gap:3px;padding-left:20px;position:relative}
+.plan2 li::before{content:"";position:absolute;left:0;top:.45em;width:10px;height:10px;border-radius:999px}
+.plan2 li.live::before{background:var(--mint)}
+.plan2 li.soon::before{background:transparent;box-shadow:inset 0 0 0 1.5px #f2c46d}
+.plan2 li em{font-style:normal;font-size:11px;font-weight:600;letter-spacing:.04em}
+.plan2 li.live em{color:var(--mint)}.plan2 li.soon em{color:#f2c46d}
+.plan2 li.fall{padding-left:0;font-weight:600;color:#fff}.plan2 li.fall::before,.plan2 li.fnote::before{display:none}
+.plan2 li.fnote{padding-left:0;font-size:12.5px;color:var(--w50);margin-top:4px}
+.teamrow{display:flex;justify-content:center;margin-top:16px}
+.plan2.team{width:100%;max-width:26rem}
+
+/* mcp */
+.endpoint{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px 26px;border-radius:1.25rem}
+.endpoint .el2{font-size:12.5px;color:var(--w60)}
+.endpoint code{display:block;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:17px;color:#fff;margin-top:6px;overflow-wrap:anywhere}
+.endpoint .es{font-size:13px;color:var(--w60);margin-top:6px}
+.copyb{flex:0 0 auto;padding:10px 18px;border-radius:999px;background:#fff;color:#000;font-size:14px;font-weight:600;transition:background .2s}
+.copyb.ok{background:var(--mint)}
+.codeblk{border-radius:1.25rem;overflow:hidden}
+.cbh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:18px 20px 12px}
+.cbt{font-family:var(--display);font-weight:700;font-size:18px}.cbw{font-size:12.5px;color:var(--w60);margin-top:3px;overflow-wrap:anywhere}
+.codeblk .copyb{padding:7px 14px;font-size:13px}
+.codeblk pre{margin:0;padding:16px 20px 20px;overflow-x:auto;background:rgba(0,0,0,.35)}
+.codeblk code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.6;color:#e8fff2;white-space:pre}
+.tool .tn{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tool .tn code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;color:var(--mint);overflow-wrap:anywhere}
+.tool h3{margin-top:12px}
+.tt{font-size:11px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tt.live{background:rgba(191,243,214,.15);color:var(--mint)}.tt.soon{background:rgba(242,196,109,.15);color:#f2c46d}
+a.card.rel{display:flex;flex-direction:column;transition:transform .3s,background-color .3s}
+a.card.rel:hover{transform:translateY(-3px);background-color:rgba(191,243,214,.07) !important}
+.rel .ra{margin-top:14px;font-size:13.5px;color:var(--mint)}
+.plan2{text-align:left}
+@media(min-width:700px){.plan2 .pd{min-height:4.4em}}
+.plan2 .pn{display:inline-block;max-width:calc(100% - 7.5rem)}
+.g2>*,.g3>*,.g4>*{min-width:0}
+.codeblk pre{max-width:100%}
+.codeblk code{display:block;width:max-content;min-width:100%}
+
+
+/* ================= round 10 ================= */
+/* pricing: five plans on one screen */
+.prsec{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:92px 0 26px}
+.prsec>.wrap{max-width:92rem;position:relative;z-index:10;width:100%}
+.prhead{text-align:center}
+.prhead .h5{font-family:var(--display);font-weight:700;font-style:normal;font-size:clamp(30px,3.3vw,46px);line-height:1.04;letter-spacing:-.035em;margin-top:6px}
+.prhead .lede{font-size:15px;line-height:1.5;max-width:50rem;margin:10px auto 0}
+.prbar{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px 22px;margin:14px 0 16px}
+.pt5{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:rgba(0,0,0,.45);box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
+.pt5 button{padding:7px 16px;border-radius:999px;font-size:13.5px;font-weight:500;color:var(--w80)}
+.pt5 button.on{background:#fff;color:#000}
+.pt5 em{font-style:normal;font-size:11px;margin-left:6px;padding:2px 7px;border-radius:999px;background:rgba(191,243,214,.18);color:var(--mint)}
+.pt5 button.on em{background:#06140d}
+.prleg{display:flex;gap:16px;font-size:12.5px;color:var(--w80);flex-wrap:wrap;justify-content:center}
+.prleg span{display:inline-flex;align-items:center;gap:6px}
+.prleg i{width:8px;height:8px;border-radius:999px;display:inline-block}
+.prleg .lv{background:var(--mint)}.prleg .sn{box-shadow:inset 0 0 0 1.5px #f2c46d}
+.pr5{display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch}
+@media(min-width:620px){.pr5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:960px){.pr5{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1200px){.pr5{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.pcard{position:relative;border-radius:1.25rem;padding:18px 16px 16px;display:flex;flex-direction:column;text-align:left;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease}
+.pcard.star{box-shadow:inset 0 0 0 1px rgba(191,243,214,.5),0 0 40px rgba(110,230,170,.12)}
+.pcard:hover{transform:translateY(-4px) scale(1.015);z-index:2;box-shadow:0 0 0 1px rgba(170,255,210,.22),0 0 38px rgba(110,230,170,.2),0 18px 50px rgba(0,0,0,.35)}
+.pcard::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:2.2px;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:conic-gradient(from var(--ang),rgba(170,255,210,0) 0deg,#eafff3 8deg,rgba(150,245,195,.55) 38deg,rgba(150,245,195,0) 120deg,rgba(150,245,195,0) 360deg);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.pcard:hover::after{opacity:1;animation:ring 2.8s linear infinite}
+.pcard .tg{position:absolute;top:14px;right:14px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--mint);color:#06140d}
+.pcard .tg.gold{background:#f2c46d}
+.pcard .pn{font-family:var(--display);font-weight:700;font-size:21px;letter-spacing:-.02em;display:inline-block;align-self:flex-start;max-width:calc(100% - 7.5rem)}
+.pcard .pd{font-size:12.5px;line-height:1.4;color:var(--w80);margin-top:4px;min-height:2.8em}
+.pcard .pp{margin-top:10px;display:flex;align-items:baseline;gap:4px}
+.pcard .amt{font-family:var(--display);font-weight:700;font-size:31px;letter-spacing:-.03em;line-height:1.1}
+.pcard .per{font-size:13px;color:var(--w60)}
+.pcard .bill{font-size:11.5px;color:var(--w60);min-height:1.3em}
+.pcard .btn{justify-content:center;margin:10px 0 2px;padding:8px 14px;font-size:14px}
+.pcard ul{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.pcard li{position:relative;font-size:12.5px;line-height:1.38;color:var(--w90);padding-left:16px}
+.pcard li::before{content:"";position:absolute;left:0;top:.42em;width:8px;height:8px;border-radius:999px}
+.pcard li.soon,.pcard li.live{display:block;margin:0;text-align:left;font-size:12.5px;color:var(--w90)}
+.pcard li.live::before{background:var(--mint)}
+.pcard li.soon::before{box-shadow:inset 0 0 0 1.5px #f2c46d}
+.pcard li.fall{padding-left:0;font-weight:600;color:#fff}
+.pcard li.fnote{padding-left:0;font-size:11.5px;color:var(--w50)}
+.pcard li.fall::before,.pcard li.fnote::before{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.prfoot{text-align:center;font-size:12.5px;color:var(--w60);margin-top:12px}
+.prfoot a{text-decoration:underline}
+@media(min-width:1200px) and (max-height:820px){
+  .prsec{padding:84px 0 16px}.prhead .lede{display:none}.prhead .h5{font-size:34px}
+  .prbar{margin:10px 0 12px}.pcard{padding:14px 14px 13px}.pcard .pd{min-height:0}
+  .pcard li{font-size:12px;line-height:1.3}.pcard ul{gap:4px;margin-top:8px}.pcard .amt{font-size:27px}.prfoot{display:none}}
+
+/* MCP: endpoint in the first screen */
+.endpoint.hero-ep{max-width:46rem;margin:28px auto 0;text-align:left}
+
+/* ask: simple answer first, follow-ups below */
+.turn+.turn{margin-top:40px;padding-top:30px;box-shadow:inset 0 1px 0 var(--w15)}
+.verdict .short{font-family:var(--display);font-weight:700;font-style:normal;font-size:clamp(21px,2.4vw,27px);line-height:1.3;letter-spacing:-.015em;color:#fff;margin-top:10px}
+.verdict .detail{font-size:16px !important;line-height:1.65 !important;color:var(--w90) !important}
+.verdict .pnote{margin-top:14px;font-size:13.5px;color:var(--w80);padding:10px 14px;border-radius:.9rem;background:rgba(242,196,109,.08);box-shadow:inset 0 0 0 1px rgba(242,196,109,.25)}
+.argued{margin:26px 0 12px;font-size:12.5px;color:var(--w60);letter-spacing:.02em}
+.follow{margin-top:18px;padding:22px 24px;border-radius:1.5rem}
+.follow .fl1{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.01em}
+.follow .fl2{font-size:14px;line-height:1.55;color:var(--w80);margin-top:4px}
+.askback{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.askback .vl{width:100%}
+.abq{padding:9px 14px;border-radius:1rem;font-size:14px;line-height:1.4;color:var(--w90);text-align:left;transition:box-shadow .25s,color .25s}
+.abq:hover,.abq.on{color:#fff;box-shadow:inset 0 0 0 1px rgba(191,243,214,.6)}
+.follow .bar{margin-top:14px}
+.fgo{flex:0 0 42px;width:42px;height:42px;border-radius:999px;background:var(--w15);display:flex;align-items:center;justify-content:center;padding:0;line-height:0;transition:background .3s,color .3s}
+.fgo.ready{background:#fff;color:#000}.fgo:disabled{opacity:.45;cursor:default}
+.again .btn+.btn{margin-left:10px}
 </style>
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas><div class="nebula" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div id="glow" aria-hidden="true"></div>
-<header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html" class="on" aria-current="page">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><a class="signup dsk liquid-glass-strong" href="signup.html">Sign up</a><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html" class="on" aria-current="page">Why Council</a><a href="pricing.html">Pricing</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
-<div class="page"><main><section class="sec-video phero"><div class="vbg" data-auto data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260619_191346_9d19d66e-86a4-47f7-8dc6-712c1788c3b2.mp4" data-max=".8" aria-hidden="true"><video muted playsinline preload="none"></video><video muted playsinline preload="none"></video></div><div class="shade"></div><div class="inner wrap"><p class="lbl bi">// Why Council</p><h1 class="h big bw"><span style="--d:0.00s">You</span> <span style="--d:0.08s">double-check</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.16s">with</span> <span style="--d:0.24s">the</span> <span style="--d:0.32s">same</span> <span style="--d:0.40s">model.</span></h1><p class="lede bi" style="--d:.5s">Ask one AI a hard question and you get one confident answer. Ask again and you get the same answer in different words. Confidence is not the same thing as being right, and a single model cannot tell you which one you are looking at.</p></div></section><section class="sec"><div class="wrap"><div class="hdc"><p class="lbl" data-r>// What is missing right now</p><h2 class="h mid bw"><span style="--d:0.00s">Four</span> <span style="--d:0.08s">blind</span> <span style="--d:0.16s">spots.</span></h2></div><div class="g2" style="margin-top:48px"><article class="card liquid-glass" data-r style="--d:0.00s"><h3>One voice, no dissent</h3><p>A single model hands you its best guess in a settled tone. You never see the reasonable case against it, because nothing in the system is trying to make that case.</p></article><article class="card liquid-glass" data-r style="--d:0.08s"><h3>It agrees with itself</h3><p>Asking a model to check its own work mostly produces agreement. It shares its own blind spots, so it cannot audit them.</p></article><article class="card liquid-glass" data-r style="--d:0.16s"><h3>Confidence is flat</h3><p>The same certain tone covers a settled fact and a coin flip. You cannot tell them apart from the writing.</p></article><article class="card liquid-glass" data-r style="--d:0.24s"><h3>Facts and judgments get one treatment</h3><p>&ldquo;What year did that happen&rdquo; and &ldquo;should I leave my job&rdquo; are different kinds of question. Most tools answer both in the same voice.</p></article></div></div></section><section class="sec"><div class="wrap"><div class="split"><div data-r><h3>Why disagreement is the useful part</h3><p class="p">Most multi-model tools combine AIs to give you more answers. Council combines them to show you where they clash. When three models trained differently land on the same conclusion, that agreement means something.</p><p class="p">We do not smooth that into a tidy consensus. The verdict arrives with the disagreement visible underneath it.</p></div><blockquote data-r style="--d:.12s"><p class="pull">&ldquo;When they split, the split is the most valuable thing on the page.&rdquo;</p></blockquote></div></div></section><section class="sec"><div class="wrap"><div class="split"><div data-r><h3>Verification, and its limits</h3><p class="p">Factual claims inside the verdict are checked against an outside source. Three AIs agreeing is still three guesses that happen to match. Only an external check makes &ldquo;is this actually right&rdquo; an answerable question.</p><p class="p">One model is a guess. Three models and a chairman is a better reasoned guess. Outside verification is the first point where correctness becomes checkable at all, and only for the parts that can be checked.</p></div><div data-r style="--d:.12s"><h3>The research behind it</h3><p class="p">Comparing several answers to catch a wrong one is an established technique, not something we invented. It was tested properly at the CONVERSATIONS 2024 workshop on human-centred chatbots.</p><p class="p">What that work found, and we would rather say it ourselves: it helps, but it is not magic. Accuracy swung widely depending on the subject, and it worked far better on a narrow domain than as a general truth detector. That is why Council sticks to decisions.</p></div></div><p class="note liquid-glass" data-r style="margin-top:48px">We do not build models. We rent them, and put them into a structured argument. What we built is the argument.</p></div></section><section class="sec"><div class="wrap" style="text-align:center"><h2 class="h mid bw"><span style="--d:0.00s">Try</span> <span style="--d:0.08s">it</span> <span style="--d:0.16s">on</span> <span style="--d:0.24s">a</span> <span style="--d:0.32s">decision</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.40s">you</span> <span style="--d:0.48s">are</span> <span style="--d:0.56s">stuck</span> <span style="--d:0.64s">on.</span></h2><div class="ctas" data-r><a class="btn liquid-glass-strong" href="index.html#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="how-it-works.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> How it works</a></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><p class="foot-tip">New here? Read <a href="how-it-works.html">How it works</a> and <a href="why-council.html">Why Council</a> first. Knowing how the panel argues helps you ask sharper questions and get more useful verdicts.</p><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
+<header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html" class="on" aria-current="page">Why Council</a><a href="pricing.html">Pricing</a><a href="mcp.html">MCP</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><a class="signup dsk liquid-glass-strong" href="signup.html">Sign up</a><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html" class="on" aria-current="page">Why Council</a><a href="pricing.html">Pricing</a><a href="mcp.html">MCP</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
+<div class="page"><main><section class="sec-video phero"><div class="vbg" data-auto data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260619_191346_9d19d66e-86a4-47f7-8dc6-712c1788c3b2.mp4" data-max=".8" aria-hidden="true"><video muted playsinline preload="none"></video><video muted playsinline preload="none"></video></div><div class="shade"></div><div class="inner wrap"><p class="lbl bi">// Why Council</p><h1 class="h big bw"><span style="--d:0.00s">You</span> <span style="--d:0.08s">double-check</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.16s">with</span> <span style="--d:0.24s">the</span> <span style="--d:0.32s">same</span> <span style="--d:0.40s">model.</span></h1><p class="lede bi" style="--d:.5s">Ask one AI a hard question and you get one confident answer. Ask again and you get the same answer in different words. Confidence is not the same thing as being right, and a single model cannot tell you which one you are looking at.</p></div></section><section class="sec"><div class="wrap"><div class="hdc"><p class="lbl" data-r>// What is missing right now</p><h2 class="h mid bw"><span style="--d:0.00s">Four</span> <span style="--d:0.08s">blind</span> <span style="--d:0.16s">spots.</span></h2></div><div class="g2" style="margin-top:48px"><article class="card liquid-glass" data-r style="--d:0.00s"><h3>One voice, no dissent</h3><p>A single model hands you its best guess in a settled tone. You never see the reasonable case against it, because nothing in the system is trying to make that case.</p></article><article class="card liquid-glass" data-r style="--d:0.08s"><h3>It agrees with itself</h3><p>Asking a model to check its own work mostly produces agreement. It shares its own blind spots, so it cannot audit them.</p></article><article class="card liquid-glass" data-r style="--d:0.16s"><h3>Confidence is flat</h3><p>The same certain tone covers a settled fact and a coin flip. You cannot tell them apart from the writing.</p></article><article class="card liquid-glass" data-r style="--d:0.24s"><h3>Facts and judgments get one treatment</h3><p>&ldquo;What year did that happen&rdquo; and &ldquo;should I leave my job&rdquo; are different kinds of question. Most tools answer both in the same voice.</p></article></div></div></section><section class="sec"><div class="wrap"><div class="split"><div data-r><h3>Why disagreement is the useful part</h3><p class="p">Most multi-model tools combine AIs to give you more answers. Council combines them to show you where they clash. When three models trained differently land on the same conclusion, that agreement means something.</p><p class="p">We do not smooth that into a tidy consensus. The verdict arrives with the disagreement visible underneath it.</p></div><blockquote data-r style="--d:.12s"><p class="pull">&ldquo;When they split, the split is the most valuable thing on the page.&rdquo;</p></blockquote></div></div></section><section class="sec"><div class="wrap"><div class="split"><div data-r><h3>Verification, and its limits</h3><p class="p">On Plus, factual claims inside the verdict will be checked against an outside source; this is not switched on in the free preview yet. Three AIs agreeing is still three guesses that happen to match. Only an external check makes &ldquo;is this actually right&rdquo; an answerable question.</p><p class="p">One model is a guess. Three models and a chairman is a better reasoned guess. Outside verification is the first point where correctness becomes checkable at all, and only for the parts that can be checked.</p></div><div data-r style="--d:.12s"><h3>The research behind it</h3><p class="p">Comparing several answers to catch a wrong one is an established technique, not something we invented. It was tested properly at the CONVERSATIONS 2024 workshop on human-centred chatbots.</p><p class="p">What that work found, and we would rather say it ourselves: it helps, but it is not magic. Accuracy swung widely depending on the subject, and it worked far better on a narrow domain than as a general truth detector. That is why Council sticks to decisions.</p></div></div><p class="note liquid-glass" data-r style="margin-top:48px">We do not build models. We call them through their providers&rsquo; APIs and put them into a structured argument. What we built is the argument.</p></div></section><section class="sec"><div class="wrap" style="text-align:center"><h2 class="h mid bw"><span style="--d:0.00s">Try</span> <span style="--d:0.08s">it</span> <span style="--d:0.16s">on</span> <span style="--d:0.24s">a</span> <span style="--d:0.32s">decision</span> <span class="br" aria-hidden="true"></span> <span style="--d:0.40s">you</span> <span style="--d:0.48s">are</span> <span style="--d:0.56s">stuck</span> <span style="--d:0.64s">on.</span></h2><div class="ctas" data-r><a class="btn liquid-glass-strong" href="index.html#ask">Ask the council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a><a class="btn plain" href="how-it-works.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg> How it works</a></div></div></section></main><footer class="foot liquid-glass-strong"><div class="fg"><div class="fb"><p class="word">council</p><p>A second opinion for decisions that have no right answer.</p><div class="fsoc liquid-glass"><a href="#" aria-label="Council on X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.2 8.2L23 22h-6.6l-5.2-6.8L5.3 22H2.1l7.7-8.8L1.6 2h6.8l4.7 6.2L18.9 2Zm-1.1 18h1.8L7.3 3.8H5.4L17.8 20Z"/></svg></a><a href="#" aria-label="Council on YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.6-.5-5.3a2.8 2.8 0 0 0-2-2C18.8 4.2 12 4.2 12 4.2s-6.8 0-8.5.5a2.8 2.8 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.5 5.3a2.8 2.8 0 0 0 2 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 0 0 2-2C23 15.6 23 12 23 12ZM9.8 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg></a><a href="#" aria-label="Council on LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM2.9 21h4.1V9.6H2.9V21Zm7.2 0h4.1v-6.2c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3V21h4.1v-6.9c0-3.6-.8-6.3-5-6.3-2 0-3.4 1.1-3.9 2.1h-.1V9.6h-3.5V21Z"/></svg></a><a href="#" aria-label="Council on GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg></a><a href="#" aria-label="Council on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg></a></div></div><div class="fcol"><h4>Product</h4><a href="index.html#ask">Try the council</a><a href="models.html">Models</a><a href="pricing.html">Pricing</a><a href="mcp.html">MCP server</a><a href="signup.html">Sign up</a></div><div class="fcol"><h4>Learn</h4><a href="how-it-works.html">How it works</a><a href="why-council.html">Why Council</a><a href="about.html">About</a></div><div class="fcol"><h4>Legal</h4><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a><a href="mailto:hello@council.app">Contact</a></div></div><p class="foot-tip">New here? Read <a href="how-it-works.html">How it works</a> and <a href="why-council.html">Why Council</a> first. Knowing how the panel argues helps you ask sharper questions and get more useful verdicts.</p><div class="fbot"><p>&copy; 2026 Council. Built in Delhi. Not affiliated with any model provider.</p><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></div>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
 <script>
 (function(){
