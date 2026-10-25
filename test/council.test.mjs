@@ -18,6 +18,14 @@ const FREE_MODELS = [
 const SEAT_ANSWER = "- It fits the situation because the numbers already work for this person.\n- The upside compounds over the next two years if it goes well.\n- The downside is bounded and reversible within a few months.\nBest when: savings cover at least six months.";
 const VERDICT = { strongest: "against", whyListen: "It names the binding constraint.", split: "They disagree on how much runway is enough.", finalAnswer: "Do not resign yet. Build six months of runway first, then decide.", confidence: "medium" };
 
+// Live model lists for the direct providers, so a multi-provider council can be tested.
+const PROVIDER_MODELS = {
+  "api.groq.com": ["openai/gpt-oss-120b", "qwen/qwen3-32b", "meta-llama/llama-4-scout-17b-16e-instruct"],
+  "api.cerebras.ai": ["gpt-oss-120b", "qwen-3-32b"],
+  "generativelanguage.googleapis.com": ["gemini-2.5-flash"],
+};
+const PROVIDER_KEYS = ["GROQ_API_KEY", "CEREBRAS_API_KEY", "GEMINI_API_KEY"];
+
 let calls, chat;
 const ok = (obj) => new Response(JSON.stringify(obj), { status: 200, headers: { "content-type": "application/json" } });
 const reply = (text) => ok({ choices: [{ message: { content: text } }] });
@@ -37,27 +45,31 @@ beforeEach(() => {
   calls = []; chat = defaultChat;
   globalThis.fetch = async (url, init = {}) => {
     url = String(url);
-    if (url.endsWith("/models")) return ok({ data: FREE_MODELS.map((m) => ({ ...m, context_length: 32768, pricing: { prompt: "0", completion: "0" }, architecture: { output_modalities: ["text"] } })) });
+    if (url.endsWith("/models")) {
+      const lists = Object.entries(PROVIDER_MODELS).find(([host]) => url.includes(host));
+      if (lists) return ok({ data: lists[1].map((id) => ({ id })) });
+      return ok({ data: FREE_MODELS.map((m) => ({ ...m, context_length: 32768, pricing: { prompt: "0", completion: "0" }, architecture: { output_modalities: ["text"] } })) });
+    }
     const body = JSON.parse(init.body);
     const prompt = body.messages[0].content;
-    calls.push({ model: body.model, prompt, headers: init.headers, signal: init.signal });
+    calls.push({ url, model: body.model, prompt, headers: init.headers, signal: init.signal });
     return chat(prompt, body.model, calls.length);
   };
 });
-afterEach(() => { globalThis.fetch = realFetch; });
+afterEach(() => { globalThis.fetch = realFetch; PROVIDER_KEYS.forEach((k) => delete process.env[k]); });
 
 function run(body, method = "POST") {
-  const res = { statusCode: null, body: null, status(c) { this.statusCode = c; return this; }, json(b) { this.body = b; return this; } };
+  const res = { statusCode: null, body: null, headers: {}, setHeader(k, v) { this.headers[k] = v; }, status(c) { this.statusCode = c; return this; }, json(b) { this.body = b; return this; } };
   return handler({ method, headers: {}, body }, res).then(() => res);
 }
 const seatCalls = () => calls.filter((c) => /Your seat:/.test(c.prompt));
 
-test("rejects non-POST, a missing key and an empty question", async () => {
-  assert.equal((await run({ question: "x" }, "GET")).statusCode, 405);
+test("rejects other methods, a missing key and an empty question", async () => {
+  assert.equal((await run({ question: "x" }, "PUT")).statusCode, 405);
   delete process.env.OPENROUTER_API_KEY;
   const r = await run({ question: "x" });
   assert.equal(r.statusCode, 500);
-  assert.match(r.body.error, /OPENROUTER_API_KEY/);
+  assert.match(r.body.error, /API key/);
   process.env.OPENROUTER_API_KEY = "k";
   assert.equal((await run({ question: "   " })).statusCode, 400);
   assert.equal((await run(undefined)).statusCode, 400);
@@ -65,11 +77,11 @@ test("rejects non-POST, a missing key and an empty question", async () => {
 });
 
 test("judgment: three fixed seats on different models, then a chairman verdict", async () => {
-  const r = await run({ question: "Should I leave my job to work on my startup full time?", category: "career" });
+  PROVIDER_KEYS.forEach((k) => { process.env[k] = "test-key"; });   // several providers, so each seat can sit on its own model
+  const r = await run({ question: "Should I leave my job to work on my startup full time?" });
   assert.equal(r.statusCode, 200);
   const b = r.body;
   assert.equal(b.kind, "judgment");
-  assert.equal(b.category, "career");
   assert.deepEqual(b.members.map((m) => m.seat), ["for", "against", "improve"]);
   assert.deepEqual(b.members.map((m) => m.name), ["The Advocate", "The Critic", "The Builder"]);
   assert.ok(b.members.every((m) => m.ok && m.answer.includes("Best when:")));
@@ -82,7 +94,7 @@ test("judgment: three fixed seats on different models, then a chairman verdict",
   assert.equal(b.chairman.finalAnswer, VERDICT.finalAnswer);
   const chairModel = calls.find((c) => /You are the chairman/.test(c.prompt)).model;
   assert.ok(!seatCalls().some((c) => c.model === chairModel), "the chairman is not one of the models it judges");
-  assert.ok(calls.every((c) => c.headers["HTTP-Referer"] === "https://ai-council-ashen.vercel.app"));
+  assert.ok(calls.filter((c) => c.url.includes("openrouter.ai")).every((c) => c.headers["HTTP-Referer"] === "https://ai-council-ashen.vercel.app"));
   assert.ok(calls.every((c) => c.signal), "every model call has a timeout signal");
 });
 
