@@ -817,12 +817,24 @@ a.card.rel:hover{transform:translateY(-3px);background-color:rgba(191,243,214,.0
 .fgo{flex:0 0 42px;width:42px;height:42px;border-radius:999px;background:var(--w15);display:flex;align-items:center;justify-content:center;padding:0;line-height:0;transition:background .3s,color .3s}
 .fgo.ready{background:#fff;color:#000}.fgo:disabled{opacity:.45;cursor:default}
 .again .btn+.btn{margin-left:10px}
+
+/* sign-up: real auth */
+.oa[hidden],#orLine[hidden],#emForm[hidden]{display:none !important}
+.oa:disabled{opacity:.55;cursor:default}
+.oag .oa:only-child{grid-column:1/-1}
+.amsg{font-size:14px;line-height:1.5;color:var(--w90);margin-top:12px;min-height:1.2em;text-align:center}
+.amsg.err{color:#ffb4a8}.amsg.okm{color:var(--mint)}
+#authed{text-align:center;padding:22px;border-radius:1.25rem;background:rgba(0,0,0,.35);box-shadow:inset 0 0 0 1px rgba(191,243,214,.35)}
+#authed[hidden]{display:none}
+.aok{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em}
+.awho{font-size:14.5px;color:var(--w80);margin-top:6px;overflow-wrap:anywhere}
+.aact{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
 </style>
 </head>
 <body>
 <canvas id="stars" aria-hidden="true"></canvas><div class="nebula" aria-hidden="true"><i></i><i></i><i></i><i></i></div><div id="glow" aria-hidden="true"></div>
 <header class="nav"><a class="mk liquid-glass" href="index.html" aria-label="Council home">c</a><nav class="links liquid-glass" aria-label="Main"><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="mcp.html">MCP</a><a href="about.html">About</a><a class="go" href="index.html#ask">Try Council <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></a></nav><a class="signup dsk liquid-glass-strong on" href="signup.html">Sign up</a><button class="burger liquid-glass" id="menuOpen" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></header><div class="menu liquid-glass-strong" id="menu" role="dialog" aria-modal="true" aria-label="Menu"><div class="menu-top"><a class="mk liquid-glass" href="index.html">c</a><button class="burger liquid-glass" id="menuClose" type="button" aria-label="Close menu" style="display:flex"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div><nav aria-label="Sections"><a href="index.html">Home</a><a href="how-it-works.html">How it works</a><a href="models.html">Models</a><a href="why-council.html">Why Council</a><a href="pricing.html">Pricing</a><a href="mcp.html">MCP</a><a href="about.html">About</a></nav><div class="menu-foot"><a href="index.html#ask" style="background:#fff;color:#000">Try Council</a><a class="liquid-glass" href="signup.html">Sign up</a></div></div>
-<div class="page"><main><section class="sec-video su"><div class="vbg" data-auto data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_093722_ccfc7ebf-182f-419f-8a62-2dc02db7dd9d.mp4" data-max=".55" aria-hidden="true"><video muted playsinline preload="none"></video><video muted playsinline preload="none"></video></div><div class="shade"></div><div class="su-in"><p class="lbl bi">// Join the council</p><h1 class="h bw"><span style="--d:0.00s">Create</span> <span style="--d:0.08s">your</span> <span style="--d:0.16s">account.</span></h1><p class="lede bi" style="--d:.4s">The council is free to use. Sign up to keep every debate, choose your own panel and get the full experience.</p><div class="auth bi" style="--d:.6s"><div class="oag"><button class="oa liquid-glass" type="button"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5h-1.9V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.6 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.4l6.2 5.2C41.1 36.2 44 30.7 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg> Google</button><button class="oa liquid-glass" type="button"><svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> GitHub</button><button class="oa liquid-glass" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877F2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg> Facebook</button><button class="oa liquid-glass" type="button"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.05 12.54c-.03-2.77 2.26-4.1 2.36-4.16-1.29-1.88-3.29-2.14-4-2.17-1.7-.17-3.32 1-4.18 1-.86 0-2.19-.98-3.6-.95-1.85.03-3.56 1.08-4.51 2.73-1.92 3.33-.49 8.26 1.38 10.96.91 1.32 2 2.8 3.42 2.75 1.37-.06 1.89-.89 3.55-.89 1.65 0 2.12.89 3.57.86 1.47-.02 2.41-1.34 3.31-2.67 1.04-1.53 1.47-3.01 1.5-3.09-.03-.01-2.88-1.11-2.9-4.37zM14.3 3.83c.76-.92 1.27-2.2 1.13-3.47-1.09.04-2.42.73-3.2 1.64-.7.81-1.31 2.11-1.15 3.35 1.22.09 2.46-.62 3.22-1.52z"/></svg> Apple</button></div><p class="or">or</p><label for="em">Email</label><div class="field liquid-glass"><input id="em" type="email" autocomplete="email" placeholder="you@email.com"></div><label for="pw">Password</label><div class="field liquid-glass"><input id="pw" type="password" autocomplete="new-password" placeholder="At least 8 characters"></div><button class="btn w" id="createBtn" type="button" style="justify-content:center;margin-top:8px">Create account</button><p class="soon" id="soon">Accounts are coming soon. The council works right now, free, no login.</p><p class="tos">By continuing you agree to the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>. Just want to try it? <a href="index.html#ask">Ask a question free</a>.</p></div></div></section></main></div>
+<div class="page"><main><section class="sec-video su"><div class="vbg" data-auto data-src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_093722_ccfc7ebf-182f-419f-8a62-2dc02db7dd9d.mp4" data-max=".55" aria-hidden="true"><video muted playsinline preload="none"></video><video muted playsinline preload="none"></video></div><div class="shade"></div><div class="su-in"><p class="lbl bi">// Join the council</p><h1 class="h bw"><span style="--d:0.00s">Create</span> <span style="--d:0.08s">your</span> <span style="--d:0.16s">account.</span></h1><p class="lede bi" style="--d:.4s">The council is free to use. Sign up with Google, GitHub, Facebook, Apple or your email. No password to remember.</p><div class="auth bi" style="--d:.6s" id="authBox"><div id="authForm"><div class="oag" id="oag"><button class="oa liquid-glass" type="button" data-p="google"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5h-1.9V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.6 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.4l6.2 5.2C41.1 36.2 44 30.7 44 24c0-1.3-.1-2.3-.4-3.5z"/></svg> Google</button><button class="oa liquid-glass" type="button" data-p="github"><svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg> GitHub</button><button class="oa liquid-glass" type="button" data-p="facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#1877F2" d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.96h-1.51c-1.49 0-1.96.93-1.96 1.89v2.26h3.33l-.53 3.49h-2.8V24C19.61 23.1 24 18.1 24 12.07z"/></svg> Facebook</button><button class="oa liquid-glass" type="button" data-p="apple"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M17.05 12.54c-.03-2.77 2.26-4.1 2.36-4.16-1.29-1.88-3.29-2.14-4-2.17-1.7-.17-3.32 1-4.18 1-.86 0-2.19-.98-3.6-.95-1.85.03-3.56 1.08-4.51 2.73-1.92 3.33-.49 8.26 1.38 10.96.91 1.32 2 2.8 3.42 2.75 1.37-.06 1.89-.89 3.55-.89 1.65 0 2.12.89 3.57.86 1.47-.02 2.41-1.34 3.31-2.67 1.04-1.53 1.47-3.01 1.5-3.09-.03-.01-2.88-1.11-2.9-4.37zM14.3 3.83c.76-.92 1.27-2.2 1.13-3.47-1.09.04-2.42.73-3.2 1.64-.7.81-1.31 2.11-1.15 3.35 1.22.09 2.46-.62 3.22-1.52z"/></svg> Apple</button></div><p class="or" id="orLine">or</p><form id="emForm" novalidate><label for="em">Email</label><div class="field liquid-glass"><input id="em" type="email" autocomplete="email" placeholder="you@email.com" required></div><button class="btn w" id="emBtn" type="submit" style="justify-content:center;margin-top:10px;width:100%">Email me a sign-in link</button></form><p class="amsg" id="authMsg" role="status" aria-live="polite"></p></div><div id="authed" hidden><p class="aok">You&rsquo;re in.</p><p class="awho" id="authWho"></p><div class="aact"><a class="btn w" href="index.html#ask" style="justify-content:center">Ask the council</a><button class="btn liquid-glass" id="outBtn" type="button" style="justify-content:center">Sign out</button></div></div><p class="tos">By continuing you agree to the <a href="terms.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>. Just want to try it? <a href="index.html#ask">Ask a question free</a>.</p></div></div></section></main></div>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
 <script>
 (function(){
@@ -1106,8 +1118,83 @@ cards.forEach(function(c){
 })();
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" defer></script>
 <script>
-(function(){var s=document.getElementById('soon');document.querySelectorAll('.oa,#createBtn').forEach(function(b){b.addEventListener('click',function(){s.style.display='block';});});})();
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  var msg=$('authMsg'),form=$('authForm'),done=$('authed'),emBtn=$('emBtn'),sb=null,ready=false;
+  var NAMES={google:'Google',github:'GitHub',facebook:'Facebook',apple:'Apple',email:'email'};
+  function say(t,kind){msg.textContent=t||'';msg.className='amsg'+(kind?' '+kind:'');}
+  function busy(on){document.querySelectorAll('#authForm button').forEach(function(b){b.disabled=on;});}
+  /* remember where people came from, so the sheet can show which links bring sign-ups */
+  try{
+    var qs=new URLSearchParams(location.search);
+    if(qs.get('utm_source'))sessionStorage.setItem('c_utm_s',qs.get('utm_source'));
+    if(qs.get('utm_campaign'))sessionStorage.setItem('c_utm_c',qs.get('utm_campaign'));
+    if(document.referrer&&document.referrer.indexOf(location.host)<0&&!sessionStorage.getItem('c_ref'))sessionStorage.setItem('c_ref',document.referrer);
+  }catch(e){}
+  function ss(k){try{return sessionStorage.getItem(k)||'';}catch(e){return '';}}
+  /* errors sent back in the address bar after a failed sign-in */
+  var hp=new URLSearchParams((location.hash||'').replace(/^#/,'')),qp=new URLSearchParams(location.search);
+  var urlErr=hp.get('error_description')||qp.get('error_description');
+  if(urlErr)say(urlErr.replace(/\+/g,' ')+'. Please try again.','err');
+
+  function log(session){
+    var u=session.user,key='c_logged_'+u.id+'_'+(u.last_sign_in_at||'');
+    if(log.sent[key])return;log.sent[key]=1;                 /* one sign-in fires several events */
+    try{if(localStorage.getItem(key))return;}catch(e){}
+    fetch('/api/signup',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+session.access_token},
+      body:JSON.stringify({referrer:ss('c_ref'),utmSource:ss('c_utm_s'),utmCampaign:ss('c_utm_c')})})
+    .then(function(r){if(r.ok){try{localStorage.setItem(key,'1');}catch(e){}}else delete log.sent[key];}).catch(function(){delete log.sent[key];});
+  }
+  log.sent={};
+  function showUser(session){
+    if(!session){done.hidden=true;form.hidden=false;return;}
+    var u=session.user,m=u.user_metadata||{},p=(u.app_metadata&&u.app_metadata.provider)||'email';
+    var name=m.full_name||m.name||m.user_name||'';
+    $('authWho').textContent='Signed in'+(name?' as '+name:'')+(u.email?' ('+u.email+')':'')+' with '+(NAMES[p]||p)+'.';
+    form.hidden=true;done.hidden=false;
+    if(location.hash&&/access_token|error/.test(location.hash))history.replaceState(null,'',location.pathname+location.search.replace(/[?&]?(code|error[^&]*)=[^&]*/g,''));
+    log(session);
+  }
+  function start(cfg){
+    if(!cfg||!cfg.auth||!window.supabase){
+      busy(true);say('Accounts are being switched on. The council already works free, with no login.','');return;}
+    sb=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+    /* only show the sign-in options that are actually switched on in Supabase */
+    fetch(cfg.supabaseUrl+'/auth/v1/settings',{headers:{apikey:cfg.supabaseAnonKey}}).then(function(r){return r.json();}).then(function(st){
+      var ex=(st&&st.external)||{},any=false;
+      document.querySelectorAll('.oa[data-p]').forEach(function(b){var on=!!ex[b.getAttribute('data-p')];b.hidden=!on;any=any||on;});
+      var vis=[].slice.call(document.querySelectorAll('.oa[data-p]')).filter(function(b){return !b.hidden;});
+      vis.forEach(function(b,i){b.style.gridColumn=(vis.length%2&&i===vis.length-1)?'1 / -1':'';});
+      var email=ex.email!==false;$('emForm').hidden=!email;$('orLine').hidden=!(any&&email);
+      if(!any&&!email){busy(true);say('Sign-in is not switched on yet. The council already works free, with no login.','');}
+    }).catch(function(){});
+    sb.auth.onAuthStateChange(function(ev,session){showUser(session);});
+    sb.auth.getSession().then(function(r){showUser(r.data.session);ready=true;});
+  }
+  document.querySelectorAll('.oa[data-p]').forEach(function(b){b.addEventListener('click',function(){
+    if(!sb){return;}busy(true);say('Taking you to '+NAMES[b.getAttribute('data-p')]+'…','');
+    sb.auth.signInWithOAuth({provider:b.getAttribute('data-p'),options:{redirectTo:location.origin+location.pathname}}).then(function(r){
+      if(r.error){busy(false);say(r.error.message,'err');}
+    });
+  });});
+  $('emForm').addEventListener('submit',function(e){
+    e.preventDefault();if(!sb)return;
+    var em=$('em').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){say('Please enter a valid email address.','err');$('em').focus();return;}
+    busy(true);say('Sending your link…','');
+    sb.auth.signInWithOtp({email:em,options:{emailRedirectTo:location.origin+location.pathname}}).then(function(r){
+      busy(false);
+      if(r.error){say(/rate|seconds/i.test(r.error.message)?'Too many links requested. Wait a minute and try again.':r.error.message,'err');return;}
+      say('Check your inbox: we sent a sign-in link to '+em+'. Open it on this device.','okm');
+    });
+  });
+  $('outBtn').addEventListener('click',function(){if(sb)sb.auth.signOut().then(function(){say('You have signed out.','');});});
+  function boot(){fetch('/api/config').then(function(r){return r.json();}).then(start).catch(function(){start(null);});}
+  if(window.supabase)boot();else window.addEventListener('load',boot);
+})();
+
 </script>
 </body>
 </html>
