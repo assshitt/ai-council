@@ -22,7 +22,7 @@ Built in Delhi, India. Free to try with no login at https://ai-council-ashen.ver
 - [Models](https://ai-council-ashen.vercel.app/models.html): the free panel in detail, a guide to well-known frontier models (Council's free preview does not run these), and the panels planned for Plus.
 - [Why Council](https://ai-council-ashen.vercel.app/why-council.html): why asking one AI model to double-check itself is not a real second opinion.
 - [Pricing](https://ai-council-ashen.vercel.app/pricing.html): planned plans in rupees: Free, Plus (₹1,799/month), Pro (₹2,999/month), Ultra (₹9,999/month) and Team. Billing is not live yet; features are marked Live or Coming soon. The free council works now.
-- [MCP server](https://ai-council-ashen.vercel.app/mcp.html): use Council from Claude Desktop, Claude Code, Cursor, Windsurf or any MCP client. Endpoint: https://ai-council-ashen.vercel.app/api/mcp (Streamable HTTP). Tools: council_query, council_models. Free beta during the preview.
+- [MCP server](https://ai-council-ashen.vercel.app/mcp.html): use Council from Claude Desktop, Claude Code, Cursor, Windsurf or any MCP client. Endpoint: https://ai-council-ashen.vercel.app/api/mcp?key=YOUR_KEY (Streamable HTTP; free key after signing up at https://ai-council-ashen.vercel.app/signup.html). Tools: council_query, council_models. Free beta during the preview.
 - [About](https://ai-council-ashen.vercel.app/about.html): who builds Council and where it is going.
 
 ## Good to know
