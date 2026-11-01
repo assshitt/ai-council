@@ -876,7 +876,7 @@ a.card.rel:hover{transform:translateY(-3px);background-color:rgba(191,243,214,.0
 .abq.used{color:var(--w60);box-shadow:inset 0 0 0 1px rgba(191,243,214,.3)}
 .abq.used::after{content:"  \00B7  added";color:var(--mint);white-space:pre}
 .follow .bar{border-radius:30px;align-items:flex-end;padding:9px 9px 9px 22px}
-.follow .bar textarea{max-height:160px;overflow-y:auto}
+.follow .bar textarea{max-height:160px;overflow-y:hidden}
 .fhint{font-size:12.5px;color:var(--w60);padding:0 8px}
 .fhint:not(:empty){margin-top:8px}
 .fhint.warn{color:#f2c46d}
@@ -930,6 +930,23 @@ button.mrow:hover{background:rgba(255,255,255,.05);color:#fff}
 .mpick.nudge .mpf{animation:mnudge .9s ease}
 @keyframes mnudge{0%,100%{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}35%{box-shadow:inset 0 0 0 1px rgba(191,243,214,.7),0 0 26px rgba(120,230,175,.22);background-color:rgba(191,243,214,.08)}}
 @media(max-width:640px){.mgrid{grid-template-columns:1fr}.mpf{flex-direction:column;align-items:stretch}.mpf .btn{justify-content:center}}
+
+/* ---------- r14: sign-up gate after the free follow-up, quiet scrollbars ---------- */
+.gate{margin-top:22px;padding:30px 28px;border-radius:1.5rem;text-align:center;background-color:rgba(6,10,9,.74) !important}
+.gate.show{animation:gin .7s cubic-bezier(.22,.9,.24,1)}
+@keyframes gin{0%{opacity:0;transform:translateY(16px);filter:blur(6px)}100%{opacity:1;transform:none;filter:none}}
+.gate .gi{display:inline-flex;width:42px;height:42px;border-radius:999px;align-items:center;justify-content:center;color:var(--mint);background:rgba(120,230,175,.12);box-shadow:0 0 30px rgba(120,230,175,.2)}
+.gate .gt{font-family:var(--display);font-weight:700;font-size:clamp(21px,2.4vw,27px);line-height:1.25;letter-spacing:-.015em;margin-top:14px}
+.gate .gs{font-size:15px;line-height:1.6;color:var(--w80);margin:10px auto 0;max-width:34rem}
+.gate .ga{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.gate .gn{font-size:12.5px;color:var(--w50);margin-top:12px}
+textarea{scrollbar-width:thin;scrollbar-color:rgba(191,243,214,.28) transparent}
+textarea::-webkit-scrollbar{width:6px}
+textarea::-webkit-scrollbar-track{background:transparent}
+textarea::-webkit-scrollbar-thumb{background:rgba(191,243,214,.28);border-radius:999px}
+textarea::-webkit-scrollbar-thumb:hover{background:rgba(191,243,214,.45)}
+textarea::-webkit-scrollbar-button{display:none;height:0;width:0}
+textarea::-webkit-scrollbar-corner{background:transparent}
 </style>
 </head>
 <body>
@@ -1370,8 +1387,11 @@ function member(m,i,d0,reply){
 function rcptVia(d){var r=(d&&d.receipt&&d.receipt[0])||{};var m=d.model||String(r.modelId||'').replace(/^[\w.-]+\//,'');return viaLine('Answered by',m,d.provider||r.provider);}
 
 /* ================= the conversation: follow up with the whole council, or continue with one voice ================= */
-var HIST=[],turnN=0,SEATI={},TARGET='all',POL=false;
-function resetThread(){HIST=[];SEATI={};TARGET='all';POL=false;}
+var HIST=[],turnN=0,SEATI={},TARGET='all',POL=false,FOLLOWS=0,ASKQ=[],SENTQ={};
+function resetThread(){HIST=[];SEATI={};TARGET='all';POL=false;FOLLOWS=0;ASKQ=[];SENTQ={};var g=document.getElementById('gate');if(g)g.parentNode.removeChild(g);}
+/* signed in on this browser? (supabase keeps the session in localStorage) */
+function signedIn(){try{for(var i=0;i<localStorage.length;i++){if(/^sb-.*-auth-token$/.test(localStorage.key(i)))return true;}}catch(e){}return false;}
+var FREE_FOLLOWS=1;
 function answerText(d){
   if(d.kind==='fact')return d.factAnswer||'';
   if(d.kind==='quick')return d.answer||'';
@@ -1392,7 +1412,9 @@ function placeSel(box,instant){
 }
 window.addEventListener('resize',function(){var b=lastFollow();if(b)placeSel(b,true);});
 function followBox(d,dl){
-  var ask=(d&&d.chairman&&d.chairman.askBack)||[],keys=['for','against','improve'].filter(function(k){return SEATI[k];});
+  var fresh=(d&&d.chairman&&d.chairman.askBack)||[];
+  if(fresh.length)ASKQ=fresh.slice();
+  var ask=ASKQ.filter(function(q){return !SENTQ[q];}),keys=['for','against','improve'].filter(function(k){return SEATI[k];});
   if(TARGET!=='all'&&!SEATI[TARGET])TARGET='all';
   var seg='';
   if(keys.length){
@@ -1479,17 +1501,33 @@ function setTarget(seat,box){
   var dt=box.querySelector('.fdest');if(dt){dt.innerHTML=destHTML();dt.classList.remove('pop');void dt.offsetWidth;dt.classList.add('pop');}
   document.querySelectorAll('#results .cwith').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-seat')===TARGET);});
 }
-function grow(ta){var y=window.scrollY;ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,160)+'px';if(window.scrollY!==y)window.scrollTo(0,y);
+function grow(ta){var y=window.scrollY;ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,160)+'px';ta.style.overflowY=ta.scrollHeight>162?'auto':'hidden';if(window.scrollY!==y)window.scrollTo(0,y);
   var b=ta.closest('.follow').querySelector('.fgo');b.classList.toggle('ready',ta.value.trim().length>0);}
+/* after the free follow-up, the next one asks people to sign up; their reply stays in the box */
+function gate(box){
+  var g=document.getElementById('gate');
+  if(!g){g=document.createElement('div');g.id='gate';g.className='gate liquid-glass-strong';
+    g.innerHTML='<span class="gi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>'
+     +'<p class="gt">Sign up to experience how the real council works.</p>'
+     +'<p class="gs">You have used your free follow-up. Create a free account in a few seconds to keep this conversation going and hear the whole council out.</p>'
+     +'<div class="ga"><a class="btn w" href="signup.html?next=ask">Sign up to Council</a><button class="btn liquid-glass" type="button" id="gateBack">Keep my reply</button></div>'
+     +'<p class="gn">Your reply stays in the box.</p>';
+    res.appendChild(g);}
+  g.classList.remove('show');void g.offsetWidth;g.classList.add('show');
+  requestAnimationFrame(function(){window.smoothTo(g.getBoundingClientRect().top+window.scrollY-Math.max(100,(window.innerHeight-g.offsetHeight)/2));});
+}
 function sendFollow(box){
   var ta=box.querySelector('.fq'),t=ta.value.trim(),hint=box.querySelector('.fhint');if(!t)return;
   var rest=t;box.querySelectorAll('.abq.used').forEach(function(a){rest=rest.split(a.getAttribute('data-q')).join('');});
   if(!rest.trim()){hint.textContent='Add your answer under the question, then send.';hint.classList.add('warn');ta.focus();return;}
-  convene(true,t);
+  if(FOLLOWS>=FREE_FOLLOWS&&!signedIn()){gate(box);return;}
+  box.querySelectorAll('.abq.used').forEach(function(a){SENTQ[a.getAttribute('data-q')]=1;});
+  FOLLOWS++;convene(true,t);
 }
 res.addEventListener('click',function(e){
   if(!e.target.closest)return;
   var g=e.target.closest('.fgo');if(g){sendFollow(g.closest('.follow'));return;}
+  if(e.target.closest('#gateBack')){var fb=lastFollow();if(fb){window.smoothTo(fb.getBoundingClientRect().top+window.scrollY-120);setTimeout(function(){fb.querySelector('.fq').focus({preventScroll:true});},reduce?0:600);}return;}
   var sb=e.target.closest('.fsb');if(sb){var bx=sb.closest('.follow');setTarget(sb.getAttribute('data-seat'),bx);bx.querySelector('.fq').focus({preventScroll:true});return;}
   var cw=e.target.closest('.cwith');
   if(cw){var box=lastFollow();if(!box)return;setTarget(cw.getAttribute('data-seat'),box);
