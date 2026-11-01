@@ -131,33 +131,40 @@ async function family(name) {
 const SEATS = [
   {
     seat: "for", role: "The case for", name: "The Advocate",
+    stance: "You look for the strongest honest case in favour, and you say it with conviction.",
     brief:
-      "Your seat: THE CASE FOR. Give the strongest honest case in favour, the way a sharp friend who believes in it would explain it over chai. " +
+      "Your seat: THE CASE FOR. Give the strongest honest case in favour, the way a thoughtful friend who believes in it would explain it over chai. " +
       "If there are options, back the one with the most upside for this person. Do not argue the other side; someone else does that.",
     close: "Best when:",
     closeHint: "the situation where this is clearly the right call",
   },
   {
     seat: "against", role: "The case against", name: "The Critic",
+    stance: "You look for what could go wrong, and you say it candidly but kindly.",
     brief:
       "Your seat: THE CASE AGAINST. Give the strongest honest case against it: the ways this most often goes wrong, the hidden costs, " +
-      "and what people in this spot usually underestimate. Realistic, not alarmist.",
-    close: "Dealbreaker if:",
-    closeHint: "the one thing that should stop them",
+      "and what people in this spot tend to underestimate. Candid but kind, realistic rather than alarmist. You are protecting them, not scolding them.",
+    close: "Watch for:",
+    closeHint: "the one sign that this is not right for them",
   },
   {
     seat: "improve", role: "How to improve it", name: "The Builder",
+    stance: "You design the plan you would actually follow in their shoes, and you commit to it.",
     brief:
-      "Your seat: HOW TO IMPROVE IT. Do not pick a side. Make the decision safer or smarter: a better version, a middle path, or a cheap way to test it first. " +
-      "Your points are next steps in order, each doable within weeks, with a sign that shows it is working.",
+      "Your seat: HOW TO IMPROVE IT. Two other advisers are already arguing for and against, so do not weigh pros and cons, do not sum up both sides, " +
+      "and do not settle for a cautious middle path. Your job is to design the plan you would actually follow in this person's shoes: a sharper version of " +
+      "what they are considering, or a better option they have not thought of. Take a clear position and own it. Your opening sentence is your recommendation, " +
+      "said with confidence (for example \"Here is what I would do: ...\"). Each of your three points is a concrete step, in order, with one specific detail " +
+      "(a number, a timeframe, a tool or a place) and the sign that tells them it is working.",
     close: "First move:",
-    closeHint: "the one thing to do this week",
+    closeHint: "the single thing to do today or this week",
   },
 ];
 // Questions about which politician or party is better, or who to vote for: Council lays out each side fairly and does not pick one.
 const POLITICAL_SEATS = [
   {
     seat: "for", role: "What supporters say", name: "The supporters' case",
+    stance: "You explain fairly what supporters point to, without endorsing anyone.",
     brief:
       "Your seat: explain the strongest case that SUPPORTERS make, fairly and accurately, the way their most thoughtful advocates would put it. " +
       "Attribute it (\"supporters point to...\"). Stick to things that can be checked, like record, policies and track record. Do not add your own endorsement.",
@@ -166,6 +173,7 @@ const POLITICAL_SEATS = [
   },
   {
     seat: "against", role: "What critics say", name: "The critics' case",
+    stance: "You explain fairly what critics point to, without giving your own verdict.",
     brief:
       "Your seat: explain the strongest case that CRITICS make, fairly and accurately, the way their most thoughtful voices would put it. " +
       "Attribute it (\"critics point to...\"). Stick to things that can be checked. Do not add your own verdict.",
@@ -174,6 +182,7 @@ const POLITICAL_SEATS = [
   },
   {
     seat: "improve", role: "How to judge it yourself", name: "The guide",
+    stance: "You help them judge it for themselves, without taking a side.",
     brief:
       "Your seat: do NOT take a side. Help the person decide for themselves: the questions worth asking, the evidence worth checking, " +
       "and which parts are matters of fact versus matters of values.",
@@ -199,6 +208,8 @@ function tidySeat(t) {
   return stripThink(t)
     .replace(/^\s*#{1,6}[^\n]*\n+/, "")                                   // a leading markdown heading
     .replace(/^\s*(\*\*)?\s*(the case (for|against)|how to improve it|the (advocate|critic|builder))\b[^\n]*\n+/i, "")
+    .replace(/^(\s*[-*\u2022]\s+)[-\u2013\u2014\u2022]\s+/gm, "$1")          // "- – text" double bullets
+    .replace(/!(\s|$)/g, ".$1")                                          // a calm voice: no exclamation marks
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
@@ -221,6 +232,10 @@ function usableSeat(t) {
 function usableShort(t) {
   const s = (t || "").trim();
   return s.length >= 2 && !leaked(s) && !looksLikeClassifier(s) && !/^\[?(error|request failed)/i.test(s);
+}
+function usableReply(t) {
+  const s = (t || "").trim();
+  return s.length >= 40 && !leaked(s) && !looksLikeClassifier(s) && !/^\[?(error|request failed)/i.test(s);
 }
 function usableQuick(t) {
   const s = (t || "").trim();
@@ -489,7 +504,9 @@ export default async function handler(req, res) {
   if (!question) return res.status(400).json({ error: "Type a question first." });
   const limitMsg = await rateCheck(req);
   if (limitMsg) return res.status(429).json({ error: limitMsg });
-  const mode = body.mode === "quick" ? "quick" : "debate";
+  const mode = body.mode === "quick" ? "quick" : body.mode === "seat" ? "seat" : "debate";
+  const seatKey = ["for", "against", "improve"].includes(body.seat) ? body.seat : null;
+  if (mode === "seat" && !seatKey) return res.status(400).json({ error: "Pick who you want to continue with." });
   // follow-ups: the browser sends the last few turns so the council keeps the thread
   const history = (Array.isArray(body.history) ? body.history : []).slice(-4)
     .map((h) => ({ q: String(h?.q || "").trim().slice(0, 500), a: String(h?.a || "").trim().slice(0, 700) })).filter((h) => h.q);
@@ -502,7 +519,11 @@ export default async function handler(req, res) {
   const start = Date.now();
   const ctx = `Today is ${nowIST()} (India time). If you do not actually know something, say so plainly instead of guessing.` + thread;
   const style =
-    `Sound like a thoughtful, well-informed friend talking to them, not like an AI or a consultant. Warm, direct, everyday words, short sentences, and "you". ` +
+    `Speak like a calm, trusted mentor who has seen this before: warm, unhurried and precise. Everyday words, short sentences, "you". ` +
+    `Quietly confident, never preachy or dramatic: no exclamation marks, no hype, no clichés (never "game-changer", "journey", "dive in", "at the end of the day"). ` +
+    `If the question touches on feelings, health or their body, be especially gentle: acknowledge how they feel in a few words before the advice, ` +
+    `and never comment on weight, body shape or appearance unless they ask about it. If they mention feeling low or alone, be kind and practical, never clinical. ` +
+    `If anything suggests they might hurt themselves, gently encourage them to reach out to someone they trust or a local helpline. ` +
     `No jargon or business-speak (never words like leverage, unlock, synergy, robust, holistic, paradigm). ` +
     `No preamble, do not restate the question, no generic disclaimers, never mention being an AI, never show your reasoning or notes. ` +
     `Be specific to their situation. If a key detail is missing, make the most sensible assumption and say it in a few words. ` +
@@ -512,6 +533,33 @@ export default async function handler(req, res) {
     // GPT and Claude cost money: only use them while today's budget lasts, and never for the gate or facts
     let allowPaid = [...PAID].some((p) => keyOf(p));
     const [cChair, cFree] = await Promise.all([chainFor("chair", [], false), chainFor("for", [], false)]);
+
+    // one-to-one ── the person continues with a single seat (shorter thread, faster, one model call)
+    if (mode === "seat") {
+      const political = body.political === true || POLITICAL_CUES.test(question + " " + history.map((h) => h.q).join(" "));
+      const s = (political ? POLITICAL_SEATS : SEATS).find((x) => x.seat === seatKey);
+      let chain = await chainFor(seatKey, [], allowPaid);
+      const want = pretty(String(body.modelId || ""));
+      if (want) { const i = chain.findIndex((m) => pretty(m.id) === want); if (i > 0) chain = [chain[i], ...chain.slice(0, i), ...chain.slice(i + 1)]; }
+      if (allowPaid && chain[0] && PAID.has(chain[0].p)) {
+        const [n] = await countUp([[`paid:${Math.floor(Date.now() / 86400000)}`, 90000]]);
+        if (n > PAID_PER_DAY) chain = chain.filter((m) => !PAID.has(m.p));
+      }
+      const prev = (Array.isArray(body.seatThread) ? body.seatThread : []).slice(-3)
+        .map((h) => ({ q: String(h?.q || "").trim().slice(0, 500), a: String(h?.a || "").trim().slice(0, 900) })).filter((h) => h.a);
+      const prevText = prev.length ? `\n\nWhat has passed between you and them so far:\n` + prev.map((h) => (h.q ? `They said: ${h.q}\n` : "") + `You said: ${h.a}`).join("\n") + `\n` : "";
+      const prompt =
+        `You are ${s.name} on Council, the adviser in the seat "${s.role}". ${s.stance}\n${ctx}${prevText}\n\n${style}\n\n` +
+        `They have chosen to continue with you alone. Their message to you: "${question}"\n\n` +
+        `Reply to them directly and in character, and answer exactly what they asked. Do not repeat what you already said. ` +
+        `Open with the direct answer in one or two sentences. Then add up to three short points, each on its own line starting with "- ", only if they genuinely help. ` +
+        `60 to 150 words. No headings. Output only the reply.`;
+      const r = await firstGood(chain, prompt, { deadline: start + 40000, validate: usableReply, clean: tidySeat, maxTokens: 500, temperature: 0.7 });
+      if (!r.ok) return res.status(r.rateLimited ? 429 : 502).json({ error: r.rateLimited ? LIMIT_MSG : `${s.name} could not answer just now. Ask again in a moment.` });
+      return res.status(200).json({ kind: "seat", political,
+        member: { seat: s.seat, role: s.role, name: s.name, ok: true, model: r.model, modelId: r.modelId, provider: r.provider, lab: r.lab, answer: r.text },
+        receipt: [receiptOf(s.name, r)] });
+    }
 
     // 0 ── the gate
     const gateText = history.length ? `${history[history.length - 1].q} / follow-up: ${question}` : question;
@@ -527,7 +575,7 @@ export default async function handler(req, res) {
       const f = await firstGood(cFree, `${ctx}\n\n${label}: "${question}"\n\nThis has a single correct answer. Give it in one or two short, plain sentences, like a friend who knows. No preamble. If you genuinely do not know, say so in one sentence.`,
         { deadline: start + 30000, validate: usableShort, clean: stripThink, maxTokens: 120, temperature: 0.2 });
       if (!f.ok) return res.status(f.rateLimited ? 429 : 502).json({ error: f.rateLimited ? LIMIT_MSG : "The council could not answer that one. Ask again in a moment." });
-      return res.status(200).json({ kind: "fact", factAnswer: f.text,
+      return res.status(200).json({ kind: "fact", factAnswer: f.text, model: f.model, provider: f.provider,
         nudge: "That one has a single right answer, so it gets one line instead of a debate. Bring the council a decision next time.",
         receipt: [receiptOf("Fact answer", f)] });
     }
@@ -541,7 +589,7 @@ export default async function handler(req, res) {
             : `Give a quick, decisive take in 4 to 6 sentences: start with your answer in one plain sentence, then the main reason, the biggest risk, and the first step. End with a line starting "Bottom line:".`),
         { deadline: start + 40000, validate: usableQuick, clean: tidySeat, maxTokens: 450, temperature: 0.6 });
       if (!q.ok) return res.status(q.rateLimited ? 429 : 502).json({ error: q.rateLimited ? LIMIT_MSG : "No model answered in time. Ask again in a moment." });
-      return res.status(200).json({ kind: "quick", political, answer: q.text, model: q.model, receipt: [receiptOf("Quick take", q)] });
+      return res.status(200).json({ kind: "quick", political, answer: q.text, model: q.model, provider: q.provider, receipt: [receiptOf("Quick take", q)] });
     }
 
     // 1 ── three seats, in parallel, never seeing each other, each from a different lab when possible
@@ -573,7 +621,10 @@ export default async function handler(req, res) {
     const used = results.filter((r) => r.ok).map((r) => r.chainId);
     const chairChain = (await chainFor("chair", used, false));
     const block = answered.map((m) => `${m.role.toUpperCase()} (${m.name}):\n${m.answer}`).join("\n\n");
-    const voice = `Write every text field the way a wise friend would say it out loud: warm, plain, everyday words, short sentences, "you". No jargon, no hedging boilerplate, never mention being an AI. Use the language the person wrote in.`;
+    const voice = `Write every text field in a calm, warm, unhurried voice, like a trusted mentor speaking quietly: plain everyday words, short sentences, "you". ` +
+      `Gentle and precise, never preachy or dramatic. No exclamation marks, no hype, no clichés, no hedging boilerplate, never mention being an AI. ` +
+      `If the question touches on feelings, health or their body, acknowledge how they feel in a few kind words, and never comment on weight or appearance unless they asked. ` +
+      `Use the language the person wrote in.`;
     const chairPrompt = political
       ? `You are the chairman of Council. Members laid out a political question from assigned seats, independently.\n${ctx}\n\n${voice}\n\n` +
         `${label}: "${question}"\n\n${block}\n\n` +
@@ -593,7 +644,7 @@ export default async function handler(req, res) {
         `"finalAnswer":"the detailed answer in three to five sentences: what to do, the main reason, the biggest risk to watch, and the first step",` +
         `"whyListen":"one or two sentences on why that seat's reasoning deserves the most weight","split":"one sentence naming where the members disagree",` +
         `"confidence":"high" or "medium" or "low",` +
-        `"askBack":["up to two short, specific questions back to the person whose answers would most change this verdict (for example their savings, timeline or constraints). Empty list if nothing important is missing."]}`;
+        `"askBack":["up to two short, gentle, specific questions back to the person whose answers would most change this verdict (for example their savings, timeline or constraints). Empty list if nothing important is missing."]}`;
     const ch = await firstGood(chairChain, chairPrompt, {
       deadline: start + ALL_DONE_BY_MS,
       validate: (t) => { const p = parseJSON(t); return !!(p && typeof p.finalAnswer === "string" && p.finalAnswer.length > 20 && !leaked(p.finalAnswer)); },
