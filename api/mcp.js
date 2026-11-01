@@ -1,14 +1,20 @@
 // api/mcp.js — Council as an MCP server (Streamable HTTP, stateless, JSON responses)
 //
-// Add to an MCP client with the URL https://YOUR-SITE/api/mcp
+// Add to an MCP client with the URL https://YOUR-SITE/api/mcp?key=YOUR_KEY
 //   Claude Code:  claude mcp add --transport http council https://YOUR-SITE/api/mcp
 //   Cursor:       ~/.cursor/mcp.json   {"mcpServers":{"council":{"url":"https://YOUR-SITE/api/mcp"}}}
 //
 // Tools: council_query (full debate or quick take), council_models (who sits on the panel right now).
 // Same rate limits and daily budget as the website, because every call goes through api/council.js.
-// Optional: set MCP_TOKENS (comma-separated) in Vercel to require "Authorization: Bearer <token>".
+// Keys: once MCP_KEY_SECRET is set in Vercel, every call needs the person's own key (free after signing up,
+// shown on signup.html). Pass it as ?key=ck_... in the URL, or as "Authorization: Bearer ck_...".
+// MCP_TOKENS (comma-separated) still works for extra keys you hand out yourself.
 
 import council from "./council.js";
+import { checkKey } from "./mcpkey.js";
+
+const SITE_URL = process.env.SITE_URL || "https://ai-council-ashen.vercel.app";
+const SIGNUP_MSG = `Council's MCP server needs your free key. Sign up at ${SITE_URL}/signup.html, copy your key, and add it to the server address as ?key=YOUR_KEY.`;
 
 const VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"];
 const TOOLS = [
@@ -97,9 +103,13 @@ async function handleOne(msg, req) {
 export default async function handler(req, res) {
   if (req.method !== "POST") { res.setHeader("Allow", "POST"); return res.status(405).json(err(null, -32000, "This MCP server accepts POST only (no SSE stream).")); }
   const tokens = String(process.env.MCP_TOKENS || "").split(",").map((s) => s.trim()).filter(Boolean);
-  if (tokens.length) {
-    const auth = String(req.headers.authorization || "").replace(/^Bearer\s+/i, "");
-    if (!tokens.includes(auth)) return res.status(401).json(err(null, -32001, "Missing or invalid token."));
+  const secret = process.env.MCP_KEY_SECRET;
+  if (secret || tokens.length) {
+    let qkey = "";
+    try { qkey = (req.query && req.query.key) || new URL(req.url || "/", "http://x").searchParams.get("key") || ""; } catch {}
+    const given = String(qkey || req.headers["x-council-key"] || String(req.headers.authorization || "").replace(/^Bearer\s+/i, "")).trim();
+    const valid = (given && tokens.includes(given)) || (secret && checkKey(given, secret));
+    if (!valid) return res.status(401).json(err(null, -32001, given ? "That Council key is not valid. " + SIGNUP_MSG : SIGNUP_MSG));
   }
   let body = req.body;
   if (typeof body === "string") { try { body = JSON.parse(body); } catch { return res.status(400).json(err(null, -32700, "Parse error")); } }
