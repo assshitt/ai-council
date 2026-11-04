@@ -471,10 +471,19 @@ async function countUp(keys) {     // returns the new counts, shared across inst
     e.n++; return e.n;
   });
 }
-async function rateCheck(req) {
+const GROUP_PER_HOUR = +process.env.GROUP_PER_HOUR || 40;
+const GROUP_PER_DAY = +process.env.GROUP_PER_DAY || 120;
+async function rateCheck(req, group = false) {
   const salt = process.env.RL_SALT || "council";
   const who = crypto.createHash("sha256").update(salt + clientIp(req)).digest("hex").slice(0, 24);   // no raw IPs stored
   const hour = Math.floor(Date.now() / 3600000), day = Math.floor(Date.now() / 86400000);
+  if (group) {
+    const [h, d, g] = await countUp([[`rlg:h:${who}:${hour}`, 3700], [`rlg:d:${who}:${day}`, 90000], [`rlg:g:${day}`, 90000]]);
+    if (g > GLOBAL_PER_DAY * 4) return "The group chat is very busy today. Try again tomorrow.";
+    if (d > GROUP_PER_DAY) return "You've reached today's free group-chat limit. Come back tomorrow.";
+    if (h > GROUP_PER_HOUR) return "That's a lot of chatting for one hour. Take a short break and come back.";
+    return "";
+  }
   const [h, d, g] = await countUp([[`rl:h:${who}:${hour}`, 3700], [`rl:d:${who}:${day}`, 90000], [`rl:g:${day}`, 90000]]);
   if (g > GLOBAL_PER_DAY) return "The council has answered its full share of questions for today. It resets at midnight UTC.";
   if (d > RATE_PER_DAY) return `You've asked ${RATE_PER_DAY} questions today, the free daily limit. Come back tomorrow.`;
@@ -502,11 +511,11 @@ export default async function handler(req, res) {
   const body = req.body || {};
   const question = String(body.question || "").trim().slice(0, 2000);
   if (!question) return res.status(400).json({ error: "Type a question first." });
-  const limitMsg = await rateCheck(req);
+  const limitMsg = await rateCheck(req, body.mode === "group");
   if (limitMsg) return res.status(429).json({ error: limitMsg });
-  const mode = body.mode === "quick" ? "quick" : body.mode === "seat" ? "seat" : "debate";
-  const seatKey = ["for", "against", "improve"].includes(body.seat) ? body.seat : null;
-  if (mode === "seat" && !seatKey) return res.status(400).json({ error: "Pick who you want to continue with." });
+  const mode = body.mode === "quick" ? "quick" : body.mode === "seat" ? "seat" : body.mode === "group" ? "group" : "debate";
+  const seatKey = ["for", "against", "improve"].includes(body.seat) || (body.mode === "group" && body.seat === "chair") ? body.seat : null;
+  if ((mode === "seat" || mode === "group") && !seatKey) return res.status(400).json({ error: "Pick who you want to continue with." });
   // follow-ups: the browser sends the last few turns so the council keeps the thread
   const history = (Array.isArray(body.history) ? body.history : []).slice(-4)
     .map((h) => ({ q: String(h?.q || "").trim().slice(0, 500), a: String(h?.a || "").trim().slice(0, 700) })).filter((h) => h.q);
@@ -535,9 +544,11 @@ export default async function handler(req, res) {
     const [cChair, cFree] = await Promise.all([chainFor("chair", [], false), chainFor("for", [], false)]);
 
     // one-to-one ── the person continues with a single seat (shorter thread, faster, one model call)
-    if (mode === "seat") {
+    if (mode === "seat" || mode === "group") {
       const political = body.political === true || POLITICAL_CUES.test(question + " " + history.map((h) => h.q).join(" "));
-      const s = (political ? POLITICAL_SEATS : SEATS).find((x) => x.seat === seatKey);
+      const s = seatKey === "chair"
+        ? { seat: "chair", role: "Chairman", name: "The Chair", stance: "You have listened to the whole chat without taking a side, and you give the person one clear, fair verdict." }
+        : (political ? POLITICAL_SEATS : SEATS).find((x) => x.seat === seatKey);
       let chain = await chainFor(seatKey, [], allowPaid);
       const want = pretty(String(body.modelId || ""));
       if (want) { const i = chain.findIndex((m) => pretty(m.id) === want); if (i > 0) chain = [chain[i], ...chain.slice(0, i), ...chain.slice(i + 1)]; }
@@ -548,15 +559,50 @@ export default async function handler(req, res) {
       const prev = (Array.isArray(body.seatThread) ? body.seatThread : []).slice(-3)
         .map((h) => ({ q: String(h?.q || "").trim().slice(0, 500), a: String(h?.a || "").trim().slice(0, 900) })).filter((h) => h.a);
       const prevText = prev.length ? `\n\nWhat has passed between you and them so far:\n` + prev.map((h) => (h.q ? `They said: ${h.q}\n` : "") + `You said: ${h.a}`).join("\n") + `\n` : "";
-      const prompt =
+      // group chat: everyone sees the same room and answers briefly, like friends in a chat
+      const room = (Array.isArray(body.room) ? body.room : []).slice(-14)
+        .map((m) => ({ who: String(m?.who || "").trim().slice(0, 40), text: String(m?.text || "").trim().slice(0, 600) })).filter((m) => m.who && m.text);
+      const roomText = room.length ? room.map((m) => `${m.who}: ${m.text}`).join("\n") : "(the chat has just started)";
+      const groupPrompt =
+        `You are ${s.name} in a Council group chat. The person is talking with three AI advisers at once: The Advocate (argues for), The Critic (argues against) and The Builder (shows how to make it work). You are ${s.name}: ${s.stance}\n\n` +
+        `${style}\n\nThe chat so far:\n${roomText}\n\nThe person just wrote: "${question}"\n\n` +
+        `Reply as ${s.name}, like a thoughtful friend in a group chat. One to three short sentences, under 70 words. Stay true to your role. ` +
+        `If another adviser already said something you agree or disagree with, you may respond to them by name, briefly. Do not repeat what others said. ` +
+        `No lists, no headings, no greetings, no sign-off, and do not start with your own name. Output only your message.`;
+      const chairPrompt =
+        `You are The Chair in a Council group chat. The person has been talking with three AI advisers: The Advocate (argues for), The Critic (argues against) and The Builder (shows how to make it work). ` +
+        `You did not take part. Now they have asked you to wrap up.\n\n${ctx}\n\n${style}\n\nThe chat so far:\n${roomText}\n\nTheir latest message: "${question}"\n\n` +
+        `Give them one clear verdict in two to four short sentences, under 90 words: what you would do in their place and why, naming which adviser made the strongest point. ` +
+        `End with a new line: "Confidence: high", "Confidence: medium" or "Confidence: low". ` +
+        `${political ? "This touches on politics: do not pick a side on any politician, party or election; help them weigh it themselves. " : ""}No lists, no headings, no greetings. Output only your message.`;
+      // transaction check: the room reads a payment or crypto instruction before anything is signed (Council never executes it)
+      const tx = mode === "group" && body.lens === "tx";
+      const TXJOB = {
+        for: `You are The Advocate, and here your job is to READ THE INTENT: say plainly what they most likely mean, with the exact action, amount, asset, network, recipient and timing. If you had to assume something, say what you assumed.`,
+        against: `You are The Critic, and here your job is to CHECK THE RISKS: point out anything ambiguous, missing or risky before it is signed, for example which balance "half" refers to, a recipient that is a name rather than an address, the network or chain, timing, price movement and slippage, fees, irreversibility, or signs of a scam. If another adviser assumed something, question it by name. If it is genuinely clear and safe, say so in one sentence.`,
+        improve: `You are The Builder, and here your job is to WRITE THE STEPS: turn the instruction into the exact steps they would confirm in their wallet or bank app, one short numbered line each, with amounts, asset, network and recipient, plus a sensible safety setting such as a maximum slippage. Then add one line starting with "Confirm:" for anything they still need to confirm, or skip it if nothing is left.`,
+      };
+      const txPrompt =
+        `${TXJOB[seatKey] || TXJOB.for}\n\nThis is a Council group chat. The person typed a crypto or payment instruction in plain words, and three AI advisers from different labs are making sure it is understood exactly right before anything is signed. ` +
+        `Council never moves money, never touches a wallet and cannot see balances, contacts or addresses: only use what the person wrote, and never invent addresses, balances or prices. Do not tell them what to invest in.\n\n` +
+        `${style}\n\nThe chat so far:\n${roomText}\n\nThe person just wrote: "${question}"\n\n` +
+        `Reply as ${s.name}, briefly, like a careful friend in a group chat: under ${seatKey === "improve" ? 90 : 70} words. If another adviser already said something you agree or disagree with, respond to them by name. Do not repeat what others said. ` +
+        `No headings, no greetings, no sign-off, and do not start with your own name. Output only your message.`;
+      const txChair =
+        `You are The Chair in a Council group chat. The person typed a crypto or payment instruction, and three AI advisers have been working out exactly what it means and what could go wrong. You did not take part. Now give the final reading.\n\n` +
+        `Council never moves money and cannot see balances or addresses: only use what was said in the chat, and never invent addresses or numbers.\n\nThe chat so far:\n${roomText}\n\nTheir latest message: "${question}"\n\n` +
+        `Reply in exactly this format, plain text, no extra words:\n` +
+        `Reading: one sentence with exactly what will happen\nSteps: the steps in one line, separated by " · "\nAsk first: what they must still confirm, or "Nothing"\nNext: "Ready to sign" or "Ask the user first"\nConfidence: high, medium or low`;
+      const prompt = mode === "group" ? (tx ? (seatKey === "chair" ? txChair : txPrompt) : (seatKey === "chair" ? chairPrompt : groupPrompt)) :
         `You are ${s.name} on Council, the adviser in the seat "${s.role}". ${s.stance}\n${ctx}${prevText}\n\n${style}\n\n` +
         `They have chosen to continue with you alone. Their message to you: "${question}"\n\n` +
         `Reply to them directly and in character, and answer exactly what they asked. Do not repeat what you already said. ` +
         `Open with the direct answer in one or two sentences. Then add up to three short points, each on its own line starting with "- ", only if they genuinely help. ` +
         `60 to 150 words. No headings. Output only the reply.`;
-      const r = await firstGood(chain, prompt, { deadline: start + 40000, validate: usableReply, clean: tidySeat, maxTokens: 500, temperature: 0.7 });
+      const r = await firstGood(chain, prompt, { deadline: start + 40000, validate: mode === "group" ? (t) => { const x = (t || "").trim(); return x.length >= 8 && !leaked(x) && !looksLikeClassifier(x); } : usableReply,
+        clean: (t) => tidySeat(t).replace(new RegExp("^\\s*\\**" + s.name + "\\**\\s*:\\s*", "i"), ""), maxTokens: mode === "group" ? (body.lens === "tx" ? 320 : 220) : 500, temperature: body.lens === "tx" ? 0.3 : 0.75 });
       if (!r.ok) return res.status(r.rateLimited ? 429 : 502).json({ error: r.rateLimited ? LIMIT_MSG : `${s.name} could not answer just now. Ask again in a moment.` });
-      return res.status(200).json({ kind: "seat", political,
+      return res.status(200).json({ kind: mode === "group" ? "group" : "seat", political, lens: tx ? "tx" : "decide",
         member: { seat: s.seat, role: s.role, name: s.name, ok: true, model: r.model, modelId: r.modelId, provider: r.provider, lab: r.lab, answer: r.text },
         receipt: [receiptOf(s.name, r)] });
     }
