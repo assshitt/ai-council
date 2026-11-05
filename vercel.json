@@ -1,6 +1,8 @@
 {
   "functions": {
     "api/council.js": { "maxDuration": 60 },
-    "api/mcp.js": { "maxDuration": 60 }
+    "api/mcp.js": { "maxDuration": 60 },
+    "api/v1/interpret.js": { "maxDuration": 60 },
+    "api/v1/chat/completions.js": { "maxDuration": 60 }
   }
 }

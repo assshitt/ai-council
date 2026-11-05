@@ -11,6 +11,7 @@
 // MCP_TOKENS (comma-separated) still works for extra keys you hand out yourself.
 
 import council from "./council.js";
+import interpret from "./v1/interpret.js";
 import { checkKey } from "./mcpkey.js";
 
 const SITE_URL = process.env.SITE_URL || "https://ai-council-ashen.vercel.app";
@@ -32,6 +33,23 @@ const TOOLS = [
         mode: { type: "string", enum: ["debate", "quick"], description: "debate (default, about 30 seconds) or quick (one model, about 10 seconds)." },
       },
       required: ["question"],
+    },
+  },
+  {
+    name: "council_interpret",
+    title: "Read an instruction with Council",
+    description:
+      "Turn what a person typed (a payment, a crypto transaction, any instruction an app will act on) into structured fields. " +
+      "Three models from different AI labs read it on their own; Council compares them field by field and returns the agreed reading, " +
+      "how many models agreed on each field, a confidence level, and what to ask the user if they disagree. Council never executes anything.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        input: { type: "string", description: "Exactly what the person typed." },
+        fields: { type: "object", description: "Optional. The fields to fill, as {\"field_name\": \"what it means\"}. Defaults to a payment intent (action, amount, asset, to_asset, network, recipient, when, conditions).", additionalProperties: { type: "string" } },
+        context: { type: "string", description: "Optional. Facts the app already knows, like the user's balance or network." },
+      },
+      required: ["input"],
     },
   },
   {
@@ -86,6 +104,20 @@ async function handleOne(msg, req) {
         const r = await runCouncil("GET", null, req.headers);
         const lines = (r.body.panel || []).map((p) => `- ${SEAT[p.seat]}: ${p.model || "unavailable"}${p.lab ? ` (${p.lab}, via ${p.provider})` : ""}${p.main || p.seat === "chair" ? "" : " — free backup"}`);
         return ok(id, { content: [{ type: "text", text: "Council panel right now:\n" + lines.join("\n") }], isError: false });
+      }
+      if (name === "council_interpret") {
+        const r = await new Promise((resolve) => {
+          const res = { code: 200, setHeader() {}, status(c) { this.code = c; return this; }, json(o) { resolve({ code: this.code, body: o }); }, end() { resolve({ code: this.code, body: {} }); } };
+          const h = { ...req.headers }; delete h.origin;   // the key the MCP call was made with is passed on as-is
+          interpret({ method: "POST", url: req.url || "/api/v1/interpret", query: req.query || {}, headers: h, socket: {}, body: { input: args.input, fields: args.fields, context: args.context, readings: true } }, res);
+        });
+        const d = r.body || {};
+        if (d.error) return ok(id, { content: [{ type: "text", text: d.error }], isError: true });
+        const lines = Object.entries(d.fields || {}).map(([k, f]) => `- ${k}: ${f.value === null ? "—" : JSON.stringify(f.value)} (${f.agreement}, ${f.status})`);
+        const t = `## Council reading (${d.confidence} confidence, next: ${d.next_step})\n\n${lines.join("\n")}` +
+          (d.question ? `\n\n**Ask the user:** ${d.question}` : "") + (d.notes && d.notes.length ? `\n\n**Notes:** ${d.notes.join(" · ")}` : "") +
+          `\n\n**Models:** ${(d.readings || []).map((x) => x.model).join(", ")}\n\n\`\`\`json\n${JSON.stringify(d.intent, null, 2)}\n\`\`\``;
+        return ok(id, { content: [{ type: "text", text: t }], isError: false });
       }
       if (name === "council_query") {
         const q = String(args.question || "").trim();
