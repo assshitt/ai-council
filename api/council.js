@@ -592,7 +592,7 @@ export default async function handler(req, res) {
         `You are The Chair in a Council group chat. The person typed a crypto or payment instruction, and three AI advisers have been working out exactly what it means and what could go wrong. You did not take part. Now give the final reading.\n\n` +
         `Council never moves money and cannot see balances or addresses: only use what was said in the chat, and never invent addresses or numbers.\n\nThe chat so far:\n${roomText}\n\nTheir latest message: "${question}"\n\n` +
         `Reply in exactly this format, plain text, no extra words:\n` +
-        `Reading: one sentence with exactly what will happen\nSteps: the steps in one line, separated by " · "\nAsk first: what they must still confirm, or "Nothing"\nNext: "Ready to sign" or "Ask the user first"\nConfidence: high, medium or low`;
+        `Reading: one sentence with exactly what will happen\nSteps: the steps in one line, separated by " · "\nAsk first: what they must still confirm, or "Nothing"\nNext: "Ready to sign", "Ask the user first", or "Do not sign" if it looks like a scam, a hidden approval or anything they would regret\nConfidence: high, medium or low`;
       const prompt = mode === "group" ? (tx ? (seatKey === "chair" ? txChair : txPrompt) : (seatKey === "chair" ? chairPrompt : groupPrompt)) :
         `You are ${s.name} on Council, the adviser in the seat "${s.role}". ${s.stance}\n${ctx}${prevText}\n\n${style}\n\n` +
         `They have chosen to continue with you alone. Their message to you: "${question}"\n\n` +
@@ -716,3 +716,6 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "The council hit an error: " + e.message });
   }
 }
+
+// shared with the developer API (api/v1/*): same models, routing, budget and rate limits as the website
+export { firstGood, chainFor, rateCheck, countUp, keyOf, PAID, PAID_PER_DAY, stripThink, leaked, FAM_LAB };
