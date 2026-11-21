@@ -1038,6 +1038,8 @@ textarea::-webkit-scrollbar-corner{background:transparent}
 .ddi-t b em{font-style:normal;font-size:10.5px;font-weight:600;letter-spacing:.03em;padding:2px 7px;border-radius:999px;color:#06110c;background:var(--mint,#bff3d6)}
 .ddi-t>span{font-size:12.5px;line-height:1.4;color:rgba(255,255,255,.6);font-weight:400}
 .menu nav a.sub{font-family:inherit;font-style:normal;font-size:17px;letter-spacing:0;line-height:1.3;color:rgba(255,255,255,.7);padding-left:18px;margin-top:-4px;border-left:1px solid rgba(191,243,214,.3)}
+.foot{max-width:1080px;margin-left:auto!important;margin-right:auto!important}
+@media(min-width:768px){.foot{padding:40px 44px 22px}}
 /* ================= planet backgrounds (home hero + last section only) ================= */
 .planet-stage{position:absolute;inset:0;background:#000;overflow:hidden}
 .planet-horizon{position:absolute;z-index:3;mix-blend-mode:screen;pointer-events:none;bottom:-18vh;left:50%;transform:translateX(-50%);width:140vw;height:44vh;
@@ -1906,9 +1908,9 @@ function Planet(o){
 
   function progress(){var r=track.getBoundingClientRect(),h=H();
     if(mode==='diverge')return clamp(-r.top/Math.max(1,r.height),0,1);
-    return clamp((h-r.top)/h,0,1);}  /* converge: 0 as it enters, 1 when its top reaches the top of the screen */
+    var end=document.documentElement.scrollHeight-(r.top+window.scrollY);return clamp((h-r.top)/Math.max(h,end*0.88),0,1);}  /* converge: 0 as it enters, 1 when its top reaches the top of the screen */
 
-  var rotY=0,el=0,last=0,running=false,raf=0,visible=false,cmx=0,cmy=0,hov=0;
+  var dz=-1,rotY=0,el=0,last=0,running=false,raf=0,visible=false,cmx=0,cmy=0,hov=0;
   function common(x,M,V,L,dive){var u=x.u;gl.useProgram(x.p);
     if(u.uModel)gl.uniformMatrix4fv(u.uModel,false,M);gl.uniformMatrix4fv(u.uView,false,V);gl.uniformMatrix4fv(u.uProj,false,PJ);
     if(u.uLobeA)gl.uniform3fv(u.uLobeA,L[0]);if(u.uLobeB)gl.uniform3fv(u.uLobeB,L[1]);if(u.uLobeC)gl.uniform3fv(u.uLobeC,L[2]);
@@ -1919,14 +1921,14 @@ function Planet(o){
     var dt=last?Math.min((now-last)/1000,0.05):0.016;last=now;if(!reduce)el+=dt;
     var p=progress(),dive;
     if(mode==='diverge')dive=reduce?0:ease(clamp((p-0.12)/0.66,0,1));
-    else dive=reduce?0:1-ease(clamp((p-0.05)/0.85,0,1));
+    else{var tgt=reduce?0:1-smooth(0,1,p);dz=dz<0?tgt:dz+(tgt-dz)*(1-Math.exp(-dt*2.4));dive=dz;}
     var L=[rotAxis(L0[0],AX[0],SP[0]*el),rotAxis(L0[1],AX[1],SP[1]*el),rotAxis(L0[2],AX[2],SP[2]*el)];
     /* cursor: parallax + hover glow */
     var hb=host.getBoundingClientRect(),off=1-dive;
     var pcx=hb.left+cw/2,pcy=hb.top+(lay.cy*off+ch/2*dive);
     var tx=0,ty=0,over=0;
     if(mouse.x>-1e3){tx=clamp((mouse.x-hb.left)/cw*2-1,-1,1);ty=clamp((mouse.y-hb.top)/ch*2-1,-1,1);
-      var d=Math.hypot(mouse.x-pcx,mouse.y-pcy);over=dive<0.35?1-smooth(lay.D*0.42,lay.D*0.6,d):0;}
+      }
     var f=1-Math.exp(-dt*4.5);cmx+=(tx-cmx)*f;cmy+=(ty-cmy)*f;hov+=(over-hov)*(1-Math.exp(-dt*6));
     if(!reduce)rotY+=(0.075+hov*0.05)*dt;
     var rx=(reduce?0:0.14*Math.sin(el*0.22))+cmy*0.06,rz=-cmx*0.04;
@@ -1992,7 +1994,7 @@ if(ask&&ahost){
   var astage=ahost.parentNode,ahz=astage.querySelector('.planet-horizon');
   Planet({id:'ask',host:ahost,track:ask,mode:'converge',
     onFrame:function(p){
-      var op=(1-0.22*smooth(0.8,1,p)).toFixed(3);ahost.style.opacity=op;if(ahz)ahz.style.opacity=op;
+      var op=(1-0.22*smooth(0.85,1,p)).toFixed(3);ahost.style.opacity=op;if(ahz)ahz.style.opacity=op;
       setNeb('ask',clamp((ask.getBoundingClientRect().top-H()*0.15)/(H()*0.6),0,1));
     }});
 }
